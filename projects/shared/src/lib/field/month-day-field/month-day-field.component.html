@@ -1,0 +1,18 @@
+<div class="form-group " [class.has-error]="error!=''">
+  <label class="control-label" *ngIf="label">
+        <span class="required" [hidden]="isRequired===false">*</span>
+       {{label}}
+      </label>
+  <div class="calendar">
+    <div class="month">
+      <input type="text" #inputMonth [value]="month" (keydown.Tab)="tabPressed()" (keyup)="monthChange($event)" (focus)="focus()" (blur)="blur()"
+        (change)="monthChange($event)" maxlength="2" class="form-control" placeholder="MM"></div>
+    <div class="day">
+      <input type="text" #inputDay [value]="day" (keyup)="dayChange($event)" (focus)="focus()" (blur)="blur()" (change)="dayChange($event)"
+        maxlength="2" class="form-control" placeholder="DD">
+    </div>
+  </div>
+  <div>
+    <div class="error" *ngIf="error">{{error}}</div>
+  </div>
+</div>

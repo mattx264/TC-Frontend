@@ -1,0 +1,31 @@
+<h1>Remote controll</h1>
+<!-- <p-listbox [options]="typeOfCommand" (onChange)="typeOfCommandChange($event)"></p-listbox>
+<p-listbox [options]="typeOfSubCommand" (onChange)="typeOfSubCommandChange($event)"></p-listbox>
+<p-listbox [options]="commands" (onChange)="commandChange($event)"></p-listbox> -->
+<mat-form-field>
+  <mat-label>Type Of Command</mat-label>
+  <mat-select [(ngModel)]="selectedValue" name="food">
+    <mat-option *ngFor="let command of typeOfCommand" [value]="command.value">
+      {{command.label}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<div *ngIf="showValue1">
+  <input type="text" (keyup)="value1Change($event)" pInputText placeholder="value">
+
+</div>
+<div *ngIf="showSendBtn">
+  <button pButton type="button" (click)="sendClick()" label="Send"></button>
+</div>
+
+<section>
+  <!-- <p-listbox [options]="commandsHistory" checkbox="true" multiple="true" (onChange)="commandsHistoryChange($event)">
+  </p-listbox> -->
+  <div *ngIf="seletedCommandsHistory">
+    <button pButton type="button" label="Send" (click)="sendHistoryClick()"></button>
+    <button pButton type="button" label="Add to test"></button>
+    <button pButton type="button" class="ui-button-danger" label="Remove" (click)="removeHistoryClick()"></button>
+  </div>
+
+</section>

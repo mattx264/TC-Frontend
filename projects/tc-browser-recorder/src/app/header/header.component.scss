@@ -1,0 +1,20 @@
+header {
+  margin: 15px;
+
+  nav {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.space-filler {
+  flex: 1 1 auto;
+}
+
+.menu-navigation {
+  margin-right: 2em;
+}
+
+mat-icon {
+  margin-right: 5px;
+}

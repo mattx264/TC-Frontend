@@ -1,0 +1,57 @@
+<div id="background-img" class="colorful">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4 offset-md-4 center-vertical">
+      <div id="form">
+        <div class="login-header">
+          <mat-icon class="mat-18">code</mat-icon>
+          <label class="project-name">Testing<b class="primary">.Center</b></label>
+        </div>
+        <h1 class="h1-extra-margin">Login</h1>
+        <div id="unathorized" *ngIf="unathorized">
+          <i class="fa fa-warning"></i>
+          Email or Password do not match.
+        </div>
+        <form [formGroup]="formGroup" (ngSubmit)="login()">
+
+          <div class="flex-column">
+            <app-text-field label="Email" formControlName="email" name="email"></app-text-field>
+
+              <mat-form-field class="field" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput type="password" [formControl]="formGroup.get('password')">
+                  <mat-error *ngIf="formGroup.get('password').hasError('required')">
+                  Password is <strong>required</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
+
+
+            <p id="forgotPass"><a target="_blank" href="http://tc.net/forgetPassword">Forgot password?</a></p>
+
+
+          <div class="login-buttons">
+            <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">Login</button>
+          </div>
+        </form>
+        <p>Or Sign In Using</p>
+        <div class="social-media">
+          <a href="#" class="facebook-wrapper">
+            <i class="fa fa-facebook fa-3x"></i>
+          </a>
+          <a href="#" class="twitter-wrapper">
+            <i class="fa fa-twitter fa-3x"></i>
+          </a>
+          <a href="#" class="google-wrapper">
+            <i class="fa fa-google fa-3x"></i>
+          </a>
+        </div>
+        <p style="padding-top: 15px;">or <strong><a id="sing-up" [routerLink]="['/registration']">SIGN UP</a></strong>
+        </p>
+        <p><a id="privacy-policy" [routerLink]="['/privacy-policy']">privacy policy</a></p>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+<table id="actionTable" class="table-wrapper">
+    <thead class="table-thead">
+        <tr>
+            <th style="width: 60px;"></th>
+            <th>Action</th>
+            <th>Path</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody class="table-tbody">
+        <tr *ngFor="let item of operatorsData;let index=index">
+            <td>
+                <button (click)="removeOperatorItem(index)" mat-mini-fab color="primary" type="button">X</button>
+            </td>
+            <td class="minW65">
+                <app-operator-item type="action" [(content)]="item.action"></app-operator-item>
+            </td>
+            <td class="minW65">
+                <app-operator-item [(content)]="item.path"></app-operator-item>
+            </td>
+            <td class="minW65">
+                <app-operator-item [(content)]="item.value"></app-operator-item>
+            </td>
+        </tr>
+    </tbody>
+</table>

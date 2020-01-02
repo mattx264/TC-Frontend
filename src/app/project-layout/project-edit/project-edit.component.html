@@ -1,0 +1,15 @@
+<!--WIP/TEST/TODO-->
+
+<h1>Edit Project</h1>
+<form [formGroup]="formGroup" (ngSubmit)="save()">
+    <div class="form-fill">
+        <app-text-field formControlName="name" name="name" label="Name"></app-text-field>
+        <app-text-field formControlName="description" name="description" label="Description"></app-text-field>
+        <app-text-field formControlName="domains" name="domains" label="Domains" extraInfo="Please insert in comma-separated format format.e.g https://www.tc.net"></app-text-field>
+        <app-text-field formControlName="usersEmail" name="usersEmail" label="Users Email" extraInfo="Please insert in comma-separated."></app-text-field>
+    </div>
+    <div class="option-buttons">
+        <button mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="accent" [routerLink]="['/project']">Cancel</button>
+    </div>
+</form>

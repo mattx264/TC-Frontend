@@ -1,0 +1,95 @@
+<section *ngIf="isStarted === true">
+    <div class="buttons-wrapper">
+        <!-- <button pButton type="button" [class.ui-button-secondary]="isStarted===false" (click)="startRecordingClick()"
+            label="Start recording"></button> -->
+        <button mat-raised-button type="button" color="primary" (click)="saveClick()">Save test</button>
+
+        <button mat-raised-button type="button" color="accent" (click)="sendClick()">Run test</button>
+
+        <button mat-raised-button type="button" color="warn" (click)="restartClick()">Restart</button>
+
+    </div>
+
+    <table id="actionTable" class="table-wrapper">
+        <thead class="table-thead">
+            <tr>
+                <th style="width: 60px;"></th>
+                <th>Action</th>
+                <th>Path</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody class="table-tbody">
+            <tr *ngFor="let item of operatorsData;let index=index">
+                <td>
+                    <button (click)="removeOperatorItem(index)" class="remove-operator-btn" mat-mini-fab color="primary" type="button">X</button>
+                </td>
+                <td class="minW65">
+                    <app-operator-item type="action" [(content)]="item.action"></app-operator-item>
+                </td>
+                <td class="minW65">
+                    <app-operator-item [(content)]="item.path"></app-operator-item>
+                </td>
+                <td class="minW65">
+                    <app-operator-item [(content)]="item.value"></app-operator-item>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+<section class="init-section" *ngIf="isStarted ===false">
+    <div *ngIf="projectDomain">
+        <button mat-raised-button type="button" color="primary" type="button" (click)="startRecordingClick()">Start
+            recording</button>
+    </div>
+
+    <div *ngIf="!projectDomain">
+        <mat-card>
+            <mat-card-subtitle>
+                You don't have any project with domain {{domain}}, please create new project or add domain to existing
+                project
+            </mat-card-subtitle>
+            <mat-card-content>
+                <button mat-raised-button type="button" color="primary" type="button" (click)="createNewProject()">
+                    Add new project
+                </button>
+            </mat-card-content>
+
+        </mat-card>
+        <mat-card>
+            <mat-card-subtitle>
+                if you want to play with tool you can use sandbox mode
+            </mat-card-subtitle>
+            <mat-card-content>
+                <button mat-raised-button type="button" type="button" (click)="startRecordingClick()">
+                    Sandbox
+                </button>
+            </mat-card-content>
+
+        </mat-card>
+    </div>
+
+</section>
+
+
+<!-- <p-dialog header="Select" [(visible)]="display" [modal]="true" [responsive]="true"
+    [style]="{width: '350px', minWidth: '200px',height:'300px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <p *ngIf="szwagiersConsoles.length >0">
+        <p-dropdown [options]="szwagiersConsoles" [(ngModel)]="selectedSzwagierConsole" placeholder="Select a server"
+            optionLabel="name" [showClear]="true"></p-dropdown>
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+    </p>
+    <p *ngIf="szwagiersConsoles.length ==0">
+        There is no server avaiable to be connected. Please create a local server. <a target="_blank" href="#">See how create local server</a>.
+    </p>
+    <p-footer>
+        <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Done"></button>
+        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="Cancel"
+            class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog> -->

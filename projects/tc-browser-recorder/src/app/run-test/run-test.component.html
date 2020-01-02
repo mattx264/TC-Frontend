@@ -1,0 +1,43 @@
+<button (click)="sendClick()">Start Test</button>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="path">
+    <mat-header-cell *matHeaderCellDef> Path </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.path}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="value">
+    <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
+    <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="progress">
+    <mat-header-cell *matHeaderCellDef> Progress </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{element.status}}
+      <div [ngSwitch]="element.status">
+        <span *ngSwitchCase="'inprogress'">
+          <mat-spinner class="zoom05"></mat-spinner>
+        </span>
+        <span *ngSwitchCase="'done'">
+          <mat-icon color="success">done</mat-icon>
+        </span>
+        <span *ngSwitchCase="'failed'">
+          <mat-icon>error</mat-icon>
+        </span>
+        <span *ngSwtichDefault>Unknown</span>
+      </div>
+
+
+
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</table>

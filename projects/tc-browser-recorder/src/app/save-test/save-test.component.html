@@ -1,0 +1,16 @@
+<h2>Save Test</h2>
+
+
+<form [formGroup]="formGroup">
+  <div class="form-fill">
+    <app-text-field label="Name" formControlName="name" name="name">
+    </app-text-field>
+    <app-text-field label="Description" formControlName="description" name="description">
+    </app-text-field>
+  </div>
+  
+  <div class="option-buttons">
+    <button mat-button mat-raised-button color="primary" (click)="saveTest()">Save</button>
+    <button mat-button mat-raised-button color="accent" mat-dialog-close>Cancel</button>
+  </div>
+</form>

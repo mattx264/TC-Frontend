@@ -1,0 +1,35 @@
+<div id="background-img">
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-5 offset-md-4 center-vertical">
+      <div id="form">
+        <h1 class="h1-extra-margin">Create Your Account</h1>
+        <div id="form">
+          <form [formGroup]="formGroup" (ngSubmit)="registerNewUser()">
+            <app-text-field label="Name" formControlName="name" name="name"></app-text-field>
+            <app-text-field label="Email" formControlName="email" name="email"></app-text-field>
+             <div class="form-group">
+                <div class="col-sm-12">
+                  <mat-form-field class="field">
+                    <input matInput placeholder="Password" type="password" [formControl]="formGroup.get('password')">
+                    <mat-error *ngIf="formGroup.get('password').hasError('required')">
+                      Password is <strong>required</strong>
+                    </mat-error>
+                    <mat-hint>
+                      The password must be of minimum 6 characters length
+                    </mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+            <div class="button-wrapper">
+                <button mat-raised-button color="primary" type="submit" >
+                  Submit
+                </button>
+            </div>
+          </form>
+          <p>or <a id="sing-up" [routerLink]="['/login']">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>

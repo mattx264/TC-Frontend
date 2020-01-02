@@ -1,0 +1,33 @@
+<section>
+    <p> Search user by user name:</p>
+    <div>
+        <!-- <p-autoComplete [(ngModel)]="selectedUsers" [suggestions]="filterUsers"
+            (completeMethod)="filterCountryMultiple($event)" styleClass="wid100" [minLength]="1" placeholder="Countries"
+            field="name" [multiple]="true">
+        </p-autoComplete> -->
+        <ul>
+            <li *ngFor="let u of selectedUsers">{{u.name}}</li>
+        </ul>
+    </div>
+    <div class="form-button-wrapper">
+        <button pButton label="Add Users" (click)="addSelectedUsers()"></button>
+    </div>
+</section>
+<section>
+    <form [formGroup]="formGroup" (ngSubmit)="addUser()">
+        <p>Add user by email address:</p>
+        <div class="form-group">
+            <label for="name">Email address</label>
+            <div class="ui-inputgroup">
+                <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+                <input type="text" pInputText placeholder="Email" class="" id="name" formControlName="email"
+                    name="email">
+            </div>
+        </div>
+        <div class="form-button-wrapper">
+            <button pButton label="Send invitaion email" type="submit"></button>
+        </div>
+
+    </form>
+
+</section>

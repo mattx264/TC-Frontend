@@ -1,0 +1,37 @@
+<section>
+  <div class="buttons-wrapper">
+      <!-- <button pButton type="button" [class.ui-button-secondary]="isStarted===false" (click)="startRecordingClick()"
+                  label="Start recording"></button> -->
+      <button mat-raised-button type="button" color="primary" (click)="saveTestClick()">Save test</button>
+
+      <button mat-raised-button type="button" color="accent" (click)="backClick()">Back</button>
+
+  </div>
+
+  <table id="actionTable" class="table-wrapper">
+      <thead class="table-thead">
+          <tr>
+              <th style="width: 60px;"></th>
+              <th>Name</th>
+              <th>Connection Id</th>
+              <th>Szwagier Type</th>
+          </tr>
+      </thead>
+      <tbody class="table-tbody">
+          <tr *ngFor="let item of szwagiersConsoles;let i = index">
+              <td>
+                  {{item.name}}
+              </td>
+              <td class="">
+                  {{item.connectionId}}
+              </td>
+              <td class="">
+                  {{item.szwagierType}}
+              </td>
+              <td class="" >
+                  <button (click)="selectClick(i)" mat-button>Run</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+</section>

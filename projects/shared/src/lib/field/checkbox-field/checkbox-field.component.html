@@ -1,0 +1,18 @@
+<div class="form-group" [class.has-error]="error!=''">
+  <div class="col-sm-12">
+    <div class="checkbox-component">
+      <app-checkbox #checkbox [(ngModel)]="value" (click)="clicked()" class="pull-left"></app-checkbox>
+      <label class="control-label" (click)="labelClicked()">
+        <span class="required" [hidden]="isRequired===false">*</span>
+        {{label}}
+      </label>
+      <ng-content></ng-content>
+    </div>
+    <div class="extra-info">{{extraInfo}}</div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="error" *ngIf="error">{{error}}</div>
+    </div>
+  </div>
+</div>

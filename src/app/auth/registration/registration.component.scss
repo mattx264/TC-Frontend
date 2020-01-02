@@ -1,0 +1,63 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+.container {
+  height: 100%;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+#background-img {
+  height: 100%;
+  width: 100%;
+  background: url("/assets/images/HiResHead2_0000_OH Walnut Creek 5.jpg");
+  z-index: -1;
+  background-size: cover;
+  filter: grayscale(30%) blur(20px);
+  position: absolute;
+}
+
+input {
+  width: 100%;
+  padding-left: 5px;
+}
+.row {
+  height: 100%;
+
+}
+
+.center-vertical {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#form {
+  background-color: white;
+  padding: 21px;
+  border-radius: 15px;
+  margin-top: 4rem;
+  .button-wrapper{
+    margin-top: 1rem;
+  }
+}
+
+h1,
+p {
+  text-align: center;
+}
+
+#registerBtn {
+  margin-top: 15px;
+  height: 45px;
+  border-radius: 25px;
+}
+mat-form-field{
+  width: 100%;
+}

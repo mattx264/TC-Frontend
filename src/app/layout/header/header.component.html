@@ -1,0 +1,19 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click) = "toggleMenu()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <button mat-button routerLink="szwagier-dashboard"><mat-icon>dashboard</mat-icon>Dashboard</button>
+    <button mat-button routerLink="project"><mat-icon>list_alt</mat-icon>Project</button>
+
+    <span class="space-filler"></span>
+    <div class="div-content">
+      <mat-icon class="mat-18">code</mat-icon>
+      <label class="project-name">Testing<b>.Center</b></label>
+    </div>
+    <div class="logout-wrapper">
+      <button mat-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>Logout</button>
+    </div>
+
+  </mat-toolbar-row>
+</mat-toolbar>

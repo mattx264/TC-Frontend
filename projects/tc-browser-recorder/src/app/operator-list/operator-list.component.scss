@@ -1,0 +1,29 @@
+table.table-wrapper {
+    width: 100%;
+    border-collapse: collapse;
+    // table-layout: fixed;
+  }
+  .table-thead {
+    tr {
+      th {
+        padding: 0.571em 0.857em;
+        border: 1px solid #c8c8c8;
+        font-weight: 700;
+        color: #333333;
+        background-color: #f4f4f4;
+      }
+    }
+  }
+  .table-tbody {
+    tr {
+      td {
+        background-color: inherit;
+        border: 1px solid #c8c8c8;
+        padding: 0.571em 0.857em;
+        overflow: hidden;
+        &.minW65 {
+          min-width: 65px;
+        }
+      }
+    }
+  }

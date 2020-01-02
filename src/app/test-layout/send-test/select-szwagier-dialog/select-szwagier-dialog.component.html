@@ -1,0 +1,6 @@
+<p *ngFor="let item of data.szwagiers">
+   
+    <button mat-raised-button color="primary" (click)="selected(item.connectionId)">
+        {{item.name}}
+    </button>
+</p>

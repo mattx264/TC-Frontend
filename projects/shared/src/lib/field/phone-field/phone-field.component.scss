@@ -1,0 +1,24 @@
+.phone-component{
+    display:flex;
+    flex-direction: row;
+    .phone-number-section{
+      input{
+          border:none;
+          width: 100%;
+          outline: none;
+          text-align: center;
+      }
+    }
+    span{
+        font-weight: bold;
+    }
+    .dash{
+        transform: rotate(90deg);
+    }
+    // &.disabled{
+    //     background-color: #eee;
+    //     input{
+    //         cursor:no-drop;
+    //     }
+    // }
+}

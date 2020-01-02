@@ -1,0 +1,23 @@
+.calendar {
+    display: flex;
+    align-items: center;
+    &>div {
+        margin-right: 20px;
+    }
+    .month {
+        width: 42px;
+    }
+    .day {
+        width: 42px;
+    }
+    .year {
+        width: 58px;
+    }
+    .fa {
+        font-size: 35px;
+    }
+    input.form-control {
+        padding-left: 7px;
+        padding-right: 7px;
+    } 
+}

@@ -1,0 +1,141 @@
+.main-wrapper {
+  width: 0px !important;
+}
+.container {
+  height: 100%;
+  z-index: 1;
+}
+
+#background-img {
+  height: 100%;
+  width: 100%;
+  background: #eee;
+  z-index: -1;
+  background-size: cover;
+  filter: grayscale(50%) blur(2px);
+  position: absolute;
+}
+
+.row {
+  height: 100%;
+}
+
+input {
+  width: 100%;
+  padding-left: 5px;
+}
+
+.center-vertical {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+#form {
+  background-color: white;
+  padding: 21px;
+  border-radius: 15px;
+  margin-top: 4rem;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;  /* Safari 3-4, iOS 4.0.2 - 4.2, Android 2.3+ */
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
+  box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
+}
+
+h1,
+p {
+  text-align: center;
+
+  line-height: 1.5;
+  color: #666666;
+}
+
+#loginBtn {
+  margin-top: 10px;
+  height: 45px;
+  border-radius: 25px;
+}
+
+#forgotPass {
+  font-size: 12px;
+  text-align: right;
+  margin: 0;
+  cursor: pointer;
+  padding-right: 15px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+.social-media {
+  text-align: center;
+  
+  a {
+    color: white !important;
+    overflow: hidden;
+    display: inline-block;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: inline-flex;
+    margin: 5px;
+    text-decoration: none;
+    .fa {
+      font-size: 25px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  a:hover {
+    background-color: #333333;
+    text-decoration: none;
+  }
+  .facebook-wrapper {
+    background-color: #3b5998;
+    color: white;
+  }
+  .twitter-wrapper {
+    color: white;
+    background-color: #1da1f2;
+  }
+  .google-wrapper {
+    color: white;
+    background-color: #ea4335;
+  }
+}
+
+#sing-up {
+  cursor: pointer;
+}
+
+.sign-up-p {
+  padding-top: 55px;
+}
+
+#unathorized {
+  color: #9f6000;
+  background-color: #feefb3;
+  margin: 10px 0;
+}
+
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.field {
+  padding: 0px 15px;
+  width: 100%;
+}
+
+.login-buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding-bottom: 5px;
+}

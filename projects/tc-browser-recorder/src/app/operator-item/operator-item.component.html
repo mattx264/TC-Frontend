@@ -1,0 +1,8 @@
+<p class="text-wrapper" *ngIf="isEditMode ===false" (click)="operatorItemClick()">{{content}}</p>
+<div *ngIf="isEditMode ===true">
+    <div class="ui-inputgroup">
+        <button pButton type="button" icon="pi pi-check" (click)="approveClick()"  class="ui-button-success"></button>
+        <input type="text" pInputText placeholder="value" [value]="content" (keyup)="valueUpdate($event)">
+        <button pButton type="button" icon="pi pi-times" (click)="cancelClick()" class="ui-button-danger"></button>
+    </div>
+</div>

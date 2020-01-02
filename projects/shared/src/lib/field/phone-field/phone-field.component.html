@@ -1,0 +1,26 @@
+<div class="form-group " [class.has-error]="error!=''">
+  <label class="control-label" *ngIf="label">
+    <span class="required" [hidden]="isRequired===false">*</span>
+    {{label}}
+  </label>
+  
+  <div class="phone-component form-control" [class.disabled]="disabled">
+    <span>(</span>
+    <div class="area-code phone-number-section">
+      <!-- <input type="text" #inputMonth [value]="areaCode" (keydown.Tab)="tabPressed()" (keyup)="monthChange($event)" (focus)="focus()"
+        (blur)="blur()" (change)="monthChange($event)" maxlength="3" class="form-control" placeholder="MM"> -->
+      <input type="tel"  #areaCodeField [value]="areaCode"  (keyup)="areaCodeChange($event)" (focus)="focus()" (blur)="blur()">
+    </div>
+    <span>)</span>
+    <div class="exchange-code phone-number-section">
+      <input type="tel" #exchangeCodeField [value]="exchangeCode" maxlength="3" (keyup)="exchangeCodeChange($event)" (focus)="focus()" (blur)="blur()">
+    </div>
+    <span class="dash">|</span>
+    <div class="line-number phone-number-section">
+      <input type="tel" #lineNumberField [value]="lineNumber" maxlength="4" (keyup)="lineNumberChange($event)" (focus)="focus()" (blur)="blur()">
+    </div>
+  </div>
+  <div>
+    <div class="error" *ngIf="error">{{error}}</div>
+  </div>
+</div>

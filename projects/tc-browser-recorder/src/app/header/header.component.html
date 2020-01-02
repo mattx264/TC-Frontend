@@ -1,0 +1,15 @@
+<mat-toolbar color="primary">  
+  <div *ngIf="project">
+    <small>Project: </small>
+    <strong>{{project.name}}</strong>
+  </div>
+  <mat-toolbar-row>
+    <button mat-button [routerLink]="['/landing-page']"><mat-icon>fiber_smart_record</mat-icon>Recorder</button>   
+
+    <span class="space-filler"></span>
+    <div class="logout-wrapper">
+      <button mat-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>Logout</button>    
+    </div>
+    
+  </mat-toolbar-row>
+</mat-toolbar>

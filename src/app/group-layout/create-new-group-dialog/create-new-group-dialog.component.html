@@ -1,0 +1,13 @@
+<form [formGroup]="formGroup" (ngSubmit)="creteNewGroup()">
+    <div class="form-group">
+        <label for="name">Group Name</label>
+        <div class="ui-inputgroup">
+            <span class="ui-inputgroup-addon"><i class="fa fa-user"></i></span>
+            <input type="text" pInputText placeholder="Name" class="" id="name" formControlName="name" name="name">
+        </div>
+    </div>
+    <div class="form-button-wrapper">
+        <button pButton  label="Save" type="submit"></button>
+    </div>
+  
+</form>

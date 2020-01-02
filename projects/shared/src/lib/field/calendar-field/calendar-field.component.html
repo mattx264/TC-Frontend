@@ -1,0 +1,18 @@
+<div class="form-group" [class.has-error]="error!=''">
+  <div class="col-sm-12">
+    <div [class.row]="fieldConfig.isLabelRow">
+      <label class="control-label" [ngClass]="fieldConfig.labelCol">
+        <span class="required" [hidden]="isRequired===false">*</span>
+        {{label}}
+      </label>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow">
+      <div [ngClass]="fieldConfig.fieldCol">
+        <app-calendar (ngModelChange)="onValueChange($event)" (errorFromCalendar)="calendarError($event)" [disabled]="disabled" [(ngModel)]="value"></app-calendar>
+      </div>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow">
+      <div class="error" *ngIf="error">{{error}}</div>
+    </div>
+  </div>
+</div>

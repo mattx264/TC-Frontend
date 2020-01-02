@@ -1,0 +1,16 @@
+
+<div class="form-group" [class.has-error]="error!=''">
+  <div class="col-sm-12">
+    <mat-form-field class="field" appearance="outline">
+      <mat-label>{{ label }}</mat-label>
+      <input matInput [formControl]="formControl" [errorStateMatcher]="matcher">
+      <mat-hint *ngIf="extraInfo">{{extraInfo}}</mat-hint>
+      <mat-error *ngIf="formControl.hasError('email') && !formControl.hasError('required')">
+        Please enter a valid email address
+      </mat-error>
+      <mat-error *ngIf="formControl.hasError('required')">
+        {{label}} is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

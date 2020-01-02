@@ -1,0 +1,154 @@
+/* You can add global styles to this file, and also import other style files */
+// @import 'styles/style';
+// Imports functions, variables, and mixins that are needed by other Bootstrap files
+@import "styles/variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// Import Bootstrap Reboot
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid"; // add the grid
+@import "~bootstrap/scss/utilities"; // add css utilities
+@import '~@angular/material/theming';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "styles/reset";
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface|Black+Ops+One&display=swap');
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: lightgray;
+  text-align: left;
+  //background-color: #4dd8ff;
+  //background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25' viewBox='0 0 1600 800'%3E%3Cg stroke='%23000' stroke-width='66.7' stroke-opacity='0.05' %3E%3Ccircle fill='%234dd8ff' cx='0' cy='0' r='1800'/%3E%3Ccircle fill='%234dcbf2' cx='0' cy='0' r='1700'/%3E%3Ccircle fill='%234cbee6' cx='0' cy='0' r='1600'/%3E%3Ccircle fill='%234cb1d9' cx='0' cy='0' r='1500'/%3E%3Ccircle fill='%234ba5cc' cx='0' cy='0' r='1400'/%3E%3Ccircle fill='%234999be' cx='0' cy='0' r='1300'/%3E%3Ccircle fill='%23478cb1' cx='0' cy='0' r='1200'/%3E%3Ccircle fill='%234581a4' cx='0' cy='0' r='1100'/%3E%3Ccircle fill='%23427596' cx='0' cy='0' r='1000'/%3E%3Ccircle fill='%233f6a89' cx='0' cy='0' r='900'/%3E%3Ccircle fill='%233b5f7b' cx='0' cy='0' r='800'/%3E%3Ccircle fill='%2337546e' cx='0' cy='0' r='700'/%3E%3Ccircle fill='%23324961' cx='0' cy='0' r='600'/%3E%3Ccircle fill='%232d3f54' cx='0' cy='0' r='500'/%3E%3Ccircle fill='%23283548' cx='0' cy='0' r='400'/%3E%3Ccircle fill='%23222c3b' cx='0' cy='0' r='300'/%3E%3Ccircle fill='%231c232f' cx='0' cy='0' r='200'/%3E%3Ccircle fill='%23161a24' cx='0' cy='0' r='100'/%3E%3C/g%3E%3C/svg%3E");
+  //background-attachment: fixed;
+  //background-size: cover;
+}
+html,
+body,
+app-root {
+  height: 100%;
+}
+
+.circle {
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  display: inline-block;
+  border-radius: 50px;
+
+  &.green {
+    background-color: green;
+  }
+
+  &.red {
+    background-color: red;
+  }
+}
+
+h1.h1-extra-margin {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+form {
+  label {
+    font-weight: bold;
+  }
+  .form-button-wrapper {
+    margin-top: 15px;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+table.mat-table {
+  width: 100%;
+}
+mat-card {
+  margin-bottom: 15px;
+}
+
+$mat-myapp-primary: (
+  50 : #e4eef7,
+  100 : #bcd4ea,
+  200 : #90b8dd,
+  300 : #649ccf,
+  400 : #4286c4,
+  500 : #2171ba,
+  600 : #1d69b3,
+  700 : #185eab,
+  800 : #1454a3,
+  900 : #0b4294,
+  A100 : #c3d8ff,
+  A200 : #90b7ff,
+  A400 : #5d96ff,
+  A700 : #4385ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #000000,
+      A700 : #ffffff,
+  )
+);
+
+$mat-myapp-accent: (
+  50 : #e4ebf1,
+  100 : #bcccdb,
+  200 : #90abc3,
+  300 : #6489ab,
+  400 : #426f99,
+  500 : #215687,
+  600 : #1d4f7f,
+  700 : #184574,
+  800 : #143c6a,
+  900 : #0b2b57,
+  A100 : #8cb7ff,
+  A200 : #5997ff,
+  A400 : #2677ff,
+  A700 : #0d67ff,
+  contrast: (
+      50 : #000000,
+      100 : #000000,
+      200 : #000000,
+      300 : #000000,
+      400 : #ffffff,
+      500 : #ffffff,
+      600 : #ffffff,
+      700 : #ffffff,
+      800 : #ffffff,
+      900 : #ffffff,
+      A100 : #000000,
+      A200 : #000000,
+      A400 : #ffffff,
+      A700 : #ffffff,
+  )
+);
+
+$primary: mat-palette($mat-myapp-primary);
+$accent: mat-palette($mat-myapp-accent);
+
+$theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($theme);

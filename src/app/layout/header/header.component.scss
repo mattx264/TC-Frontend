@@ -1,0 +1,54 @@
+$margin-value: 0.5rem;
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  .nav-links {
+      mat-icon {
+      //margin-top: $margin-value;
+      margin-right: $margin-value;
+    }
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 600px;
+  }
+  .logout-wrapper {
+    margin-right: 1rem;
+    mat-icon {
+      margin-right: $margin-value;
+    }
+  }
+}
+  .project-name {
+    b {
+      color: rgb(25, 77, 25) !important;
+      padding-left: 2px;
+    }
+    font-family: "Abril Fatface", cursive !important;
+    padding: 3px 10px;
+    font-weight: bold;
+    font-size: larger;
+    margin-right: 2em;
+  }
+.space-filler {
+  flex: 1 1 auto;
+}
+
+.menu-navigation {
+  margin-right: 2em;
+}
+
+mat-icon {
+  margin-right: 5px;
+}
+
+.div-content {
+  display: contents;
+
+  & mat-icon {
+    padding-top: 2px;
+    margin: 0;
+  }
+}

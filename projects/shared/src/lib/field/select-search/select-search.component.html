@@ -1,0 +1,20 @@
+<div class="form-group" [class.has-error]="error!==''">
+  <div class="col-sm-12">
+    <div [class.row]="fieldConfig.isLabelRow" *ngIf="label && label.length > 0">
+      <label class="control-label" [ngClass]="fieldConfig.labelCol">
+        <span class="required" [hidden]="isRequired===false">*</span>
+        {{label}}
+      </label>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow">
+      <div [ngClass]="fieldConfig.fieldCol">
+        <ng-select #ngSelect placeholder="{{placeholder}}" [(ngModel)]="selectedId" (change)="onChange($event)"
+          [items]="items" bindLabel="description" bindValue="id" class="" [disabled]="isDisabled"></ng-select>
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow" [ngClass]="fieldConfig.errorClass">
+      <div class="error" *ngIf="error">{{error}}</div>
+    </div>
+  </div>
+</div>

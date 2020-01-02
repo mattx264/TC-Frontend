@@ -1,0 +1,40 @@
+@import "styles/variables";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";
+// Import Bootstrap Reboot
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/grid"; // add the grid
+@import "~bootstrap/scss/utilities"; // add css utilities
+
+@import "styles/reset";
+
+html,
+body,
+app-root,
+main {
+  height: calc(100% - 36px);
+  font-size: 1rem;
+}
+.buttons-wrapper {
+  display: flex;
+  button {
+    margin: 15px;
+  }
+}
+.buttons-wrapper button {
+  margin: 12px;
+}
+.remove-operator-btn {
+  zoom: 0.7;
+}
+
+.mat-success {
+  color: #28a745 !important; 
+}
+.mat-success[disabled] {
+  color: rgba(0, 0, 0, 0.12) !important;
+}
+.zoom05 {
+  zoom: 0.5;
+}

@@ -1,0 +1,22 @@
+<div class="form-group" [class.has-error]="error!=''">
+  <div class="col-sm-12">
+    <div [class.row]="fieldConfig.isLabelRow">
+      <label class="control-label" [ngClass]="fieldConfig.labelCol">
+     <span class="required" [hidden]="isRequired===false">*</span>
+     {{label}}
+    </label>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow">
+      <div [ngClass]="fieldConfig.fieldCol">
+        <select #field [value]="value" class="form-control" (change)="onChange($event)">
+          <option *ngIf="default !== null" disabled selected [value]="null">{{default}}</option>
+          <option *ngFor="let o of dataList" [value]="o.id" >{{o.description}}</option>
+        </select>
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <div [class.row]="fieldConfig.isFieldRow" [ngClass]="fieldConfig.errorClass">
+      <div class="error" *ngIf="error">{{error}}</div>
+    </div>
+  </div>
+</div>
