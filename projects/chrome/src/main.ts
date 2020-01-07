@@ -64,8 +64,8 @@ class Main {
     addKeyUpEventListener = (e: KeyboardEvent) => {
         const activeElement = document.activeElement as HTMLInputElement;
         var xpath = this.xpathHelper.getInputElementXPath(activeElement);
-        if (e.code == "Tab" || e.code == "ShiftLeft" || e.code == "ShiftRight"
-            || e.code == "ControlRight" || e.code == "ControlLeft" || e.code == "AltRight" || e.code == "AltLeft") {
+        if (e.code.toLowerCase() == "tab" || e.code.toLowerCase() == "shiftleft" || e.code.toLowerCase() == "shiftright" || e.code.toLowerCase()=='backspace'
+            || e.code.toLowerCase() == "controlright" || e.code.toLowerCase() == "controlleft" || e.code.toLowerCase() == "altright" || e.code.toLowerCase() == "altleft") {
             this.sendMessage({
                 action: 'sendKeys', path: xpath, value: 'Keys.' + e.code.toUpperCase()
             });

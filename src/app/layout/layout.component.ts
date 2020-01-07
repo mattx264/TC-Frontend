@@ -15,6 +15,7 @@ export class LayoutComponent implements OnInit {
   constructor(private layoutService: LayoutService, private router: Router) { }
 
   ngOnInit() {
+    
     this.layoutService.onUpdate.subscribe((data) => {
       if (data.sidebar === true) {
         this.showSidebar = true;

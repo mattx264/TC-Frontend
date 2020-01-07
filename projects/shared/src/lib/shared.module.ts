@@ -14,6 +14,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ServerNotAvaiableComponent } from './components/server-not-avaiable/server-not-avaiable.component';
 import { SimpleErrorPageComponent } from './components/simple-error-page/simple-error-page.component';
+import { CommonModule } from '@angular/common';
 
 
 @NgModule({
@@ -22,7 +23,7 @@ import { SimpleErrorPageComponent } from './components/simple-error-page/simple-
   exports: 
     [SharedComponent, TextFieldComponent,ServerNotAvaiableComponent,SimpleErrorPageComponent],
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpClientModule,
     MatInputModule,
     ReactiveFormsModule

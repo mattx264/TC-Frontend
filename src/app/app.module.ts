@@ -23,9 +23,7 @@ import { GroupLayoutComponent } from './group-layout/group-layout.component';
 import { CreateNewGroupDialogComponent } from './group-layout/create-new-group-dialog/create-new-group-dialog.component';
 import { AddUserToGroupComponent } from './group-layout/add-user-to-group/add-user-to-group.component';
 import { GroupEditComponent } from './group-layout/group-edit/group-edit.component';
-import { ProjectLayoutComponent } from './project-layout/project-layout.component';
-import { ProjectEditComponent } from './project-layout/project-edit/project-edit.component';
-import { ProjectCreateComponent } from './project-layout/project-create/project-create.component';
+
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -47,7 +45,7 @@ import { TestFlowCreateComponent } from './test-flow-layout/test-flow-create/tes
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 import { CompanyInfoComponent } from './company-info/company-info.component';
 import { MatMenuModule } from '@angular/material/menu'
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material';
 
 @NgModule({
@@ -67,9 +65,6 @@ import { MatChipsModule } from '@angular/material';
     CreateNewGroupDialogComponent,
     AddUserToGroupComponent,
     GroupEditComponent,
-    ProjectLayoutComponent,
-    ProjectEditComponent,
-    ProjectCreateComponent,
     TestLayoutComponent,
     SendTestComponent,
     SelectSzwagierDialogComponent,
@@ -85,7 +80,6 @@ import { MatChipsModule } from '@angular/material';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    SharedModule.forRoot(environment),
     MatListModule,
     MatSelectModule,
     MatFormFieldModule,
@@ -101,7 +95,9 @@ import { MatChipsModule } from '@angular/material';
     MatCardModule,
     MatMenuModule,
     MatCheckboxModule,
-    MatChipsModule
+    MatChipsModule,
+    SharedModule.forRoot(environment)
+
   ],
   providers: [
     LayoutService
