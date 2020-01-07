@@ -1,16 +1,12 @@
 <header *ngIf='showHeader'>
     <app-header (sideToggle) = "sideNav.toggle()"></app-header>
 </header>
-
 <mat-sidenav-container class="">
-    <!-- Side bar navigation -->
     <mat-sidenav  mode="side" #sideNav>
         <mat-nav-list>
             <app-sidebar></app-sidebar>
         </mat-nav-list>
     </mat-sidenav>
-
-    <!-- Main page content -->
     <mat-sidenav-content>
         <div class="main-wrapper">
             <main>
@@ -18,12 +14,7 @@
             </main>
         </div>
     </mat-sidenav-content>
-
 </mat-sidenav-container>
-
-
-
-
-<footer *ngIf='showFooter'>
-    <app-footer></app-footer>
+<footer *ngIf='showFooter' class="footer-b">
+    <app-footer [ngClass]="footer-b"></app-footer>
 </footer>

@@ -6,7 +6,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./company-info.component.scss']
 })
 export class CompanyInfoComponent implements OnInit {
-  @Input() dataToImport = {country: 'Poland', companyName: 'TC-child', email: 'test@test', isVertical: false};
+  @Input() dataToImport = {country: 'Poland', companyName: 'Testing Center 2020', email: 'contact@ourdomain.com', isVertical: false};
 
   // tslint:disable-next-line: new-parens
   @Output() emitYear = new EventEmitter<number>();
