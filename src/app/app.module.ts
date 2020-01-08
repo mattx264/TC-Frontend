@@ -47,6 +47,7 @@ import { CompanyInfoComponent } from './company-info/company-info.component';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material';
+import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/project-sidebar.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { MatChipsModule } from '@angular/material';
     TestFlowLayoutComponent,
     TestFlowCreateComponent,
     PrivacyPolicyComponent,
-    CompanyInfoComponent
+    CompanyInfoComponent,
+    ProjectSidebarComponent
   ],
   imports: [
     BrowserModule,

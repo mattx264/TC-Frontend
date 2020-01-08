@@ -5,11 +5,15 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class LayoutService {
   private sidebar = true;
+  private sidebarName: string;
   private header = true;
   onUpdate: EventEmitter<any> = new EventEmitter();
+  metadata: any;
 
   constructor() { }
-  showSidebar() {
+  showSidebar(name: string, data: any) {
+    this.sidebarName = name;
+    this.metadata = data;
     this.sidebar = true;
     this.onUpdate.emit(this.createEmitDate());
   }
@@ -34,7 +38,9 @@ export class LayoutService {
   private createEmitDate(): any {
     return {
       sidebar: this.sidebar,
-      header: this.header
+      sidebarName: this.sidebarName,
+      header: this.header,
+      metadata: this.metadata
     }
   }
 

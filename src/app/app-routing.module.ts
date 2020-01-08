@@ -12,21 +12,23 @@ import { SendTestComponent } from './test-layout/send-test/send-test.component';
 import { ServerNotAvaiableComponent } from '../../projects/shared/src/lib/components/server-not-avaiable/server-not-avaiable.component';
 import { SimpleErrorPageComponent } from '../../projects/shared/src/lib/components/simple-error-page/simple-error-page.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { SidebarComponent } from './layout/sidebar/sidebar.component';
 
 const routes: Routes = [
-  { path: 'szwagier-dashboard',  component: SzwagierDashboardComponent, canActivate: [AuthGuard] },
+  { path: 'szwagier-dashboard', component: SzwagierDashboardComponent, canActivate: [AuthGuard] },
   { path: 'szwagier-rc/:id', component: SzwagierRCComponent, canActivate: [AuthGuard] },
   { path: 'group', component: GroupLayoutComponent, canActivate: [AuthGuard] },
   { path: 'group/:id', component: GroupEditComponent, canActivate: [AuthGuard] },
-  { path: 'project', loadChildren:()=>import(`./project-module/project-module.module`).then(m=>m.ProjectModuleModule), canActivate: [AuthGuard] },
+  { path: 'project', loadChildren: () => import(`./project-module/project-module.module`).then(m => m.ProjectModuleModule), canActivate: [AuthGuard] },
   { path: 'send-test/:projectId', component: SendTestComponent, canActivate: [AuthGuard] },
   { path: 'send-test', component: SendTestComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'privacy-policy', component: PrivacyPolicyComponent },
   { path: 'registration', component: RegistrationComponent },
-  { path: '', redirectTo: 'szwagier-Dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'project', pathMatch: 'full' },
   { path: 'szwagierdashboard', redirectTo: 'szwagier-Dashboard', pathMatch: 'full' },
-  { path: '', component: SidebarEmptyComponent, outlet: 'sidebar' },
+  // { path: 'sidebarEmptyComponent', component: SidebarEmptyComponent, outlet: "sidebar"},
+  // { path: 'sidebarComponent', component: SidebarComponent,outlet: "sidebar" },
   { path: 'server-not-avaiable', component: ServerNotAvaiableComponent },
   { path: 'error', component: SimpleErrorPageComponent },
   { path: '**', redirectTo: 'szwagierDashboard', pathMatch: 'full' }

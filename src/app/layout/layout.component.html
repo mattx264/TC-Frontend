@@ -1,29 +1,24 @@
 <header *ngIf='showHeader'>
-    <app-header (sideToggle) = "sideNav.toggle()"></app-header>
+  <app-header #header (sideToggle)="toggleSidebar($event)"></app-header>
 </header>
-
 <mat-sidenav-container class="">
-    <!-- Side bar navigation -->
-    <mat-sidenav  mode="side" #sideNav>
-        <mat-nav-list>
-            <app-sidebar></app-sidebar>
-        </mat-nav-list>
-    </mat-sidenav>
-
-    <!-- Main page content -->
-    <mat-sidenav-content>
-        <div class="main-wrapper">
-            <main>
-                <router-outlet></router-outlet>
-            </main>
-        </div>
-    </mat-sidenav-content>
-
+  <!-- Side bar navigation -->
+  <mat-sidenav mode="side" #sideNav>
+    <div [ngSwitch]="sidebarName">
+      <app-sidebar *ngSwitchCase="'sidebar'"></app-sidebar>
+      <app-sidebar-empty *ngSwitchCase="'empty'"></app-sidebar-empty>
+      <app-project-sidebar *ngSwitchCase="'project'" [project]="project"></app-project-sidebar>
+    </div>
+  </mat-sidenav>
+  <!-- Main page content -->
+  <mat-sidenav-content>
+    <div class="main-wrapper">
+      <main>
+        <router-outlet></router-outlet>
+      </main>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-
-
-
-
 <footer *ngIf='showFooter'>
-    <app-footer></app-footer>
+  <app-footer></app-footer>
 </footer>

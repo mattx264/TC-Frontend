@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     // show nav by default
-    this.sideToggle.emit(true);
+   // this.sideToggle.emit(true);
   }
   
   logout() {

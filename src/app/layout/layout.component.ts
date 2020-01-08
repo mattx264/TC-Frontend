@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, Route, ActivatedRoute, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LayoutService } from './layout.service';
+import { MatSidenav } from '@angular/material';
+import { HeaderComponent } from 'projects/tc-browser-recorder/src/app/header/header.component';
+import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 
 @Component({
   selector: 'app-layout',
@@ -12,15 +15,27 @@ export class LayoutComponent implements OnInit {
   showSidebar = true;
   showHeader = true;
   showFooter = false;
-  constructor(private layoutService: LayoutService, private router: Router) { }
+  sidebarName: string;
+  project: ProjectViewModel;
+  @ViewChild('header', { static: false }) header: HeaderComponent;
+  @ViewChild('sideNav', { static: false }) sideNav: MatSidenav;
+  constructor(private layoutService: LayoutService, private router: Router) {
+    this.sidebarName = "sidebar"
+  }
 
   ngOnInit() {
-    
+
     this.layoutService.onUpdate.subscribe((data) => {
+      this.sidebarName = data.sidebarName;
+      if(this.sidebarName =='project'){
+        this.project=data.metadata;
+      }
       if (data.sidebar === true) {
         this.showSidebar = true;
+        this.sideNav.open()
       } else {
         this.showSidebar = false;
+        this.sideNav.close();
       }
       if (data.header === true) {
         this.showHeader = true;
@@ -43,5 +58,9 @@ export class LayoutComponent implements OnInit {
         this.showHeader = true;
         this.showFooter = true;
       });
+
+  }
+  toggleSidebar(event) {
+    this.sideNav.toggle()
   }
 }
