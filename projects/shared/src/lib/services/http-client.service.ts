@@ -10,7 +10,12 @@ import { Router } from '@angular/router';
 })
 export class HttpClientService {
   address: string;
-  constructor(@Inject('environment') private environment, private http: HttpClient, private router: Router, private loadingService: LoadingService, private authService: AuthService) {
+  constructor(@Inject('environment')
+              private environment,
+              private http: HttpClient,
+              private router: Router,
+              private loadingService: LoadingService,
+              private authService: AuthService) {
     // check if angular is compile for prod and if it is dev api
     if (environment.production === true) {
       this.address = '/api/';
@@ -18,7 +23,7 @@ export class HttpClientService {
       this.address = 'https://localhost:44384/api/';
     }
   }
-  get(url: string): Observable<Object> {
+  get(url: string): Observable<any> {
     this.loadingService.setValue(true);
 
     return this.http.get(this.apiUrl(url)).pipe(map(data => {

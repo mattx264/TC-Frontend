@@ -32,19 +32,18 @@ export class ProjectCreateComponent implements OnInit {
   public emailChipColor: ThemePalette = 'primary';
 
   public formGroup: FormGroup;
-  saveProjectEndPoint: string = 'project';
+  saveProjectEndPoint = 'project';
   emailAddresses: string[] = [];
-  selectable: boolean = true;
-  addOnBlur: boolean = true;
+  selectable = true;
+  addOnBlur = true;
 
-  constructor(private fb: FormBuilder, 
-    private router: Router,
-    private http: HttpClientService) { }
+  constructor(private fb: FormBuilder,
+              private router: Router,
+              private http: HttpClientService) { }
 
-    
   ngOnInit() {
     this.formGroup = this.buildForm();
-    this.formGroup.controls['usersEmail'].setValue(this.emailAddresses);
+    this.formGroup.controls.usersEmail.setValue(this.emailAddresses);
   }
 
   buildForm(): FormGroup {
