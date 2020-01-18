@@ -10,6 +10,8 @@ import { OperatorModel } from '../../../../shared/src/lib/models/operatorModel';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { settings } from 'cluster';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
+import { Project } from '../ViewModels/Project';
+import { MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-landing-page',
@@ -26,40 +28,55 @@ export class LandingPageComponent implements OnInit {
   project: ProjectViewModel;
   projectDomain: ProjectDomainViewModel;
   formGroupp: any;
+
+  getProjectEndPoint = 'project/getProjects';
+  projects: Array<Project> = [];
+  projectDataSource: MatTableDataSource<Project> = new MatTableDataSource<Project>();
+
+
   constructor(
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
     private router: Router,
     private storeService: StoreService,
     private guidGeneratorService: GuidGeneratorService,
-    private httpClientService: HttpClientService
+    private http: HttpClientService
   ) {
 
 
   }
   ngOnInit() {
-    chrome.runtime.onMessage.addListener(
-      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
-        if (request.type === 'getInfo' && request.data.action === 'isStarted') {
-          sendResponse(this.isStarted);
-          this.setupPageScript();
-          return;
-        }
-        if (this.isStarted === false) {
-          this.beforeStart(request.data);
-          return;
-        }
-        if (request.type == 'insert') {
-          this.addNewOperation(request.data);
-        } else if (request.type == 'appendLastValue') {
-          this.appendLastOperation(request.data);
-        }
-        this.cdr.detectChanges();
-      });
-    this.setupPageScript();
+    this.getUserProjects();
+
+    // chrome.runtime.onMessage.addListener(
+    //   (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
+    //     if (request.type === 'getInfo' && request.data.action === 'isStarted') {
+    //       sendResponse(this.isStarted);
+    //       this.setupPageScript();
+    //       return;
+    //     }
+    //     if (this.isStarted === false) {
+    //       this.beforeStart(request.data);
+    //       return;
+    //     }
+    //     if (request.type == 'insert') {
+    //       this.addNewOperation(request.data);
+    //     } else if (request.type == 'appendLastValue') {
+    //       this.appendLastOperation(request.data);
+    //     }
+    //     this.cdr.detectChanges();
+    //   });
+    // this.setupPageScript();
 
   }
 
+  getUserProjects(): void {
+    this.http.getGeneric<Array<Project>>(this.getProjectEndPoint).subscribe(x => {
+      this.projects = x;
+      this.projectDataSource.data = this.projects;
+    });
+    this.isStarted = true;
+  }
   startRecordingClick() {
     this.isStarted = true;
     this.sendMessageToBrowser('getUrl');
@@ -133,7 +150,7 @@ export class LandingPageComponent implements OnInit {
     if (isNaN(+id)) {
       this.ngZone.run(() =>
         this.router.navigate(['/information-page', 'refreshPage'])
-      );      
+      );
     }
     return id == null ? null : id;
   }
@@ -158,23 +175,24 @@ export class LandingPageComponent implements OnInit {
   }
   private appendLastOperation(request: OperatorModel) {
     if (this.operatorsData.length === 0) {
-      throw new Error("You cannot call updateLastOperation() when operatorsData is empty.");
+      throw new Error('You cannot call updateLastOperation() when operatorsData is empty.');
     }
     if (request.value === 'Keys.BACKSPACE') {
       this.operatorsData[this.operatorsData.length - 1].value =
-        this.operatorsData[this.operatorsData.length - 1].value.slice(0, this.operatorsData[this.operatorsData.length - 1].value.length - 1);
+        this.operatorsData[this.operatorsData.length - 1]
+          .value.slice(0, this.operatorsData[this.operatorsData.length - 1].value.length - 1);
       return;
     }
-    this.operatorsData[this.operatorsData.length - 1].value += <string>request.value;
+    this.operatorsData[this.operatorsData.length - 1].value += request.value as string;
   }
 
   private beforeStart(request: OperatorModel) {
     if (request.action === "goToUrl") {
 
-      var matches = (request.value as string).match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+      const matches = (request.value as string).match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
       this.domain = matches && matches[1];
       this.domain = this.domain.replace('www.', '');
-      this.httpClientService.get('project/domain/' + this.domain).toPromise<any>().then((response: ProjectViewModel) => {
+      this.http.get('project/domain/' + this.domain).toPromise<any>().then((response: ProjectViewModel) => {
         if (response == null) {
           return;
         }

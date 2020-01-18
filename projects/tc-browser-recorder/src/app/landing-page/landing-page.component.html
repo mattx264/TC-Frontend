@@ -37,7 +37,45 @@
         </tbody>
     </table>
 </section>
-<section class="init-section" *ngIf="isStarted ===false">
+
+<!-- Projects To Be Shown -->
+<section id="projectSections" *ngIf="projects.length > 0">
+    <table mat-table [dataSource]="projectDataSource">
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef> Select </th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-flat-button color="primary">Select</button>
+            </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="projectDomains">
+            <th mat-header-cell *matHeaderCellDef> Domains </th>
+            <td mat-cell *matCellDef="let element">
+                <div *ngFor="let domain of element.projectDomain">
+                    {{ domain.domain }}
+                </div>
+            </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            (click)="selection.toggle(row)">
+        </tr>
+    
+    </table>
+</section>
+
+
+
+
+
+
+<section class="init-section" *ngIf="isStarted === false">
     <div *ngIf="projectDomain">
         <button mat-raised-button type="button" color="primary" type="button" (click)="startRecordingClick()">Start
             recording</button>
@@ -51,7 +89,7 @@
             </mat-card-subtitle>
             <mat-card-content>
                 <button mat-raised-button type="button" color="primary" type="button" (click)="createNewProject()">
-                    Add new project
+                    Create New Project
                 </button>
             </mat-card-content>
 
@@ -70,26 +108,3 @@
     </div>
 
 </section>
-
-
-<!-- <p-dialog header="Select" [(visible)]="display" [modal]="true" [responsive]="true"
-    [style]="{width: '350px', minWidth: '200px',height:'300px'}" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
-    <p *ngIf="szwagiersConsoles.length >0">
-        <p-dropdown [options]="szwagiersConsoles" [(ngModel)]="selectedSzwagierConsole" placeholder="Select a server"
-            optionLabel="name" [showClear]="true"></p-dropdown>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-    </p>
-    <p *ngIf="szwagiersConsoles.length ==0">
-        There is no server avaiable to be connected. Please create a local server. <a target="_blank" href="#">See how create local server</a>.
-    </p>
-    <p-footer>
-        <button type="button" pButton icon="pi pi-check" (click)="display=false" label="Done"></button>
-        <button type="button" pButton icon="pi pi-close" (click)="display=false" label="Cancel"
-            class="ui-button-secondary"></button>
-    </p-footer>
-</p-dialog> -->
