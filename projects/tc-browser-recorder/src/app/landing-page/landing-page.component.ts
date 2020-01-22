@@ -12,6 +12,7 @@ import { settings } from 'cluster';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { Project } from '../ViewModels/Project';
 import { MatTableDataSource } from '@angular/material';
+import { ProjectConfigService } from '../services/project-config.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -40,7 +41,8 @@ export class LandingPageComponent implements OnInit {
     private router: Router,
     private storeService: StoreService,
     private guidGeneratorService: GuidGeneratorService,
-    private http: HttpClientService
+    private http: HttpClientService,
+    private projectConfigService: ProjectConfigService
   ) {
 
 
@@ -48,29 +50,32 @@ export class LandingPageComponent implements OnInit {
   ngOnInit() {
     this.getUserProjects();
 
-    // chrome.runtime.onMessage.addListener(
-    //   (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
-    //     if (request.type === 'getInfo' && request.data.action === 'isStarted') {
-    //       sendResponse(this.isStarted);
-    //       this.setupPageScript();
-    //       return;
-    //     }
-    //     if (this.isStarted === false) {
-    //       this.beforeStart(request.data);
-    //       return;
-    //     }
-    //     if (request.type == 'insert') {
-    //       this.addNewOperation(request.data);
-    //     } else if (request.type == 'appendLastValue') {
-    //       this.appendLastOperation(request.data);
-    //     }
-    //     this.cdr.detectChanges();
-    //   });
-    // this.setupPageScript();
+    chrome.runtime.onMessage.addListener(
+      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
+        if (request.type === 'getInfo' && request.data.action === 'isStarted') {
+          sendResponse(this.isStarted);
+          this.setupPageScript();
+          return;
+        }
+        if (this.isStarted === false) {
+          this.beforeStart(request.data);
+          return;
+        }
+        if (request.type == 'insert') {
+          this.addNewOperation(request.data);
+        } else if (request.type == 'appendLastValue') {
+          this.appendLastOperation(request.data);
+        }
+
+
+        this.cdr.detectChanges();
+      });
+    this.setupPageScript();
 
   }
 
   getUserProjects(): void {
+    // TODO - change from getting all projecs to get project by url
     this.http.getGeneric<Array<Project>>(this.getProjectEndPoint).subscribe(x => {
       this.projects = x;
       this.projectDataSource.data = this.projects;
@@ -172,6 +177,14 @@ export class LandingPageComponent implements OnInit {
     this.operatorsData.push(
       newOperation
     );
+    if (this.projectConfigService.getConfig("Monitoring Http Calls") == "true") {
+      this.operatorsData.push({
+        action: 'takeScreenshot',
+        path: null,
+        value: null,
+        guid: this.guidGeneratorService.get()
+      });
+    }
   }
   private appendLastOperation(request: OperatorModel) {
     if (this.operatorsData.length === 0) {
@@ -183,7 +196,10 @@ export class LandingPageComponent implements OnInit {
           .value.slice(0, this.operatorsData[this.operatorsData.length - 1].value.length - 1);
       return;
     }
-    this.operatorsData[this.operatorsData.length - 1].value += request.value as string;
+    let lastIndex=this.operatorsData.slice().reverse().findIndex(x=>x.action===request.action);
+    var count = this.operatorsData.length - 1
+    lastIndex = lastIndex >= 0 ? count - lastIndex : lastIndex;
+    this.operatorsData[lastIndex].value += request.value as string;
   }
 
   private beforeStart(request: OperatorModel) {

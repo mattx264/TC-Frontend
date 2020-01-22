@@ -8,6 +8,7 @@ export interface OperatorModel {
 export class OperatorModelStatus implements OperatorModel {
   action: string;
   path: string;
+  imagePath?:string;
   value: string | string[];
   guid?: string;
   status?: 'pending' | 'inprogress' | 'done' | 'failed';

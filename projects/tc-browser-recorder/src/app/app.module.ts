@@ -24,7 +24,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { OperatorService } from './services/operator.service';
 import { MatToolbarModule } from '@angular/material';
 import { InformationPageComponent } from './information-page/information-page.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -53,7 +53,8 @@ import { InformationPageComponent } from './information-page/information-page.co
     MatIconModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatExpansionModule
   ],
   providers: [
     AuthGuard,

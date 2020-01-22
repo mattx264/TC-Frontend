@@ -33,12 +33,18 @@ export class OperatorService {
             operationId: 2, webDriverOperationType: 5, values: [row.path, row.value], guid: row.guid
           });
           break;
+        case 'takeScreenshot':
+          data.push({ webDriverOperationType: 0, operationId: 17, guid: row.guid });
+          break;
       }
+
     }
+
     // close browser
     data.push({
       operationId: 18, webDriverOperationType: 4
     });
+
     return data;
   }
 }
