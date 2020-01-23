@@ -7,6 +7,7 @@ import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { Observable } from 'rxjs';
 import { ProjectTestListComponent } from './project-test-list/project-test-list.component';
+import { ProjectTestComponent } from './project-test/project-test.component';
 
 // User token and permissions classes can be utilized if further security is needed
 class UserToken {}
@@ -39,7 +40,8 @@ const routes: Routes = [
         canActivate: [CanActivateProjectCreate],
         children: [
           { path: 'edit', component: ProjectEditComponent },
-          { path: 'tests', component: ProjectTestListComponent }
+          { path: 'tests', component: ProjectTestListComponent },
+          { path: 'test/:id', component: ProjectTestComponent }
         ]
       }
     ]
