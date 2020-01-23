@@ -59,7 +59,8 @@ export class LandingPageComponent implements OnInit {
         }
         if (this.isStarted === false) {
           this.beforeStart(request.data);
-          return;
+          this.isStarted = true;
+         // return;
         }
         if (request.type == 'insert') {
           this.addNewOperation(request.data);
@@ -80,7 +81,7 @@ export class LandingPageComponent implements OnInit {
       this.projects = x;
       this.projectDataSource.data = this.projects;
     });
-    this.isStarted = true;
+ 
   }
   startRecordingClick() {
     this.isStarted = true;
