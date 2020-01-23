@@ -3,7 +3,7 @@
     <div class=" text-center"><b>Project</b></div>
   </div>
 
-  <a mat-list-item routerLink=".">
+  <a mat-list-item [routerLink]="['project',project.id,'tests']">
     <mat-icon>info</mat-icon>
     <span>Test</span>
   </a>

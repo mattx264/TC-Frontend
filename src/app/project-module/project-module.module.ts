@@ -11,6 +11,8 @@ import { SharedModule } from 'projects/shared/src/public-api';
 import { environment } from 'projects/tc-browser-recorder/src/environments/environment';
 import { ProjectComponent } from './project.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
+import { ProjectTestComponent } from './project-test/project-test.component';
+import { ProjectTestListComponent } from './project-test-list/project-test-list.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { ProjectDashboardComponent } from './project-dashboard/project-dashboard
     ProjectListComponent,
     ProjectEditComponent,
     ProjectCreateComponent,
-    ProjectDashboardComponent
+    ProjectDashboardComponent,
+    ProjectTestComponent,
+    ProjectTestListComponent
 ],
   imports: [
     CommonModule,
