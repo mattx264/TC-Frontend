@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./project-test-list.component.scss']
 })
 export class ProjectTestListComponent implements OnInit {
-  displayedColumns: string[] = ['name', 'description', 'select'];
+  displayedColumns: string[] = ['name', 'description','runtest','editcommands', 'edit'];
   dataSource = new MatTableDataSource<ProjectTestViewModel>();
   projectId: number;
   constructor(private httpService: HttpClientService, private activatedRoute: ActivatedRoute) {

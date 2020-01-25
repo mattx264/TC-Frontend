@@ -51,7 +51,6 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCardModule,
     MatTableModule,
     MatIconModule,
-    MatProgressSpinnerModule,
     MatFormFieldModule,
     MatToolbarModule,
     MatExpansionModule

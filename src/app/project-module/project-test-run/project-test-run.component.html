@@ -1,0 +1,61 @@
+<section *ngIf="testInfo">
+  <div class="d-flex mt-3 mb-3">
+    <div *ngIf="selectedBrowserEngine" class="ml-3">
+      Selected browser engine: {{selectedBrowserEngine.name}}
+      <button mat-icon-button aria-label="" (click)="showBrowserEngineDialogClick()">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="selectedBrowserEngine==null" class="ml-3">
+      <button mat-raised-button (click)="showBrowserEngineDialogClick()">Select browser engine</button>
+    </div>
+    <button class="ml-3" (click)="sendClick()" mat-raised-button color="primary">Start Test</button>
+  </div>
+
+
+
+  <table id="actionTable" class="table-wrapper">
+    <thead class="table-thead">
+      <tr>
+        <th>Action</th>
+        <th>Path</th>
+        <th>Value</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody class="table-tbody">
+      <tr *ngFor="let item of commandsRender;let index=index">
+        <td class="minW65">
+          {{item.action}}
+        </td>
+        <td class="minW65">
+          {{item.path}}
+        </td>
+        <td class="minW65">
+          {{item.value}}
+        </td>
+        <td class="">
+          <div *ngIf="item.imagePath==null">
+            {{item.status}}
+            <div [ngSwitch]="item.status">
+              <span *ngSwitchCase="'inprogress'">
+                <mat-spinner class="zoom05"></mat-spinner>
+              </span>
+              <span *ngSwitchCase="'done'">
+                <mat-icon color="success">done</mat-icon>
+              </span>
+              <span *ngSwitchCase="'failed'">
+                <mat-icon>error</mat-icon>
+              </span>
+              <span *ngSwtichDefault="">Unknown</span>
+            </div>
+          </div>
+          <div *ngIf="item.imagePath!=null" (click)="lightboxImageClick(index);">
+            <img  class="img-thumbnail" src="{{item.imagePath}}" alt="">
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>

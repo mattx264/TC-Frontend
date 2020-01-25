@@ -8,13 +8,28 @@
     <th mat-header-cell *matHeaderCellDef> Description </th>
     <td mat-cell *matCellDef="let element"> {{element.description}} </td>
   </ng-container>
-  <ng-container matColumnDef="select">
-    <th mat-header-cell *matHeaderCellDef> Select </th>
+  <ng-container matColumnDef="runtest">
+    <th mat-header-cell *matHeaderCellDef> Run test </th>
     <td mat-cell *matCellDef="let element">
-      <button [routerLink]="['/project',element.projectId,'test',element.id]" mat-flat-button color="primary">Select
+      <button [routerLink]="['/project',element.projectId,'run-test',element.id]" mat-flat-button color="primary">Run test
       </button>
     </td>
   </ng-container>
+  <ng-container matColumnDef="editcommands">
+    <th mat-header-cell *matHeaderCellDef> Edit commands </th>
+    <td mat-cell *matCellDef="let element">
+      <button [routerLink]="['/project',element.projectId,'test-commands',element.id]" mat-flat-button color="primary">Edit commands
+      </button>
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="edit">
+    <th mat-header-cell *matHeaderCellDef> Edit </th>
+    <td mat-cell *matCellDef="let element">
+      <button [routerLink]="['/project',element.projectId,'test-edit',element.id]" mat-flat-button color="primary">Edit
+      </button>
+    </td>
+  </ng-container>
+
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns;">
     (click)="selection.toggle(row)">
