@@ -22,7 +22,7 @@ export class RunTestComponent implements OnInit {
   commandsRender: OperatorModelStatus[];
 
   dataSource: MatTableDataSource<OperatorModelStatus>;
-  displayedColumns = ['action', 'path', 'value', 'progress'];
+  columns: string[] = ['action', 'path', 'value', 'status'];
   
   project: ProjectViewModel;
   chromeTab: chrome.tabs.Tab;
@@ -36,20 +36,11 @@ export class RunTestComponent implements OnInit {
   }
   ngOnInit() {
     this.commands = this.storeService.getOperatorsData();
-    this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commands);
-
-    // this.project = this.storeService.getProject();
-    // console.log(this.project);
-
-    // this.createNewTabAndNavigate(this.project.projectDomain[0].domain, e => {
-    //   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    //     if(tabId == e.id && changeInfo.status == "complete") {
-    //       chrome.tabs.onUpdated.removeListener(function(a,b,c) { console.log('Unregistered event'); });
-    //     }
-    //   });
-    // });
 
     this.commandsRender = this.commands.filter(x => x.action !== 'takeScreenshot');
+    this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commandsRender);
+
+    console.log(this.commandsRender);
   }
 
 

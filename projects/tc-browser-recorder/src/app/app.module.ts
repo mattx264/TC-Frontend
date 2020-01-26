@@ -58,10 +58,11 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatIconModule,
     MatFormFieldModule,
     MatToolbarModule,
-    MatExpansionModule
+    MatExpansionModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AuthGuard,
