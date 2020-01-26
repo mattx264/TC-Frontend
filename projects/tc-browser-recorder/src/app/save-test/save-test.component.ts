@@ -18,6 +18,7 @@ export class SaveTestComponent implements OnInit {
     private httpClient: HttpClientService,
     private storeService: StoreService,
     private router: Router,
+    
     private operatorService: OperatorService
   ) { }
 
@@ -34,6 +35,7 @@ export class SaveTestComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
+    
     const data = this.formGroup.getRawValue();
     data.projectId = this.storeService.getProject().id;
 

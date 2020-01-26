@@ -11,6 +11,7 @@ import { AuthService } from '../../../../shared/src/lib/services/auth/auth.servi
 })
 export class HeaderComponent implements OnInit {
   project: ProjectViewModel;
+  loggedInUser: string;
 
   constructor(
     private storeService: StoreService,
@@ -23,6 +24,10 @@ export class HeaderComponent implements OnInit {
       this.project = x;
       this.ref.detectChanges();
     });
+
+    var user = this.authService.getCurrentUser();
+    this.loggedInUser = `${user.firstName} ${user.lastName}`;
+    console.log(this.loggedInUser);
   }
   logout() {
     this.authService.logout();

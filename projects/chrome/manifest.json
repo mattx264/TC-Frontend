@@ -38,6 +38,7 @@
   ],
   "permissions": [
     "contextMenus",
+    "tabs",
     "storage",
     "activeTab",
     "tabs",

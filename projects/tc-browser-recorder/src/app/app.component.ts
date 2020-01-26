@@ -7,8 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   constructor() {
-    // chrome.tabs.getCurrent( function (tabs) {
-    //   console.log(tabs);
-    // });
+    chrome.tabs.getCurrent( function (tabs) {
+      console.log(tabs);
+    });
   }
 }

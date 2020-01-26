@@ -9,6 +9,7 @@ import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { MatTableDataSource } from '@angular/material/table';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
 import { OperatorService } from '../services/operator.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 
 @Component({
   selector: 'app-run-test',
@@ -21,7 +22,10 @@ export class RunTestComponent implements OnInit {
 
   dataSource: MatTableDataSource<OperatorModelStatus>;
   displayedColumns = ['action', 'path', 'value', 'progress'];
-
+  
+  project: ProjectViewModel;
+  chromeTab: chrome.tabs.Tab;
+  tabId: number;
 
   constructor(private storeService: StoreService,
     signalSzwagierService: SignalSzwagierService,
@@ -33,7 +37,29 @@ export class RunTestComponent implements OnInit {
     this.commands = this.storeService.getOperatorsData();
     this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commands);
 
+    // this.project = this.storeService.getProject();
+    // console.log(this.project);
+
+    // this.createNewTabAndNavigate(this.project.projectDomain[0].domain, e => {
+    //   chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    //     if(tabId == e.id && changeInfo.status == "complete") {
+    //       chrome.tabs.onUpdated.removeListener(function(a,b,c) { console.log('Unregistered event'); });
+    //     }
+    //   });
+    // });
+
   }
+
+
+
+  private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
+    chrome.tabs.create({'url': url}, tab => { this.chromeTab
+      localStorage.setItem('tabId', tab.id.toString());
+      this.chromeTab = tab;
+      _callback(tab);
+    });
+  }
+
   sendClick() {
 
 

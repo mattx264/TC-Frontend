@@ -22,8 +22,11 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SaveTestComponent } from './save-test/save-test.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { OperatorService } from './services/operator.service';
-import { MatToolbarModule } from '@angular/material';
+import { MatToolbarModule, MatBadgeModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip'
 import { InformationPageComponent } from './information-page/information-page.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { RecordTestComponent } from './record-test/record-test.component';
 
 
 
@@ -37,7 +40,9 @@ import { InformationPageComponent } from './information-page/information-page.co
     HeaderComponent,
     SelectBrowserEngineComponent,
     SaveTestComponent,
-    InformationPageComponent
+    InformationPageComponent,
+    ProjectsComponent,
+    RecordTestComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,9 @@ import { InformationPageComponent } from './information-page/information-page.co
     MatIconModule,
     MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTooltipModule,
+    MatBadgeModule
   ],
   providers: [
     AuthGuard,

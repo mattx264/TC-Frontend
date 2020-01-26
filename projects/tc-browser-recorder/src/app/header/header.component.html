@@ -8,7 +8,10 @@
 
     <span class="space-filler"></span>
     <div class="logout-wrapper">
-      <button mat-button (click)="logout()"><mat-icon>power_settings_new</mat-icon>Logout</button>    
+      <button mat-button (click)="logout()" matTooltip="User logged in as {{loggedInUser}}">
+        <mat-icon>power_settings_new</mat-icon>
+        Logout
+      </button>    
     </div>
     
   </mat-toolbar-row>

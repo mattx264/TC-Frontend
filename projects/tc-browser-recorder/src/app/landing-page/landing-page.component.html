@@ -1,110 +1,41 @@
-<section *ngIf="isStarted === true">
-    <div class="buttons-wrapper">
-        <!-- <button pButton type="button" [class.ui-button-secondary]="isStarted===false" (click)="startRecordingClick()"
-            label="Start recording"></button> -->
-        <button mat-raised-button type="button" color="primary" (click)="saveClick()">Save test</button>
-
-        <button mat-raised-button type="button" color="accent" (click)="sendClick()">Run test</button>
-
-        <button mat-raised-button type="button" color="warn" (click)="restartClick()">Restart</button>
-
+<section class="init-section">
+    <div>
+        <button mat-raised-button type="button" color="primary" *ngIf="totalProjects > 0"
+                type="button" (click)="startRecordingClick()"
+                matBadge="{{totalProjects}}" matBadgePosition="before" matBadgeColor="accent"
+                matTooltip="Start testing this domain"
+                matTooltipClass="tooltip-css">
+                Start Recording
+        </button>
     </div>
-
-    <table id="actionTable" class="table-wrapper">
-        <thead class="table-thead">
-            <tr>
-                <th style="width: 60px;"></th>
-                <th>Action</th>
-                <th>Path</th>
-                <th>Value</th>
-            </tr>
-        </thead>
-        <tbody class="table-tbody">
-            <tr *ngFor="let item of operatorsData;let index=index">
-                <td>
-                    <button (click)="removeOperatorItem(index)" class="remove-operator-btn" mat-mini-fab color="primary" type="button">X</button>
-                </td>
-                <td class="minW65">
-                    <app-operator-item type="action" [(content)]="item.action"></app-operator-item>
-                </td>
-                <td class="minW65">
-                    <app-operator-item [(content)]="item.path"></app-operator-item>
-                </td>
-                <td class="minW65">
-                    <app-operator-item [(content)]="item.value"></app-operator-item>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
-
-<!-- Projects To Be Shown -->
-<section id="projectSections" *ngIf="projects.length > 0">
-    <table mat-table [dataSource]="projectDataSource">
-        <ng-container matColumnDef="select">
-            <th mat-header-cell *matHeaderCellDef> Select </th>
-            <td mat-cell *matCellDef="let element">
-                <button mat-flat-button color="primary">Select</button>
-            </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{ element.name }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="projectDomains">
-            <th mat-header-cell *matHeaderCellDef> Domains </th>
-            <td mat-cell *matCellDef="let element">
-                <div *ngFor="let domain of element.projectDomain">
-                    {{ domain.domain }}
-                </div>
-            </td>
-        </ng-container>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-            (click)="selection.toggle(row)">
-        </tr>
-    
-    </table>
-</section>
-
-
-
-
-
-
-<section class="init-section" *ngIf="isStarted === false">
-    <div *ngIf="projectDomain">
-        <button mat-raised-button type="button" color="primary" type="button" (click)="startRecordingClick()">Start
-            recording</button>
+    <div>
+        <button mat-raised-button type="button" color="primary" 
+                type="button" (click)="viewProjects()" 
+                matTooltip="View the current tests and projects with this domain"
+                matTooltipClass="tooltip-css">
+                View Projects
+        </button>
     </div>
-
-    <div *ngIf="!projectDomain">
-        <mat-card>
-            <mat-card-subtitle>
-                You don't have any project with domain {{domain}}, please create new project or add domain to existing
-                project
-            </mat-card-subtitle>
-            <mat-card-content>
-                <button mat-raised-button type="button" color="primary" type="button" (click)="createNewProject()">
-                    Create New Project
-                </button>
-            </mat-card-content>
-
-        </mat-card>
-        <mat-card>
-            <mat-card-subtitle>
-                if you want to play with tool you can use sandbox mode
-            </mat-card-subtitle>
-            <mat-card-content>
-                <button mat-raised-button type="button" type="button" (click)="startRecordingClick()">
-                    Sandbox
-                </button>
-            </mat-card-content>
-
-        </mat-card>
+    <div>
+        <button mat-raised-button type="button" color="primary" 
+                type="button" (click)="viewProjects()" 
+                matTooltip="View the current tests and projects with this domain"
+                matTooltipClass="tooltip-css">
+                Run Tests
+        </button>
     </div>
-
+    <div>
+        <button mat-raised-button type="button" type="button" 
+                (click)="startRecordingClick()"
+                matTooltip="If you want to play around with the tool"
+                matTooltipClass="tooltip-css">
+            Sandbox
+        </button>
+    </div>
+    <div>
+        <button mat-raised-button type="button" color="primary" 
+                type="button" (click)="createNewProject()">
+            Create New Project
+        </button>
+    </div>
 </section>

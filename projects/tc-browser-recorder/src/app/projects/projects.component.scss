@@ -1,0 +1,47 @@
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  table td, table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #2171ba;
+    color: white;
+  }
+
+  tr td.checkbox {
+    padding: 0;
+    margin: 0;
+    max-width: 2em;
+    text-align: center;
+  }
+
+  tr th.checkbox {
+    padding: 0;
+    margin: 0;
+    max-width: 2em;
+    text-align: center;
+  }
+
+  .button-option {
+      margin-right: 15px;
+      cursor: pointer;
+  }
+
+  .test-element {
+    padding-left: 15px;
+    font-style: italic;
+    font-size: smaller;
+    cursor: pointer;
+    text-decoration: underline;
+  }
