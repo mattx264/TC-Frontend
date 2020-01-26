@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { AuthService } from '../auth/auth.service';
 import { SzwagierModel } from '../../models/szwagierModel';
+import { SzwagierType } from '../../models/SzwagierType';
 
 
 @Injectable({
@@ -10,6 +11,7 @@ import { SzwagierModel } from '../../models/szwagierModel';
 export class SignalSzwagierService {
   private hubConnection: signalR.HubConnection;
 
+  szwagiers: SzwagierModel[];
   constructor(private authService: AuthService) {
 
   }
@@ -19,7 +21,7 @@ export class SignalSzwagierService {
     }
     // tslint:disable-next-line:max-line-length
     this.hubConnection = new signalR.HubConnectionBuilder()
-    
+
       .withUrl('https://localhost:44384/hubs/szwagier?t=e', {
         accessTokenFactory: () => this.authService.getToken()
       })
@@ -45,8 +47,14 @@ export class SignalSzwagierService {
       console.log(name, data);
     });
     this.hubConnection.on('UpdateSzwagierList', (data: SzwagierModel[]) => {
-      console.log(data);
+      this.szwagiers = data;
     });
     return this.hubConnection;
+  }
+  getSzwagierBrowserEngine():SzwagierModel[]{
+    if(this.szwagiers ==null){
+      return [];
+    }
+    return this.szwagiers.filter(x=>x.szwagierType==SzwagierType.SzwagierConsole)
   }
 }

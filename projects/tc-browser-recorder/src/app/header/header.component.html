@@ -5,7 +5,7 @@
   </div>
   <mat-toolbar-row>
     <button mat-button [routerLink]="['/landing-page']"><mat-icon>fiber_smart_record</mat-icon>Recorder</button>   
-
+    <small *ngIf="szwagierModel">Selected szwagier:{{szwagierModel.name}}</small>
     <span class="space-filler"></span>
     <div class="logout-wrapper">
       <button mat-button (click)="logout()" matTooltip="User logged in as {{loggedInUser}}">

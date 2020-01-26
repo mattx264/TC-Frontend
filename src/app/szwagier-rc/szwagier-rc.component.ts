@@ -10,7 +10,7 @@ import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/
 })
 export class SzwagierRCComponent implements OnInit {
   hubConnection: signalR.HubConnection;
-  typeOfCommand: BasicViewModel[] = [{label:'WebDriverOperationType',value:'WebDriverOperationType'}];
+  typeOfCommand: BasicViewModel[] = [{ label: 'WebDriverOperationType', value: 'WebDriverOperationType' }];
   typeOfSubCommand: BasicViewModel[] = [];
   commands: BasicViewModel[] = [];
   showValue1: boolean;
@@ -19,6 +19,7 @@ export class SzwagierRCComponent implements OnInit {
   commandModel: SeleniumCommand;
   commandsHistory: { id: number, value: SeleniumCommand }[];
   seletedCommandsHistory: { id: number, value: SeleniumCommand }[];
+  imagePath: any;
   constructor(private signalSzwagierService: SignalSzwagierService) { }
 
   ngOnInit() {
@@ -30,6 +31,9 @@ export class SzwagierRCComponent implements OnInit {
       this.commandsHistory = [];
     }
     this.hubConnection = this.signalSzwagierService.start();
+    this.hubConnection.on('ReciveScreenshot', (data) => {
+      this.imagePath = data.imagePath;
+    })
   }
   typeOfCommandChange(event) {
     this.typeOfSubCommand = [{ label: 'BrowserOperation', value: 'BrowserOperation' },
@@ -99,16 +103,31 @@ export class SzwagierRCComponent implements OnInit {
     this.seletedCommandsHistory = null;
   }
   sendClick() {
-    /*this.commandsHistory.push(
-      {
-        label: this.commandModel.webDriverOperationType + ':' + this.commandModel.operationId + '-' + this.commandModel.values,
-        value: {
-          id: Math.random(),
-          value: JSON.parse(JSON.stringify(this.commandModel))
-        }
-      });
-    localStorage.setItem('rc-history', JSON.stringify(this.commandsHistory));
-    this.hubConnection.invoke('SendCommand', [this.commandModel]);*/
+    // this.commandsHistory.push(
+    //   {
+    //     label: this.commandModel.webDriverOperationType + ':' + this.commandModel.operationId + '-' + this.commandModel.values,
+    //     value: {
+    //       id: Math.random(),
+    //       value: JSON.parse(JSON.stringify(this.commandModel))
+    //     }
+    //   });
+    //localStorage.setItem('rc-history', JSON.stringify(this.commandsHistory));
+
+    // this.hubConnection.invoke('SendCommand', [this.commandModel]);
+
+    this.hubConnection.invoke('SendCommand', {
+      ReceiverConnectionId: 'm7ojSCWj83IPXoUS2RIkmg',
+      SenderConnectionId: this.hubConnection.connectionId,
+      Commands: [{
+        WebDriverOperationType: 4,
+        OperationId: 3,
+        Values: ["http://localhost:3000"]
+      }, {
+        WebDriverOperationType: 0,
+        OperationId: 17,
+        guid:'34sdfsdf'
+      }]
+    });
   }
   sendHistoryClick() {
     const commands: SeleniumCommand[] = [];

@@ -1,9 +1,9 @@
 <mat-nav-list>
-  <div class="header-row">
-    <div class=" text-center"><b>Project</b></div>
+  <div class="header-row mb-2 mt-1">
+    <div class=" text-center"><b>{{project.name}}</b></div>
   </div>
-
-  <a mat-list-item routerLink=".">
+  <mat-divider></mat-divider>
+  <a mat-list-item [routerLink]="['project',project.id,'tests']">
     <mat-icon>info</mat-icon>
     <span>Test</span>
   </a>

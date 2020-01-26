@@ -5,14 +5,12 @@ import { SzwagierRCComponent } from './szwagier-rc/szwagier-rc.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegistrationComponent } from './auth/registration/registration.component';
 import { AuthGuard } from './auth/guard/auth.guard';
-import { SidebarEmptyComponent } from './layout/sidebar/sidebar-empty/sidebar-empty.component';
 import { GroupLayoutComponent } from './group-layout/group-layout.component';
 import { GroupEditComponent } from './group-layout/group-edit/group-edit.component';
 import { SendTestComponent } from './test-layout/send-test/send-test.component';
 import { ServerNotAvaiableComponent } from '../../projects/shared/src/lib/components/server-not-avaiable/server-not-avaiable.component';
 import { SimpleErrorPageComponent } from '../../projects/shared/src/lib/components/simple-error-page/simple-error-page.component';
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
-import { SidebarComponent } from './layout/sidebar/sidebar.component';
 
 const routes: Routes = [
   { path: 'szwagier-dashboard', component: SzwagierDashboardComponent, canActivate: [AuthGuard] },
@@ -27,10 +25,8 @@ const routes: Routes = [
   { path: 'registration', component: RegistrationComponent },
   { path: '', redirectTo: 'project', pathMatch: 'full' },
   { path: 'szwagierdashboard', redirectTo: 'szwagier-Dashboard', pathMatch: 'full' },
-  // { path: 'sidebarEmptyComponent', component: SidebarEmptyComponent, outlet: "sidebar"},
-  // { path: 'sidebarComponent', component: SidebarComponent,outlet: "sidebar" },
   { path: 'server-not-avaiable', component: ServerNotAvaiableComponent },
-  { path: 'error', component: SimpleErrorPageComponent },
+  { path: 'error-page', component: SimpleErrorPageComponent },
   { path: '**', redirectTo: 'szwagierDashboard', pathMatch: 'full' }
 ];
 

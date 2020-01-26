@@ -1,0 +1,15 @@
+<h1>Edit commands</h1>
+<mat-card>
+  <div>
+    <!-- <mat-select [(ngModel)]="selectedValue">
+      <mat-option *ngFor="let command of typeOfCommand" [value]="command.value">
+        {{command.label}}
+      </mat-option>
+    </mat-select> -->
+  </div>
+
+  <div class="d-flex ">
+    <button class="mr-3" mat-raised-button color="primary" type="submit" (click)="save()">Save</button>
+    <button mat-raised-button color="accent" [routerLink]="['/project', this.projectId, 'tests']">Cancel</button>
+  </div>
+</mat-card>

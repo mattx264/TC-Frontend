@@ -27,7 +27,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { InformationPageComponent } from './information-page/information-page.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { RecordTestComponent } from './record-test/record-test.component';
-
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -56,8 +56,9 @@ import { RecordTestComponent } from './record-test/record-test.component';
     MatCardModule,
     MatTableModule,
     MatIconModule,
-    MatProgressSpinnerModule,
     MatFormFieldModule,
+    MatToolbarModule,
+    MatExpansionModule
     MatToolbarModule,
     MatTooltipModule,
     MatBadgeModule

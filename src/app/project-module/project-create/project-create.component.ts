@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { HttpClientService } from '../../../../projects/shared/src/lib/services/http-client.service';
 import { Router } from '@angular/router';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {MatChipInputEvent} from '@angular/material/chips';
-import {ThemePalette} from '@angular/material/core';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { ThemePalette } from '@angular/material/core';
 
 export class CustomValidators {
 
@@ -14,10 +14,10 @@ export class CustomValidators {
     let inValid = null;
     c.value.forEach((item) => {
       if (!EMAIL_REGEXP.test(item)) {
-        inValid = {email: true};
+        inValid = { email: true };
       }
     });
-    return  inValid;
+    return inValid;
   }
 }
 
@@ -38,8 +38,8 @@ export class ProjectCreateComponent implements OnInit {
   addOnBlur = true;
 
   constructor(private fb: FormBuilder,
-              private router: Router,
-              private http: HttpClientService) { }
+    private router: Router,
+    private http: HttpClientService) { }
 
   ngOnInit() {
     this.formGroup = this.buildForm();
@@ -51,7 +51,7 @@ export class ProjectCreateComponent implements OnInit {
       'name': ['', Validators.required],
       'description': ['', Validators.required],
       'domains': ['', Validators.required],
-      'usersEmail': [this.emailAddresses,  [Validators.required, CustomValidators.validateEmails]]
+      'usersEmail': [this.emailAddresses, [CustomValidators.validateEmails]]
     });
   }
 
@@ -64,7 +64,7 @@ export class ProjectCreateComponent implements OnInit {
       .subscribe(
         r => this.router.navigate(['project']),
         e => alert(e.error)
-    );
+      );
   }
 
   removeEmail(address: string): void {
@@ -81,7 +81,7 @@ export class ProjectCreateComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-  //  NEED TO FIX VALIDATORS
+    //  NEED TO FIX VALIDATORS
     if ((value.trim() !== '')) {
       this.formGroup.controls.usersEmail.setErrors(null);
       const tempEmails = this.formGroup.controls.usersEmail.value;
