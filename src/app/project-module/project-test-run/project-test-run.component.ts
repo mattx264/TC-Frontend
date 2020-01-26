@@ -33,10 +33,8 @@ export class ProjectTestRunComponent implements OnInit {
     public dialog: MatDialog,
     public lightbox: Lightbox) {
     this.hubConnection = signalSzwagierService.start();
-
     this.activatedRoute.parent.params.subscribe(x => {
-      this.projectId = +x.id
-
+      this.projectId = +x.id;
     });
     this.testId = +this.activatedRoute.snapshot.paramMap.get('testid');
     this.httpService.get('testInfo/' + this.testId).subscribe((data: TestInfoViewModel) => {

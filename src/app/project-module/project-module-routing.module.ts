@@ -10,6 +10,7 @@ import { ProjectTestListComponent } from './project-test-list/project-test-list.
 import { ProjectTestEditComponent } from './project-test-edit/project-test-edit.component';
 import { ProjectTestCommandsComponent } from './project-test-commands/project-test-commands.component';
 import { ProjectTestRunComponent } from './project-test-run/project-test-run.component';
+import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 
 // User token and permissions classes can be utilized if further security is needed
 class UserToken {}
@@ -38,14 +39,15 @@ const routes: Routes = [
       { path: 'list', component: ProjectListComponent },
       { path: 'create', component: ProjectCreateComponent },
       {
-        path: ':id', component: ProjectDashboardComponent,
+        path: ':id', component: ProjectWrapperComponent,
         canActivate: [CanActivateProjectCreate],
         children: [
+          { path: '', component: ProjectDashboardComponent },
           { path: 'edit', component: ProjectEditComponent },
           { path: 'tests', component: ProjectTestListComponent },
           { path: 'test-edit/:testid', component: ProjectTestEditComponent },
           { path: 'run-test/:testid', component: ProjectTestRunComponent },
-          { path: 'test-commands:testid', component: ProjectTestCommandsComponent }
+          { path: 'test-commands/:testid', component: ProjectTestCommandsComponent }
         ]
       }
     ]

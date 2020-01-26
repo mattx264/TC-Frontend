@@ -17,6 +17,7 @@ import { ProjectTestCommandsComponent } from './project-test-commands/project-te
 import { ProjectTestEditComponent } from './project-test-edit/project-test-edit.component';
 import { DialogSelectBrowserEngine } from './project-test-run/dialog-select-browser-engine';
 import { LightboxModule } from 'ngx-lightbox';
+import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { LightboxModule } from 'ngx-lightbox';
     ProjectTestRunComponent,
     ProjectTestCommandsComponent,
     ProjectTestEditComponent,
-    DialogSelectBrowserEngine
+    DialogSelectBrowserEngine,
+    ProjectWrapperComponent
 ],
   imports: [
     CommonModule,

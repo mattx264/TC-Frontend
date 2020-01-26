@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SidebarEmptyComponent } from './sidebar-empty.component';
+import { ProjectWrapperComponent } from './project-wrapper.component';
 
-describe('SidebarEmptyComponent', () => {
-  let component: SidebarEmptyComponent;
-  let fixture: ComponentFixture<SidebarEmptyComponent>;
+describe('ProjectWrapperComponent', () => {
+  let component: ProjectWrapperComponent;
+  let fixture: ComponentFixture<ProjectWrapperComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SidebarEmptyComponent ]
+      declarations: [ ProjectWrapperComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SidebarEmptyComponent);
+    fixture = TestBed.createComponent(ProjectWrapperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
