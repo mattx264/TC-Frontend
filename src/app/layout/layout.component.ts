@@ -3,8 +3,8 @@ import { Router, NavigationEnd, Route, ActivatedRoute, NavigationStart } from '@
 import { filter } from 'rxjs/operators';
 import { LayoutService } from './layout.service';
 import { MatSidenav } from '@angular/material';
-import { HeaderComponent } from 'projects/tc-browser-recorder/src/app/header/header.component';
 import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
+import { HeaderComponent } from './header/header.component';
 
 @Component({
   selector: 'app-layout',

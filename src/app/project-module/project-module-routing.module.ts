@@ -13,15 +13,15 @@ import { ProjectTestRunComponent } from './project-test-run/project-test-run.com
 import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 
 // User token and permissions classes can be utilized if further security is needed
-class UserToken {}
-class Permissions {
+export class UserToken {}
+export class Permissions {
   canActivate(user: UserToken, id: string): boolean {
     return true;
   }
 }
 
 @Injectable()
-class CanActivateProjectCreate implements CanActivate {
+export class CanActivateProjectCreate implements CanActivate {
   constructor(private permissions: Permissions, private currentUser: UserToken) {}
 
   canActivate(

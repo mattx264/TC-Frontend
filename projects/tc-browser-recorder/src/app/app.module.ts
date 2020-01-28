@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {  MatCardModule } from '@angular/material/card';
 import { RunTestComponent } from './run-test/run-test.component';
-import { HeaderComponent } from './header/header.component';
+import {  HeaderRecorderComponent } from './header/header.component';
 import { SelectBrowserEngineComponent } from './select-browser-engine/select-browser-engine.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
@@ -37,7 +37,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     LoginComponent,
     OperatorItemComponent,
     RunTestComponent,
-    HeaderComponent,
+    HeaderRecorderComponent,
     SelectBrowserEngineComponent,
     SaveTestComponent,
     InformationPageComponent,

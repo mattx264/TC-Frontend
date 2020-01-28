@@ -10,7 +10,7 @@ import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderRecorderComponent implements OnInit {
   project: ProjectViewModel;
   szwagierModel: SzwagierModel;
   loggedInUser: string;
