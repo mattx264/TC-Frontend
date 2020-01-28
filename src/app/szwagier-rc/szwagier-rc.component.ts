@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { SeleniumCommand } from '../../../projects/shared/src/lib/models/selenium/SeleniumCommand';
 import { BasicViewModel } from '../../../projects/shared/src/lib/models/basicViewModel';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
+import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 
 @Component({
   selector: 'app-szwagier-rc',
@@ -30,7 +31,7 @@ export class SzwagierRCComponent implements OnInit {
     if (this.commandsHistory == null) {
       this.commandsHistory = [];
     }
-    this.hubConnection = this.signalSzwagierService.start();
+    this.hubConnection = this.signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.hubConnection.on('ReciveScreenshot', (data) => {
       this.imagePath = data.imagePath;
     })

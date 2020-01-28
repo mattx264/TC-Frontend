@@ -39,7 +39,7 @@ export class SendTestComponent implements OnInit {
     this.httpClient.get('projectTest/' + projectId).toPromise().then((projectTest: ProjectViewModel) => {
       this.projectTest = projectTest;
     });
-    this.hubConnection = this.signalSzwagierService.start();
+    this.hubConnection = this.signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.hubConnection.on('UpdateSzwagierList', (data: SzwagierModel[]) => {
       this.szwagiers = [];
       if (data == null) {

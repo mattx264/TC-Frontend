@@ -32,7 +32,7 @@ export class RunTestComponent implements OnInit {
     signalSzwagierService: SignalSzwagierService,
     private operatorService: OperatorService,
     private cdr: ChangeDetectorRef) {
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
   }
   ngOnInit() {
     this.commands = this.storeService.getOperatorsData();

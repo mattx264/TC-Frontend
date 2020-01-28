@@ -16,7 +16,7 @@ export class SelectBrowserEngineComponent implements OnInit {
   selectedSzwagierConsole: SzwagierModel;
   constructor(signalSzwagierService: SignalSzwagierService, private storeService: StoreService, private router: Router
     , private route: ActivatedRoute) {
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
   }
 
   ngOnInit() {

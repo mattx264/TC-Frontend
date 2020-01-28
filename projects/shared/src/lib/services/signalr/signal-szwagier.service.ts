@@ -15,14 +15,20 @@ export class SignalSzwagierService {
   constructor(private authService: AuthService) {
 
   }
-  start(): signalR.HubConnection {
+  start(szwagierType: SzwagierType): signalR.HubConnection {
     if (this.hubConnection != null) {
       return this.hubConnection;
     }
+    let type = '';
+    if (szwagierType == SzwagierType.SzwagierDashboard) {
+      type = "d";
+    } else if (szwagierType == SzwagierType.SzwagierBrowserExtension) {
+      type = "e";
+    }
+
     // tslint:disable-next-line:max-line-length
     this.hubConnection = new signalR.HubConnectionBuilder()
-
-      .withUrl('https://localhost:44384/hubs/szwagier?t=e', {
+      .withUrl('https://localhost:44384/hubs/szwagier?t=' + type, {
         accessTokenFactory: () => this.authService.getToken()
       })
       .configureLogging(signalR.LogLevel.Information)
@@ -51,10 +57,10 @@ export class SignalSzwagierService {
     });
     return this.hubConnection;
   }
-  getSzwagierBrowserEngine():SzwagierModel[]{
-    if(this.szwagiers ==null){
+  getSzwagierBrowserEngine(): SzwagierModel[] {
+    if (this.szwagiers == null) {
       return [];
     }
-    return this.szwagiers.filter(x=>x.szwagierType==SzwagierType.SzwagierConsole)
+    return this.szwagiers.filter(x => x.szwagierType == SzwagierType.SzwagierConsole)
   }
 }

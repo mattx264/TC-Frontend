@@ -25,7 +25,7 @@ export class SzwagierDashboardComponent implements OnInit {
   public szwagiers: SzwagierModel[];
   public hubConnection: signalR.HubConnection;
   constructor(signalSzwagierService: SignalSzwagierService, private cd: ChangeDetectorRef) {
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
 
 
   }

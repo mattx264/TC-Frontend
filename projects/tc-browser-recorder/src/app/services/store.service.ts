@@ -21,7 +21,7 @@ export class StoreService {
     this.state$ = new BehaviorSubject<ProjectViewModel>(null);
     this.stateOperatorsData$ = new BehaviorSubject<OperatorModel[]>(null);
     this.selectedBrowserEngine$ = new BehaviorSubject<SzwagierModel>(null);
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
     this.hubConnection.on('UpdateSzwagierList', (data: SzwagierModel[]) => {
       if (this.getSelectedBrowserEngine() == null) {
         return;

@@ -11,6 +11,7 @@ import { MatDialog } from '@angular/material';
 import { DialogSelectBrowserEngine } from './dialog-select-browser-engine';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
 import { Lightbox, IAlbum } from 'ngx-lightbox';
+import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 
 @Component({
   selector: 'app-project-test-run',
@@ -32,7 +33,7 @@ export class ProjectTestRunComponent implements OnInit {
     signalSzwagierService: SignalSzwagierService,
     public dialog: MatDialog,
     public lightbox: Lightbox) {
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
       this.projectId = +x.id;
     });
