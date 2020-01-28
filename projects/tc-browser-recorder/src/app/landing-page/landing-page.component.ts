@@ -1,124 +1,41 @@
-
-import { GuidGeneratorService } from './../../../../shared/src/lib/services/guid-generator.service';
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { SzwagierModel } from '../../../../shared/src/lib/models/szwagierModel';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
-import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/project/projectDomainViewModel';
-import { StoreService } from '../services/store.service';
-import { OperatorModel } from '../../../../shared/src/lib/models/operatorModel';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { settings } from 'cluster';
-import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
+import { WebsiteService } from 'projects/shared/src/lib/services/website.service';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.scss']
+  styleUrls: ['./landing-page.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class LandingPageComponent implements OnInit {
-
-  operatorsData: OperatorModel[] = [];
-  szwagiersConsoles: SzwagierModel[] = [];
-  selectedSzwagierConsole: SzwagierModel;
-  isStarted: boolean = false;
-  domain: string;
-  project: ProjectViewModel;
-  projectDomain: ProjectDomainViewModel;
-  formGroupp: any;
+  totalProjects: number = 0;
+  projects: Array<ProjectViewModel>;
   constructor(
-    private ngZone: NgZone,
-    private cdr: ChangeDetectorRef,
     private router: Router,
-    private storeService: StoreService,
-    private guidGeneratorService: GuidGeneratorService,
-    private httpClientService: HttpClientService
-  ) {
+    private aRouter: ActivatedRoute,
+    private websiteService: WebsiteService
+  ) { }
 
-
-  }
   ngOnInit() {
-    chrome.runtime.onMessage.addListener(
-      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
-        if (request.type === 'getInfo' && request.data.action === 'isStarted') {
-          sendResponse(this.isStarted);
-          this.setupPageScript();
-          return;
-        }
-        if (this.isStarted === false) {
-          this.beforeStart(request.data);
-          return;
-        }
-        if (request.type == 'insert') {
-          this.addNewOperation(request.data);
-        } else if (request.type == 'appendLastValue') {
-          this.appendLastOperation(request.data);
-        }
-        this.cdr.detectChanges();
-      });
-    this.setupPageScript();
-
+    if(this.aRouter.snapshot.data && this.aRouter.snapshot.data.project) {
+      this.projects = this.aRouter.snapshot.data.project;
+      this.totalProjects = this.aRouter.snapshot.data.project.length;
+    }
   }
 
   startRecordingClick() {
-    this.isStarted = true;
-    this.sendMessageToBrowser('getUrl');
-  }
-  saveClick() {
-    this.storeService.setOperatorsData(this.operatorsData);
-
-    this.ngZone.run(() =>
-      this.router.navigate(['/save-test'])
-    );
-  }
-  sendClick() {
-    this.storeService.setOperatorsData(this.operatorsData);
-
-    this.ngZone.run(() =>
-      this.router.navigate(['/select-browser-engine'])
-    );
-  }
-  restartClick() {
-    this.operatorsData = [];
-    this.setupPageScript();
-
-  }
-  removeOperatorItem(index: number) {
-    this.operatorsData.splice(index, 1);
-    this.cdr.detectChanges();
-  }
-  sendMessageToBrowser(methodName) {
-    if (localStorage.getItem('tabId') == null || this.getTabIdFromUrl(location.href) != localStorage.getItem('tabId')) {
-      var id = this.getTabIdFromUrl(location.href);
-      localStorage.setItem('tabId', id);
-    }
-    try {
-      chrome.tabs.sendMessage(+localStorage.getItem('tabId'), { method: methodName }, (response) => {
-        if (response === undefined) {
-          this.ngZone.run(() =>
-            this.router.navigate(['/information-page', 'refreshPage'])
-          );
-        } else {
-          // Do whatever you want, background script is ready now
-        }
-      });
-    } catch (error) {
-
-      if ((typeof error === "string") && error.indexOf('No matching signature') > -1) {
-        this.ngZone.run(() =>
-          this.router.navigate(['/information-page', 'refreshPage'])
-        );
-      } else {
-        console.error(error);
-        // Dont know what to do with this
-        this.ngZone.run(() =>
-          this.router.navigate(['/information-page', 'refreshPage'])
-        );
-      }
+    if(this.totalProjects > 1) {
+      this.router.navigate(['projects']);
+    } else {
+      this.router.navigate(['record-test', this.projects[0].id]);
     }
   }
+
   createNewProject() {
-    window.open("http://localhost:4200/project-create")
+    this.websiteService.navigateNewProject();
   }
   private setupPageScript() {
     this.sendMessageToBrowser('startBrowserActionMonitor');
@@ -192,5 +109,8 @@ export class LandingPageComponent implements OnInit {
       //   }
       // });
     }
+
+  viewProjects(): void {
+    this.router.navigate(['projects']);
   }
 }

@@ -5,6 +5,7 @@ import { ThemePalette, MatChipInputEvent } from '@angular/material';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { element } from 'protractor';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ProjectViewModel } from 'projects/tc-browser-recorder/src/app/ViewModels/projectViewModel';
 
 @Component({
   selector: 'app-project-edit',
@@ -33,7 +34,7 @@ export class ProjectEditComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.buildForm();
-    this.http.get(`${this.getProjectEndPoint}/${this.ProjectId}`).subscribe(x =>
+    this.http.getGeneric<ProjectViewModel>(`${this.getProjectEndPoint}/${this.ProjectId}`).subscribe(x =>
       {
         x.userInProject.forEach(element => {
           this.emailAddresses.push(element.userEmail);
@@ -41,7 +42,7 @@ export class ProjectEditComponent implements OnInit {
 
         this.ProjectName = x.name;
         this.formGroup.get('name').setValue(x.name);
-        this.formGroup.get('description').setValue(x.name);
+        this.formGroup.get('description').setValue(x.description);
         this.formGroup.get('usersEmail').setValue(this.emailAddresses);
         this.formGroup.get('domains').setValue(this.parseOutDomains(x.projectDomain));
         this.formGroup.get('id').setValue(x.id);
@@ -52,7 +53,7 @@ export class ProjectEditComponent implements OnInit {
       name: ['', Validators.required],
       description: ['', Validators.required],
       domains: ['', Validators.required],
-      usersEmail: ['', Validators.required],
+      usersEmail: [''],
       id: [0],
     });
   }

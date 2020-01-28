@@ -46,7 +46,7 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { CompanyInfoComponent } from './company-info/company-info.component';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material';
+import { MatChipsModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
 import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/project-sidebar.component';
 
 @NgModule({
@@ -91,6 +91,7 @@ import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/projec
     MatSidenavModule,
     MatToolbarModule,
     MatSliderModule,
+    MatProgressSpinnerModule,
     MatDialogModule,
     MatIconModule,
     MatTabsModule,

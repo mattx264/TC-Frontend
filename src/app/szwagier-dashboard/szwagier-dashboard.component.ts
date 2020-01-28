@@ -15,22 +15,22 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class SzwagierDashboardComponent implements OnInit {
   @Output() connectionStatus: EventEmitter<string> = new EventEmitter(); // needs further implementation
-  selection = new SelectionModel<SzwagierModel>(true, []);
-  dataSource = new MatTableDataSource<SzwagierModel>();
-  
-  
-  loading: boolean;
-  
-  displayedColumns: string[] = ['checkbox', 'name', 'szwagierType', 'connectionId', 'location', 'userId', 'RC', 'Send test'];
-  szwagiers: SzwagierModel[];
-  hubConnection: signalR.HubConnection;
-  constructor( signalSzwagierService: SignalSzwagierService, private cd: ChangeDetectorRef) {
-    this.hubConnection = signalSzwagierService.start();
+  public selection = new SelectionModel<SzwagierModel>(true, []);
+  public dataSource = new MatTableDataSource<SzwagierModel>();
 
-    
+
+  public loading: boolean;
+
+  public displayedColumns: string[] = ['checkbox', 'name', 'szwagierType', 'connectionId', 'location', 'userId', 'RC', 'Send test'];
+  public szwagiers: SzwagierModel[];
+  public hubConnection: signalR.HubConnection;
+  constructor(signalSzwagierService: SignalSzwagierService, private cd: ChangeDetectorRef) {
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
+
+
   }
   ngOnInit() {
-  
+
     this.hubConnection.on('UpdateSzwagierList', (data: SzwagierModel[]) => {
       this.szwagiers = [];
       if (data == null) {
@@ -38,7 +38,7 @@ export class SzwagierDashboardComponent implements OnInit {
       }
       data.forEach(element => {
         if (element.szwagierType !== SzwagierType.SzwagierDashboard) {
-          element.szwagierTypeLabel=SzwagierTypeLabel.get(element.szwagierType);
+          element.szwagierTypeLabel = SzwagierTypeLabel.get(element.szwagierType);
           this.szwagiers.push(element);
         }
       });
@@ -52,7 +52,7 @@ export class SzwagierDashboardComponent implements OnInit {
     //this.hubConnection.invoke('SendTriggerTest', 1);
   }
 
-  
+
 
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -62,7 +62,7 @@ export class SzwagierDashboardComponent implements OnInit {
 
   masterToggle() {
     this.isAllSelected() ?
-        this.selection.clear() :
-        this.dataSource.data.forEach(row => this.selection.select(row));
+      this.selection.clear() :
+      this.dataSource.data.forEach(row => this.selection.select(row));
   }
 }

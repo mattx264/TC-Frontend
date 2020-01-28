@@ -1,43 +1,113 @@
-<button (click)="sendClick()">Start Test</button>
+<button mat-button mat-raised-button color="primary" (click)="sendClick()">Start Test</button>
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
   <ng-container matColumnDef="action">
-    <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
+    <th mat-header-cell class="minW65" *matHeaderCellDef> Actions </th>
+    <td *matCellDef="let element"> {{element.action}} </td>
   </ng-container>
 
   <ng-container matColumnDef="path">
-    <mat-header-cell *matHeaderCellDef> Path </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.path}} </mat-cell>
+    <th mat-header-cell class="minW65" *matHeaderCellDef> Path </th>
+    <td mat-cell *matCellDef="let element"> {{element.path}} </td>
   </ng-container>
 
   <ng-container matColumnDef="value">
-    <mat-header-cell *matHeaderCellDef> Value </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.value}} </mat-cell>
+    <th mat-header-cell class="minW65" *matHeaderCellDef> Value </th>
+    <td mat-cell *matCellDef="let element"> {{element.value}} </td>
   </ng-container>
 
-  <ng-container matColumnDef="progress">
-    <mat-header-cell *matHeaderCellDef> Progress </mat-header-cell>
-    <mat-cell *matCellDef="let element">
-      {{element.status}}
-      <div [ngSwitch]="element.status">
-        <span *ngSwitchCase="'inprogress'">
-          <mat-spinner class="zoom05"></mat-spinner>
-        </span>
-        <span *ngSwitchCase="'done'">
-          <mat-icon color="success">done</mat-icon>
-        </span>
-        <span *ngSwitchCase="'failed'">
-          <mat-icon>error</mat-icon>
-        </span>
-        <span *ngSwtichDefault>Unknown</span>
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let item">
+      <div *ngIf="item.imagePath==null">
+        {{item.status}}
+        <div [ngSwitch]="item.status">
+          <span *ngSwitchCase="'inprogress'">
+            <mat-spinner class="zoom05"></mat-spinner>
+          </span>
+          <span *ngSwitchCase="'done'">
+            <mat-icon color="success">done</mat-icon>
+          </span>
+          <span *ngSwitchCase="'failed'">
+            <mat-icon>error</mat-icon>
+          </span>
+          <span *ngSwtichDefault>Unknown</span>
+        </div>
       </div>
 
-
-
-    </mat-cell>
+      <div *ngIf="item.imagePath!=null">
+        <img class="img-thumbnail" src="{{item.imagePath}}" alt="">
+      </div>
+    </td>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <tr mat-header-row *matHeaderRowDef="columns"></tr>
+  <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
 </table>
+
+<!-- 
+<button (click)="sendClick()" mat-raised-button color="primary">Start Test</button>
+<table id="actionTable" class="table-wrapper">
+  <thead class="table-thead">
+    <tr>
+      <th>Action</th>
+      <th>Path</th>
+      <th>Value</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody class="table-tbody">
+    <tr *ngFor="let item of commandsRender;let index=index">
+      <td class="minW65">
+        {{item.action}}
+      </td>
+      <td class="minW65">
+        {{item.path}}
+      </td>
+      <td class="minW65">
+        {{item.value}}
+      </td>
+      <td class="">
+        
+      </td>
+    </tr>
+  </tbody>
+</table> -->
+<!-- <mat-expansion-panel *ngFor="let row of commandsRender">
+    <mat-panel-title>
+      {{row.action}}
+    </mat-panel-title>
+    <mat-panel-description>
+      <div class="pull-left">
+        <span>
+          {{row.path}}
+        </span>
+        <span>
+          {{row.value}}
+        </span>
+      </div>
+      <div class="pull-right">
+        <div *ngIf="row.imagePath==null">
+          {{row.status}}
+          <div [ngSwitch]="row.status">
+            <span *ngSwitchCase="'inprogress'">
+              <mat-spinner class="zoom05"></mat-spinner>
+            </span>
+            <span *ngSwitchCase="'done'">
+              <mat-icon color="success">done</mat-icon>
+            </span>
+            <span *ngSwitchCase="'failed'">
+              <mat-icon>error</mat-icon>
+            </span>
+            <span *ngSwtichDefault>Unknown</span>
+          </div>
+        </div>
+        <div *ngIf="row.imagePath!=null">
+          <img class="img-thumbnail" src="{{row.imagePath}}" alt="">
+        </div>
+      </div>
+    </mat-panel-description>
+  </mat-expansion-panel-header>
+  <img src="{{row.imagePath}}" alt="">
+ </mat-expansion-panel> -->

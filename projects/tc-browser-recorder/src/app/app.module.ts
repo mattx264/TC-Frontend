@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import {  MatCardModule } from '@angular/material/card';
 import { RunTestComponent } from './run-test/run-test.component';
-import { HeaderComponent } from './header/header.component';
+import {  HeaderRecorderComponent } from './header/header.component';
 import { SelectBrowserEngineComponent } from './select-browser-engine/select-browser-engine.component';
 import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
@@ -22,9 +22,12 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SaveTestComponent } from './save-test/save-test.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { OperatorService } from './services/operator.service';
-import { MatToolbarModule } from '@angular/material';
+import { MatToolbarModule, MatBadgeModule } from '@angular/material';
+import { MatTooltipModule } from '@angular/material/tooltip'
 import { InformationPageComponent } from './information-page/information-page.component';
-
+import { ProjectsComponent } from './projects/projects.component';
+import { RecordTestComponent } from './record-test/record-test.component';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -34,10 +37,12 @@ import { InformationPageComponent } from './information-page/information-page.co
     LoginComponent,
     OperatorItemComponent,
     RunTestComponent,
-    HeaderComponent,
+    HeaderRecorderComponent,
     SelectBrowserEngineComponent,
     SaveTestComponent,
-    InformationPageComponent
+    InformationPageComponent,
+    ProjectsComponent,
+    RecordTestComponent
   ],
   imports: [
     BrowserModule,
@@ -51,9 +56,13 @@ import { InformationPageComponent } from './information-page/information-page.co
     MatCardModule,
     MatTableModule,
     MatIconModule,
-    MatProgressSpinnerModule,
     MatFormFieldModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatExpansionModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatBadgeModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AuthGuard,

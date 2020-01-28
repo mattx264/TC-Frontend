@@ -3,14 +3,17 @@ import { StoreService } from '../services/store.service';
 import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../shared/src/lib/services/auth/auth.service';
+import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderRecorderComponent implements OnInit {
   project: ProjectViewModel;
+  szwagierModel: SzwagierModel;
+  loggedInUser: string;
 
   constructor(
     private storeService: StoreService,
@@ -21,6 +24,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.storeService.state$.subscribe((x: ProjectViewModel) => {
       this.project = x;
+      this.ref.detectChanges();
+    });
+
+    var user = this.authService.getCurrentUser();
+    this.loggedInUser = `${user.firstName} ${user.lastName}`;
+    console.log(this.loggedInUser);
+    this.storeService.selectedBrowserEngine$.subscribe((x: SzwagierModel) => {
+      this.szwagierModel = x;
       this.ref.detectChanges();
     });
   }

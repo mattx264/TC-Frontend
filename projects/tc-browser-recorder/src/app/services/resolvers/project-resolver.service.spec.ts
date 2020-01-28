@@ -1,12 +1,15 @@
-import { TestBed } from '@angular/core/testing';
+// import { TestBed } from '@angular/core/testing';
 
-import { ProjectResolverService } from './project-resolver.service';
+// import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
+// import { ProjectResolver } from './project-resolver';
 
-describe('ProjectResolverService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+// describe('ProjectResolver', () => {
+//   beforeEach(() => TestBed.configureTestingModule({
+//       providers:[HttpClientService]
+//   }));
 
-  it('should be created', () => {
-    const service: ProjectResolverService = TestBed.get(ProjectResolverService);
-    expect(service).toBeTruthy();
-  });
-});
+//   it('should be created', () => {
+//     const service: ProjectResolver = TestBed.get(ProjectResolver);
+//     expect(service).toBeTruthy();
+//   });
+// });

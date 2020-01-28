@@ -41,7 +41,7 @@ export class LayoutService {
       sidebarName: this.sidebarName,
       header: this.header,
       metadata: this.metadata
-    }
+    };
   }
 
 }

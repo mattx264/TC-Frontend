@@ -1,3 +1,3 @@
-export interface ProjectDomainViewModel{
-    domain:string;
+export interface ProjectDomainViewModel {
+    domain: string;
 }

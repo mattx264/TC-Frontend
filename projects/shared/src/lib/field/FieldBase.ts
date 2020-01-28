@@ -16,7 +16,7 @@ export class FieldBase implements ControlValueAccessor, OnChanges, Validator {
     private _readonly = false;
 
     matcher = new MyErrorStateMatcher();
-    protected formControl: FormControl;
+    public formControl: FormControl;
 
     public value;
     public error;

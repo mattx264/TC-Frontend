@@ -2,21 +2,23 @@
 <!-- <p-listbox [options]="typeOfCommand" (onChange)="typeOfCommandChange($event)"></p-listbox>
 <p-listbox [options]="typeOfSubCommand" (onChange)="typeOfSubCommandChange($event)"></p-listbox>
 <p-listbox [options]="commands" (onChange)="commandChange($event)"></p-listbox> -->
-<mat-form-field>
+<!-- <mat-form-field>
   <mat-label>Type Of Command</mat-label>
-  <mat-select [(ngModel)]="selectedValue" name="food">
+  <mat-select [(ngModel)]="selectedValue">
     <mat-option *ngFor="let command of typeOfCommand" [value]="command.value">
       {{command.label}}
     </mat-option>
   </mat-select>
-</mat-form-field>
+</mat-form-field> -->
 
 <div *ngIf="showValue1">
   <input type="text" (keyup)="value1Change($event)" pInputText placeholder="value">
 
 </div>
-<div *ngIf="showSendBtn">
-  <button pButton type="button" (click)="sendClick()" label="Send"></button>
+<!-- <div *ngIf="showSendBtn"> -->
+<div>
+  <button type="button" (click)="sendClick()">Send</button>
+  <img src="{{imagePath}}" alt="">
 </div>
 
 <section>

@@ -33,6 +33,19 @@ export class HttpClientService {
       this.loadingService.setValue(false);
     }), first());
   }
+
+  getGeneric<T>(url: string): Observable<T> {
+    this.loadingService.setValue(true);
+
+    return this.http.get<T>(this.apiUrl(url)).pipe(map(data => {
+      this.loadingService.setValue(false);
+      return data;
+    }), catchError(this.handleError), finalize(() => {
+      this.loadingService.setValue(false);
+    }), first());
+  }
+
+
   getParams(url: string, params: Object): Observable<Object> {
     let reqParams = new HttpParams();
     for (const item in params) {

@@ -10,6 +10,9 @@ import { RunTestComponent } from './run-test/run-test.component';
 import { SaveTestComponent } from './save-test/save-test.component';
 import { SimpleErrorPageComponent } from '../../../shared/src/lib/components/simple-error-page/simple-error-page.component';
 import { InformationPageComponent } from './information-page/information-page.component';
+import { ProjectsComponent } from './projects/projects.component';
+import { RecordTestComponent } from './record-test/record-test.component';
+import { ProjectTestResolverService } from './services/resolvers/project-test-resolver.service';
 
 
 
@@ -35,6 +38,19 @@ const routes: Routes = [
       project: ProjectResolver
     }
   }, {
+    path: 'projects', component: ProjectsComponent
+    , canActivate: [AuthGuard]
+    , resolve: {
+      project: ProjectResolver,
+      tests: ProjectTestResolverService
+    }
+  }, {
+    path: 'record-test/:id', component: RecordTestComponent
+    , canActivate: [AuthGuard]
+    , resolve: {
+      project: ProjectResolver
+    }
+  }, {
     path: '**', component: LandingPageComponent
     , canActivate: [AuthGuard]
     , resolve: {
@@ -45,6 +61,7 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [ProjectResolver, ProjectTestResolverService]
 })
 export class AppRoutingModule { }

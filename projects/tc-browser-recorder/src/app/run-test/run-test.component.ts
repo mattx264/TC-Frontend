@@ -9,6 +9,7 @@ import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { MatTableDataSource } from '@angular/material/table';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
 import { OperatorService } from '../services/operator.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 
 @Component({
   selector: 'app-run-test',
@@ -18,51 +19,70 @@ import { OperatorService } from '../services/operator.service';
 export class RunTestComponent implements OnInit {
   hubConnection: signalR.HubConnection;
   commands: OperatorModelStatus[];
+  commandsRender: OperatorModelStatus[];
 
   dataSource: MatTableDataSource<OperatorModelStatus>;
-  displayedColumns = ['action', 'path', 'value', 'progress'];
+  columns: string[] = ['action', 'path', 'value', 'status'];
 
+  project: ProjectViewModel;
+  chromeTab: chrome.tabs.Tab;
+  tabId: number;
 
   constructor(private storeService: StoreService,
     signalSzwagierService: SignalSzwagierService,
     private operatorService: OperatorService,
     private cdr: ChangeDetectorRef) {
-    this.hubConnection = signalSzwagierService.start();
+    this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
   }
   ngOnInit() {
     this.commands = this.storeService.getOperatorsData();
-    this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commands);
 
+    this.commandsRender = this.commands.filter(x => x.action !== 'takeScreenshot');
+    this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commandsRender);
+
+    console.log(this.commandsRender);
   }
+
+
+
+  private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
+    chrome.tabs.create({'url': url}, tab => { this.chromeTab
+      localStorage.setItem('tabId', tab.id.toString());
+      this.chromeTab = tab;
+      _callback(tab);
+    });
+  }
+
   sendClick() {
-
-
-
     const operatorsData = this.storeService.getOperatorsData();
     console.log(operatorsData);
     var data = this.operatorService.packageOperators(operatorsData);
     const message = {
       ReceiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
-
       Commands: data
     }
-
     this.hubConnection.invoke('SendCommand', message);
     this.startTestProgressMonitor();
   }
   startTestProgressMonitor() {
-    this.dataSource.data[0].status = 'inprogress';
+    this.commands[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {
-      const test = this.dataSource.data.find(x => x.guid === testProgressMessage.commandTestGuid);
+      const test = this.commands.find(x => x.guid === testProgressMessage.commandTestGuid);
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
-        const currentIndex = this.dataSource.data.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
-        this.dataSource.data[currentIndex + 1].status = 'inprogress';
+        const currentIndex = this.commands.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
+        this.commands[currentIndex + 1].status = 'inprogress';
 
       } else {
         test.status = 'failed';
       }
-      this.dataSource._updateChangeSubscription();
+      this.cdr.detectChanges();
+    });
+    this.hubConnection.on('ReciveScreenshot', (data) => {
+      const test = this.commands.find(x => x.guid === data.commandTestGuid);
+      test.status = 'done';
+      const currentIndex = this.commands.findIndex(x => x.guid === data.commandTestGuid);
+      this.commands[currentIndex - 1].imagePath = data.imagePath;
       this.cdr.detectChanges();
     });
   }
