@@ -42,7 +42,8 @@ export class RecordTestComponent implements OnInit {
 
   ngOnInit() {
     this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
-    
+    this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
+
     if(this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
       this.projects = this.activatedRoute.snapshot.data.project;
       this.project = this.projects.filter(x => x.id == this.projectId)[0];
@@ -50,7 +51,7 @@ export class RecordTestComponent implements OnInit {
     }
 
     this.isStarted = true;
-    this.createNewTabAndNavigate(this.project.projectDomain[0].domain, e => {
+    this.createNewTabAndNavigate(this.domain, e => {
       chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         if(tabId == e.id && changeInfo.status == "complete") {
           this.addChromeListener();

@@ -22,7 +22,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SaveTestComponent } from './save-test/save-test.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { OperatorService } from './services/operator.service';
-import { MatToolbarModule, MatBadgeModule } from '@angular/material';
+import { MatToolbarModule, MatBadgeModule, MatMenuModule } from '@angular/material';
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { InformationPageComponent } from './information-page/information-page.component';
 import { ProjectsComponent } from './projects/projects.component';
@@ -62,7 +62,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatToolbarModule,
     MatTooltipModule,
     MatBadgeModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatMenuModule
   ],
   providers: [
     AuthGuard,

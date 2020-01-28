@@ -15,14 +15,27 @@
         <ng-container matColumnDef="projectDomain">
             <th mat-header-cell *matHeaderCellDef> Domains </th>
             <td mat-cell *matCellDef="let element">
-                <div *ngFor="let domain of element.projectDomain">
-                    {{ domain.domain }}
-                    <div *ngIf="element.tests.length > 0">
+                <div *ngFor="let domain of element.projectDomain; last as isLastElement">
+                    <button mat-stroked-button [matMenuTriggerFor]="menu" color="primary">{{ domain.domain }}</button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item (click)="editProject(element.id)">
+                            <mat-icon matTooltip="Edit Project">edit</mat-icon>
+                            <span>Edit</span>
+                        </button>
+                        <button mat-menu-item (click)="createNewTest(element.id,domain.domain)">
+                            <mat-icon matTooltip="Create New Test">fiber_new</mat-icon>
+                            <span>New Test</span>
+                        </button>
+                    </mat-menu>
+
+                    <div *ngIf="element.tests.length > 0" class="test-spacing">
                         <strong>Tests:</strong>
                     </div>
                     <div *ngFor="let test of element.tests" class="test-element">
                         <span (click)="runTest(element.id,test.id)">{{ test.name }}</span>
                     </div>
+
+                    <hr *ngIf="!isLastElement">
                 </div>
             </td>
         </ng-container>
@@ -31,31 +44,6 @@
             <th mat-header-cell *matHeaderCellDef> Select </th>
             <td mat-cell *matCellDef="let element">
                 <button mat-flat-button color="primary">Select</button>
-            </td>
-        </ng-container>
-
-        <ng-container matColumnDef="options">
-            <th mat-header-cell *matHeaderCellDef> Options </th>
-            <td mat-cell *matCellDef="let element">
-                <div class="row" style="padding-left: 15px;">
-                    <div class="button-option">
-                        <mat-icon matTooltip="Edit Project" (click)="editProject(element.id)">
-                            edit
-                        </mat-icon>
-                    </div>
-
-                    <div class="button-option">
-                        <mat-icon matTooltip="Create New Test" (click)="createNewTest(element.id)">
-                            fiber_new
-                        </mat-icon>
-                    </div>
-
-                    <!-- <div class="button-option">
-                        <mat-icon matTooltip="View Saved Tests" (click)="viewSavedTests(element.id)">
-                            view_list
-                        </mat-icon>
-                    </div> -->
-                </div>
             </td>
         </ng-container>
     

@@ -18,7 +18,7 @@ import { StoreService } from '../services/store.service';
 })
 export class ProjectsComponent implements OnInit {
   getProjectEndPoint = 'project';
-  displayedColumns: string[] = ['name','projectDomain','options'];
+  displayedColumns: string[] = ['name','projectDomain'];
   projectDataSource: MatTableDataSource<ProjectViewModel> = new MatTableDataSource<ProjectViewModel>();
   projects: Array<ProjectViewModel>;
   testInfo: Array<ProjectTest>;
@@ -62,8 +62,8 @@ export class ProjectsComponent implements OnInit {
     this.webService.navigateEditProject(id);
   }
 
-  createNewTest(id: number): void {
-    this.router.navigate(['record-test', id]);
+  createNewTest(id: number, url: string): void {
+    this.router.navigate(['record-test', id], { queryParams: { url: btoa(url) }});
   }
 
   viewSavedTests(id: number): void {
