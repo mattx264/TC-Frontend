@@ -29,10 +29,10 @@ export class AuthService {
     // });
   }
   getCurrentUser(): User {
-    if(this.user != null){
+    if (this.user != null) {
       this.user;
-    } else{
-      this.user= JSON.parse(localStorage.getItem('currentUser')) as User;
+    } else {
+      this.user = JSON.parse(localStorage.getItem('currentUser')) as User;
     }
     return this.user;
   }
@@ -50,7 +50,7 @@ export class AuthService {
   }
   getToken(): string {
     if (this.user == null) {
-      return "";
+      return '';
     }
     return this.user.token;
   }

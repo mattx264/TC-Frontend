@@ -12,7 +12,7 @@ export function createCounterRangeValidator(maxValue, minValue) {
       }
     };
 
-  return (c.value > +maxValue || c.value < +minValue) ? err: null;
+    return (c.value > +maxValue || c.value < +minValue) ? err : null;
   }
 }
 
@@ -28,8 +28,8 @@ export function createCounterRangeValidator(maxValue, minValue) {
 })
 export class CounterInputComponent implements ControlValueAccessor, OnChanges {
 
-  propagateChange: any = () => {};
-  validateFn: any = () => {};
+  propagateChange: any = () => { };
+  validateFn: any = () => { };
   @Input('counterValue') _counterValue = 0;
   @Input() counterRangeMax;
   @Input() counterRangeMin;
@@ -37,7 +37,7 @@ export class CounterInputComponent implements ControlValueAccessor, OnChanges {
   get counterValue() {
     return this._counterValue;
   }
-  
+
   set counterValue(val) {
     this._counterValue = val;
     this.propagateChange(val);
@@ -60,7 +60,7 @@ export class CounterInputComponent implements ControlValueAccessor, OnChanges {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {}
+  registerOnTouched() { }
 
   increase() {
     this.counterValue++;

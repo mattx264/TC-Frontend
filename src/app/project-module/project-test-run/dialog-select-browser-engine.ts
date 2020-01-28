@@ -7,7 +7,7 @@ import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 
 @Component({
-    selector: 'dialog-select-browser-engine',
+    selector: 'app-dialog-select-browser-engine',
     templateUrl: './dialog-select-browser-engine.html',
 })
 export class DialogSelectBrowserEngine implements OnInit {

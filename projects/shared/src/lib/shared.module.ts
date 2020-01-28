@@ -18,10 +18,10 @@ import { CommonModule } from '@angular/common';
 
 
 @NgModule({
-  declarations: 
-    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent,SimpleErrorPageComponent],
-  exports: 
-    [SharedComponent, TextFieldComponent,ServerNotAvaiableComponent,SimpleErrorPageComponent],
+  declarations:
+    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent],
+  exports:
+    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -37,7 +37,7 @@ import { CommonModule } from '@angular/common';
     LoadingService,
     SignalSzwagierService
   ]
-  
+
 })
 export class SharedModule {
   static forRoot(environment: any): ModuleWithProviders {

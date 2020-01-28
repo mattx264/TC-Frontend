@@ -6,4 +6,4 @@ export interface TestInfoViewModel {
     name: string;
     description: string;
     commands: SeleniumCommand[]
-}
+};

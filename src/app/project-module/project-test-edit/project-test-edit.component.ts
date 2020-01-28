@@ -36,8 +36,8 @@ export class ProjectTestEditComponent implements OnInit {
   }
   buildForm(data: TestInfoViewModel): FormGroup {
     return this.fb.group({
-      'name': [data.name, Validators.required],
-      'description': [data.description, Validators.required]
+      name: [data.name, Validators.required],
+      description: [data.description, Validators.required]
     });
   }
   save() {
