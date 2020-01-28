@@ -2,14 +2,14 @@
 <!-- <p-listbox [options]="typeOfCommand" (onChange)="typeOfCommandChange($event)"></p-listbox>
 <p-listbox [options]="typeOfSubCommand" (onChange)="typeOfSubCommandChange($event)"></p-listbox>
 <p-listbox [options]="commands" (onChange)="commandChange($event)"></p-listbox> -->
-<mat-form-field>
+<!-- <mat-form-field>
   <mat-label>Type Of Command</mat-label>
   <mat-select [(ngModel)]="selectedValue">
     <mat-option *ngFor="let command of typeOfCommand" [value]="command.value">
       {{command.label}}
     </mat-option>
   </mat-select>
-</mat-form-field>
+</mat-form-field> -->
 
 <div *ngIf="showValue1">
   <input type="text" (keyup)="value1Change($event)" pInputText placeholder="value">
