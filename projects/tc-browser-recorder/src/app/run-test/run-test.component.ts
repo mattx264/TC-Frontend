@@ -39,6 +39,7 @@ export class RunTestComponent implements OnInit {
 
 
     const operatorsData = this.storeService.getOperatorsData();
+    console.log(operatorsData);
     var data = this.operatorService.packageOperators(operatorsData);
     const message = {
       ReceiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
@@ -56,8 +57,8 @@ export class RunTestComponent implements OnInit {
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
         const currentIndex = this.dataSource.data.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
-        this.dataSource.data[currentIndex+1].status = 'inprogress';
-       
+        this.dataSource.data[currentIndex + 1].status = 'inprogress';
+
       } else {
         test.status = 'failed';
       }

@@ -125,15 +125,15 @@ export class LandingPageComponent implements OnInit {
     if (this.operatorsData.length === 0) {
       this.sendMessageToBrowser('getUrl');
     }
-    //TODO add config
-    // this.sendMessageToBrowser('startXHRMonitor');
+   // TODO add config
+    this.sendMessageToBrowser('startXHRMonitor');
   }
   private getTabIdFromUrl(url): string {
     const id = url.substr(url.indexOf("?") + 4);
     if (isNaN(+id)) {
       this.ngZone.run(() =>
         this.router.navigate(['/information-page', 'refreshPage'])
-      );      
+      );
     }
     return id == null ? null : id;
   }

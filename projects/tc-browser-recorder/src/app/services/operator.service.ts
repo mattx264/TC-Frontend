@@ -33,6 +33,16 @@ export class OperatorService {
             operationId: 2, webDriverOperationType: 5, values: [row.path, row.value], guid: row.guid
           });
           break;
+        case 'xhrStart':
+          data.push({
+            operationId: 0, webDriverOperationType: 7, values: [row.path, row.value], guid: row.guid
+          });
+          break;
+        case 'xhrDone':
+          data.push({
+            operationId: 1, webDriverOperationType: 7, values: [row.path, row.value], guid: row.guid
+          });
+          break;
       }
     }
     // close browser
