@@ -63,6 +63,12 @@ export class ProjectsComponent implements OnInit {
   }
 
   createNewTest(id: number, url: string): void {
+    var proto = /^https?:\/\//i;
+    if(!proto.test(url)) {
+      url = `http://${url}`;
+      console.log(url);
+    }
+
     this.router.navigate(['record-test', id], { queryParams: { url: btoa(url) }});
   }
 
