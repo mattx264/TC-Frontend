@@ -99,12 +99,13 @@ export class RecordTestComponent implements OnInit {
 
   private setupPageScript(): void {
     this.sendMessageToBrowser('startBrowserActionMonitor');
-    
+
     if (this.operatorsData.length === 0) {
       this.sendMessageToBrowser('getUrl');
     }
-    //TODO add config
-    // this.sendMessageToBrowser('startXHRMonitor');
+    if (this.projectConfigService.getConfig('startXHRMonitor')) {
+      this.sendMessageToBrowser('startXHRMonitor');
+    }
   }
   // DO WE NEED THSI METHOD IF NOT????? 
   private getTabIdFromUrl(url): string {
