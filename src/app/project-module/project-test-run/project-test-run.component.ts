@@ -72,7 +72,8 @@ export class ProjectTestRunComponent implements OnInit {
     });
     const message = {
       ReceiverConnectionId: this.selectedBrowserEngine.connectionId,
-      Commands: this.testInfo.commands
+      Commands: this.testInfo.commands,
+      testInfoId: this.testInfo.id
     }
     this.hubConnection.invoke('SendCommand', message);
     this.startTestProgressMonitor();

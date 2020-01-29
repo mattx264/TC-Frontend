@@ -14,13 +14,13 @@ export class SelectBrowserEngineComponent implements OnInit {
   hubConnection: signalR.HubConnection;
   szwagiersConsoles: SzwagierModel[];
   selectedSzwagierConsole: SzwagierModel;
-  constructor(signalSzwagierService: SignalSzwagierService, private storeService: StoreService, private router: Router
+  constructor(private signalSzwagierService: SignalSzwagierService, private storeService: StoreService, private router: Router
     , private route: ActivatedRoute) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
   }
 
   ngOnInit() {
-    console.log(this.route.snapshot.queryParams.returnUrl)
+    this.szwagiersConsoles = this.signalSzwagierService.szwagiers.filter(x => x.szwagierType === SzwagierType.SzwagierConsole);
     this.hubConnection.on('UpdateSzwagierList', (data: SzwagierModel[]) => {
       if (data == null) {
         return;
