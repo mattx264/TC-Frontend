@@ -35,7 +35,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { TestLayoutComponent } from './test-layout/test-layout.component';
 import { SendTestComponent } from './test-layout/send-test/send-test.component';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { SelectSzwagierDialogComponent } from './test-layout/send-test/select-szwagier-dialog/select-szwagier-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -48,6 +48,8 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
 import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/project-sidebar.component';
+import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
+import { AlertModalComponent } from './modals/alert-modal/alert-modal.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/projec
     TestFlowCreateComponent,
     PrivacyPolicyComponent,
     CompanyInfoComponent,
-    ProjectSidebarComponent
+    ProjectSidebarComponent,
+    ConfirmModalComponent,
+    AlertModalComponent
   ],
   imports: [
     BrowserModule,
@@ -99,16 +103,19 @@ import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/projec
     MatMenuModule,
     MatCheckboxModule,
     MatChipsModule,
+    MatDialogModule,
     SharedModule.forRoot(environment)
 
   ],
   providers: [
-    LayoutService
+    LayoutService,
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   entryComponents: [
     CreateNewGroupDialogComponent,
     AddUserToGroupComponent,
-    SelectSzwagierDialogComponent
+    SelectSzwagierDialogComponent,
+    ConfirmModalComponent
   ],
   bootstrap: [AppComponent]
 })
