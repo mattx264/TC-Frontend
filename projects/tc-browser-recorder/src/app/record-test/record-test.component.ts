@@ -96,9 +96,10 @@ public addChromeListener(): void {
 
   private setupPageScript(): void {
     this.sendMessageToBrowser('startBrowserActionMonitor');
-    // if (this.operatorsData.length === 0) {
-    //   this.sendMessageToBrowser('getUrl');
-    // }
+    
+    if (this.operatorsData.length === 0) {
+      this.sendMessageToBrowser('getUrl');
+    }
     //TODO add config
     // this.sendMessageToBrowser('startXHRMonitor');
   }
