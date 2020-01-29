@@ -11,6 +11,7 @@ import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/projec
 import { Project } from '../ViewModels/Project';
 import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
+import { ProjectConfigService } from '../services/project-config.service';
 // import { ActivatedRoute, Route,} from '@angular/router';
 // import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // import { settings } from 'cluster';
@@ -30,21 +31,22 @@ export class RecordTestComponent implements OnInit {
   chromeTab: chrome.tabs.Tab;
   tabId: number;
   projectId: number;
-  
+
   constructor(private storeService: StoreService,
-              private guidGeneratorService: GuidGeneratorService,
-              private http: HttpClientService,
-              private ngZone: NgZone,
-              private cdr: ChangeDetectorRef,
-              private router: Router,
-              private activatedRoute: ActivatedRoute
+    private guidGeneratorService: GuidGeneratorService,
+    private http: HttpClientService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private projectConfigService: ProjectConfigService
   ) { }
 
   ngOnInit() {
     this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
 
-    if(this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
+    if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
       this.projects = this.activatedRoute.snapshot.data.project;
       this.project = this.projects.filter(x => x.id == this.projectId)[0];
       this.storeService.setProject(this.project);
@@ -53,56 +55,57 @@ export class RecordTestComponent implements OnInit {
     this.isStarted = true;
     this.createNewTabAndNavigate(this.domain, e => {
       chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-        if(tabId == e.id && changeInfo.status == "complete") {
+        if (tabId == e.id && changeInfo.status == "complete") {
           this.addChromeListener();
-          chrome.tabs.onUpdated.removeListener(function(a,b,c) { console.log('Unregistered event'); });
+          chrome.tabs.onUpdated.removeListener(function (a, b, c) { console.log('Unregistered event'); });
         }
       });
     });
-    
+
   }
 
-private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
-  chrome.tabs.create({'url': url}, tab => { this.chromeTab
-    localStorage.setItem('tabId', tab.id.toString());
-    this.chromeTab = tab;
-    _callback(tab);
-  });
-}
-
-
-public addChromeListener(): void {
-  chrome.runtime.onMessage.addListener(
-    (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
-      if (request.type === 'getInfo' && request.data.action === 'isStarted') {
-        sendResponse(this.isStarted);
-        this.setupPageScript();
-        return;
-      }
-      if (this.isStarted === false) {
-        this.beforeStart(request.data);
-        return;
-      }
-      if (request.type == 'insert') {
-        this.addNewOperation(request.data);
-      } else if (request.type == 'appendLastValue') {
-        this.appendLastOperation(request.data);
-      }
-      this.cdr.detectChanges();
+  private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
+    chrome.tabs.create({ 'url': url }, tab => {
+      this.chromeTab
+      localStorage.setItem('tabId', tab.id.toString());
+      this.chromeTab = tab;
+      _callback(tab);
     });
-    
+  }
+
+
+  public addChromeListener(): void {
+    chrome.runtime.onMessage.addListener(
+      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
+        if (request.type === 'getInfo' && request.data.action === 'isStarted') {
+          sendResponse(this.isStarted);
+          this.setupPageScript();
+          return;
+        }
+        if (this.isStarted === false) {
+          this.beforeStart(request.data);
+          return;
+        }
+        if (request.type == 'insert') {
+          this.addNewOperation(request.data);
+        } else if (request.type == 'appendLastValue') {
+          this.appendLastOperation(request.data);
+        }
+        this.cdr.detectChanges();
+      });
+
     this.setupPageScript();
-}
+  }
 
   private setupPageScript(): void {
     this.sendMessageToBrowser('startBrowserActionMonitor');
-    // if (this.operatorsData.length === 0) {
-    //   this.sendMessageToBrowser('getUrl');
-    // }
+    if (this.operatorsData.length === 0) {
+      this.sendMessageToBrowser('getUrl');
+    }
     //TODO add config
     // this.sendMessageToBrowser('startXHRMonitor');
   }
-
+  // DO WE NEED THSI METHOD IF NOT????? 
   private getTabIdFromUrl(url): string {
     const id = url.substr(url.indexOf("?") + 4);
     if (isNaN(+id)) {
@@ -131,6 +134,14 @@ public addChromeListener(): void {
     this.operatorsData.push(
       newOperation
     );
+    if (this.projectConfigService.getConfig("Monitoring Http Calls") == "true") {
+      this.operatorsData.push({
+        action: 'takeScreenshot',
+        path: null,
+        value: null,
+        guid: this.guidGeneratorService.get()
+      });
+    }
   }
 
 
@@ -191,7 +202,7 @@ public addChromeListener(): void {
     //   localStorage.setItem('tabId', id);
     // }
     try {
-      
+
       chrome.tabs.sendMessage(this.chromeTab.id, { method: methodName }, (response) => {
         if (response === undefined) {
           console.log('undefined response');
