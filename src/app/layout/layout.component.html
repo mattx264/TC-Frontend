@@ -1,7 +1,7 @@
 <header *ngIf='showHeader'>
   <app-header #header (sideToggle)="toggleSidebar($event)"></app-header>
 </header>
-<mat-sidenav-container class="">
+<mat-sidenav-container class="side-nav">
   <!-- Side bar navigation -->
   <mat-sidenav mode="side" #sideNav>
     <div [ngSwitch]="sidebarName">
