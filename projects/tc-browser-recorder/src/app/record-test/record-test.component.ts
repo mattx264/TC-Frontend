@@ -99,6 +99,7 @@ export class RecordTestComponent implements OnInit {
 
   private setupPageScript(): void {
     this.sendMessageToBrowser('startBrowserActionMonitor');
+    
     if (this.operatorsData.length === 0) {
       this.sendMessageToBrowser('getUrl');
     }
