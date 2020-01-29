@@ -63,7 +63,7 @@ checkIfAllXhrsCallsDone = () => {
 
 checkIfAllXhrsCallsDone();
 
-checkIfXhrCallIsDone = () => {
+checkIfXhrStartCallIsDone = () => {
 
   const responseURL = '#####'
 
@@ -83,4 +83,25 @@ checkIfXhrCallIsDone = () => {
   }
 }
 
-checkIfXhrCallIsDone();
+checkIfXhrStartCallIsDone();
+
+checkIfXhrDoneCallIsDone = () => {
+
+  const responseURL = '#####'
+
+  let xhrCalls = JSON.parse(window.localStorage.getItem('xhrCalls'));
+  if (xhrCalls) {
+    for (let xhrCall of xhrCalls) {
+      if (xhrCall.value.responseURL === responseURL) {
+        if (xhrCall.value.readyState === 3 || xhrCall.value.readyState === 4) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+}
+
+checkIfXhrDoneCallIsDone();
