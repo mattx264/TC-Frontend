@@ -1,0 +1,14 @@
+<h1 mat-dialog-title class="modal-title brand-primary-color text-left">{{data.headerQuestion}}</h1>
+<div mat-dialog-content class="modal-body">
+  <p [innerHtml]="data.confirmQuestion"></p>
+</div>
+<div style="text-align: center">
+  <div mat-dialog-actions class="row" style="display: inline-block">
+      <button mat-raised-button (click)="confirm()"
+        [mat-dialog-close]="deleteSuccess" 
+        color="primary"
+        cdkFocusInitial>{{data.confirmButtonText}}</button>
+      <a mat-raised-button style="margin-left:2em;" 
+        (click)="onNoClick()">{{data.cancelButtonText}}</a>
+  </div>
+</div>
