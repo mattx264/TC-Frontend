@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build-extension": "ng build tc-browser-recorder && npm run chrome",
+    "build-extension": "ng build tc-browser-recorder && npm run build-chrome",
     "chrome": "cd projects/chrome && tsc && gulp copy",
+    "build-chrome": "cd projects/chrome && webpack && gulp copy",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
@@ -56,6 +57,9 @@
     "ts-node": "~7.0.0",
     "tsickle": "^0.35.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.4.3"
+    "typescript": "~3.4.3",
+    "webpack": "4.41.5",
+    "webpack-cli": "3.3.10",
+    "ts-loader": "6.2.1"
   }
 }
