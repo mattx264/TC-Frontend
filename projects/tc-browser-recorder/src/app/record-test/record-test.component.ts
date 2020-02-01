@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, NgZone, AfterContentInit, } from '@angular/core';
-import { OperatorModel } from '../../../../shared/src/lib/models/operatorModel';
+import { OperatorModel, XhrOperatorModel } from '../../../../shared/src/lib/models/operatorModel';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { GuidGeneratorService } from './../../../../shared/src/lib/services/guid-generator.service';
@@ -61,7 +61,6 @@ export class RecordTestComponent implements OnInit {
         }
       });
     });
-
   }
 
   private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
@@ -129,7 +128,11 @@ export class RecordTestComponent implements OnInit {
     switch (request.action) {
       case 'xhrStart':
       case 'xhrDone':
-        newOperation.value = request.value.toString()
+        if ((request as XhrOperatorModel).xhrObject.data.tabId !== this.tabId) {
+          return;
+        }
+        newOperation.value = request.value.toString();
+
         break;
     }
 

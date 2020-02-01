@@ -1,30 +1,29 @@
-
-export class RequestionMonitor {
-    constructor() {
-
+var RequestionMonitor = /** @class */ (function () {
+    function RequestionMonitor() {
     }
-    startMonitor(sendMessage) {
-
-        var port = (<any>chrome).extension.connect({
+    RequestionMonitor.prototype.startMonitor = function (sendMessage) {
+        var port = chrome.extension.connect({
             name: "Sample Communication"
         });
-
         port.onMessage.addListener(function (msg) {
             if (msg.type === 'xhrStart') {
                 sendMessage({
                     action: msg.type,
                     value: [msg.data.url, msg.data.method],
-                    xhrObject:msg,
+                    xhrObject: msg,
                     path: null
                 });
-            } else if (msg.type === 'xhrDone') {
+            }
+            else if (msg.type === 'xhrDone') {
                 sendMessage({
                     action: msg.type,
                     value: [msg.data.url, msg.data.method, msg.data.statusCode],
-                    xhrObject:msg,
+                    xhrObject: msg,
                     path: null
                 });
             }
         });
-    }
-}
+    };
+    return RequestionMonitor;
+}());
+//# sourceMappingURL=requestMonitor.js.map

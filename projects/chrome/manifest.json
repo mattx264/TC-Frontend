@@ -27,9 +27,7 @@
         "*://*/*"
       ],
       "js": [
-        "chrome/requestMonitor.js",
-        "chrome/xpathHelper.js",
-        "chrome/main.js"
+        "chrome/bundle.js"
       ],
       "css": [
         "chrome/main.css"
