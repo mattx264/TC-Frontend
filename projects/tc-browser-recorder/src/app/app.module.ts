@@ -28,6 +28,8 @@ import { InformationPageComponent } from './information-page/information-page.co
 import { ProjectsComponent } from './projects/projects.component';
 import { RecordTestComponent } from './record-test/record-test.component';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 
 @NgModule({
@@ -63,14 +65,15 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatTooltipModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
-    MatMenuModule
+    MatMenuModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthGuard,
     OperatorService
   ],
   entryComponents: [
-    
+
   ],
   bootstrap: [AppComponent]
 })
