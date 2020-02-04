@@ -47,7 +47,7 @@ export class RegistrationComponent implements OnInit {
     userToCreate.timeZone = new Date();
 
     this.httpClientService.post('user/Registration', userToCreate).subscribe((response: any) => {
-      this.router.navigate(['']);
+      this.router.navigate(['login']);
     });
   }
 

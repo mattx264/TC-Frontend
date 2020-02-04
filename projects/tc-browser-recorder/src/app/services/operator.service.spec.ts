@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { OperatorService } from './operator.service';
-import { ProjectConfigService } from './project-config.service';
+import { ProjectConfigService } from '../../../../shared/src/lib/services/project-config.service';
 import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 
 describe('OperatorService', () => {
