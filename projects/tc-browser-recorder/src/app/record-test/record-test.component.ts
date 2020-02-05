@@ -11,7 +11,7 @@ import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/projec
 import { Project } from '../ViewModels/Project';
 import { MatTableDataSource } from '@angular/material';
 import { Observable } from 'rxjs';
-import { ProjectConfigService } from '../services/project-config.service';
+import { ProjectConfigService } from '../../../../shared/src/lib/services/project-config.service';
 // import { ActivatedRoute, Route,} from '@angular/router';
 // import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 // import { settings } from 'cluster';
@@ -31,6 +31,8 @@ export class RecordTestComponent implements OnInit {
   chromeTab: chrome.tabs.Tab;
   tabId: number;
   projectId: number;
+  isTakeScreenshot: boolean;
+  isStartXHRMonitor: boolean;
 
   constructor(private storeService: StoreService,
     private guidGeneratorService: GuidGeneratorService,
@@ -60,6 +62,12 @@ export class RecordTestComponent implements OnInit {
           chrome.tabs.onUpdated.removeListener(function (a, b, c) { console.log('Unregistered event'); });
         }
       });
+    });
+    this.projectConfigService.getConfigById(this.projectId, 1).then((result: boolean) => {// Take screenshot
+      this.isTakeScreenshot = result;
+    });
+    this.projectConfigService.getConfigById(this.projectId, 2).then((result: boolean) => {// startXHRMonitor
+      this.isStartXHRMonitor = result;
     });
   }
 
@@ -102,7 +110,7 @@ export class RecordTestComponent implements OnInit {
     if (this.operatorsData.length === 0) {
       this.sendMessageToBrowser('getUrl');
     }
-    if (this.projectConfigService.getConfig('startXHRMonitor')) {
+    if (this.isStartXHRMonitor) {
       this.sendMessageToBrowser('startXHRMonitor');
     }
   }
@@ -139,7 +147,7 @@ export class RecordTestComponent implements OnInit {
     this.operatorsData.push(
       newOperation
     );
-    if (this.projectConfigService.getConfig("Monitoring Http Calls") == "true") {
+    if (this.isTakeScreenshot) {
       this.operatorsData.push({
         action: 'takeScreenshot',
         path: null,

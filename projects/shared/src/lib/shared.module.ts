@@ -15,6 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ServerNotAvaiableComponent } from './components/server-not-avaiable/server-not-avaiable.component';
 import { SimpleErrorPageComponent } from './components/simple-error-page/simple-error-page.component';
 import { CommonModule } from '@angular/common';
+import { SnackbarService } from './services/snackbar.service';
+import { MatSnackBarModule } from '@angular/material';
+import { ProjectConfigService } from './services/project-config.service';
 
 
 @NgModule({
@@ -26,7 +29,8 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     HttpClientModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthService,
@@ -35,7 +39,9 @@ import { CommonModule } from '@angular/common';
     ScrollService,
     LocalStorageService,
     LoadingService,
-    SignalSzwagierService
+    SignalSzwagierService,
+    SnackbarService,
+    ProjectConfigService
   ]
 
 })

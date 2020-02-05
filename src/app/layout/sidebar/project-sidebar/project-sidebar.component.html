@@ -12,7 +12,11 @@
     <mat-icon>question_answer</mat-icon>
     <span>Test Flow</span>
   </a>
-
+  
+  <a mat-list-item [routerLink]="['project',project.id,'config']">
+    <mat-icon>config</mat-icon>
+    <span>Configuration</span>
+  </a>
   <a mat-list-item [routerLink]="['project',project.id,'edit']">
     <mat-icon>security</mat-icon>
     <span>Settings</span>

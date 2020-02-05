@@ -1,0 +1,33 @@
+<h1>Project Config</h1>
+<mat-card *ngFor="let item of configProject">
+  <mat-card-header>
+    <mat-card-title>
+      {{item.name}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div>
+      {{item.description}}
+    </div>
+    <div [ngSwitch]="item.valueType">
+      <div *ngSwitchCase="0">
+        Value: <mat-checkbox [(ngModel)]="item.value"></mat-checkbox>
+      </div>
+      <div *ngSwitchCase="1">
+        Value: <input [(ngModel)]="item.value">
+      </div>
+      <div *ngSwitchCase="2">
+        <input [(ngModel)]="item.value">
+        <input [(ngModel)]="item.value">
+        <input [(ngModel)]="item.value">
+        todo
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card>
+  <div class="option-buttons">
+    <button mat-raised-button color="primary" type="button" (click)="saveClick()">Update</button>
+    <button mat-raised-button color="accent" class="ml-1" [routerLink]="['/project']">Cancel</button>
+  </div>
+</mat-card>

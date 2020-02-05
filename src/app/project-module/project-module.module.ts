@@ -18,6 +18,7 @@ import { ProjectTestEditComponent } from './project-test-edit/project-test-edit.
 import { DialogSelectBrowserEngine } from './project-test-run/dialog-select-browser-engine';
 import { LightboxModule } from 'ngx-lightbox';
 import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
+import { ProjectConfigComponent } from './project-config/project-config.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.compo
     ProjectTestCommandsComponent,
     ProjectTestEditComponent,
     DialogSelectBrowserEngine,
-    ProjectWrapperComponent
+    ProjectWrapperComponent,
+    ProjectConfigComponent
 ],
   imports: [
     CommonModule,
@@ -40,7 +42,7 @@ import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.compo
     ProjectModuleRoutingModule,
     // HttpClientModule,
     ReactiveFormsModule,
-    //FormsModule,
+    FormsModule,
     MatListModule,
     MatSelectModule,
     MatFormFieldModule,
