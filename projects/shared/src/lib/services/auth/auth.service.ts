@@ -45,7 +45,9 @@ export class AuthService {
   }
   unauthorize() {
     localStorage.removeItem('currentUser');
-
+    if (this.router.url.indexOf('/login') > -1) {
+      return;
+    }
     this.router.navigate(['/login'], { queryParams: { returnUrl: this.router.url } });
   }
   getToken(): string {
