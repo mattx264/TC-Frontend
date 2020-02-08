@@ -19,6 +19,8 @@ import { DialogSelectBrowserEngine } from './project-test-run/dialog-select-brow
 import { LightboxModule } from 'ngx-lightbox';
 import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 import { ProjectConfigComponent } from './project-config/project-config.component';
+import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
+import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 
 
 @NgModule({
@@ -34,7 +36,9 @@ import { ProjectConfigComponent } from './project-config/project-config.componen
     ProjectTestEditComponent,
     DialogSelectBrowserEngine,
     ProjectWrapperComponent,
-    ProjectConfigComponent
+    ProjectConfigComponent,
+    TestRunHistoryListComponent,
+    TestRunResultComponent
 ],
   imports: [
     CommonModule,

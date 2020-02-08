@@ -1,9 +1,15 @@
 $marigin-wrapper: 1rem;
+
+.no-header {
+  top: 0 !important;
+}
+
 .main-wrapper {
   display: flex;
-  margin: 0 1rem;
+  padding: 0 1rem;
   width: calc(100% - #{$marigin-wrapper});
   min-height: 80vh;
+
   main {
     width: 100%;
 

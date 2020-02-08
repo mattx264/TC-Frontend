@@ -12,6 +12,8 @@ import { ProjectTestCommandsComponent } from './project-test-commands/project-te
 import { ProjectTestRunComponent } from './project-test-run/project-test-run.component';
 import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 import { ProjectConfigComponent } from './project-config/project-config.component';
+import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
+import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 
 // User token and permissions classes can be utilized if further security is needed
 export class UserToken {}
@@ -47,6 +49,8 @@ const routes: Routes = [
           { path: 'config', component: ProjectConfigComponent },
           { path: 'edit', component: ProjectEditComponent },
           { path: 'tests', component: ProjectTestListComponent },
+          { path: 'test-history/:testid', component: TestRunHistoryListComponent },
+          { path: 'test-run-result/:test-history-id', component: TestRunResultComponent },
           { path: 'test-edit/:testid', component: ProjectTestEditComponent },
           { path: 'run-test/:testid', component: ProjectTestRunComponent },
           { path: 'test-commands/:testid', component: ProjectTestCommandsComponent }
