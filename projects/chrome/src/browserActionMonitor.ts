@@ -8,6 +8,11 @@ export class BrowserActionMonitor {
     constructor(xpathHelper:XpathHelper,sendMessage:Function){
         this.xpathHelper=xpathHelper;
         this.sendMessage=sendMessage;
+        document.addEventListener("mousedown", this.addRightMouseListener);
+
+        document.addEventListener("keyup", this.addKeyUpEventListener);
+        document.addEventListener("keydown", this.addKeyDownEventListener);
+        document.addEventListener("dblclick", this.addDoubleClickEventListener);
     }
     addKeyDownEventListener = (e: KeyboardEvent) => {
         const activeElement = document.activeElement as HTMLInputElement;

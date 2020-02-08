@@ -6,15 +6,8 @@ import { GuidGeneratorService } from './../../../../shared/src/lib/services/guid
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/project/projectDomainViewModel';
-
-
-import { Project } from '../ViewModels/Project';
-import { MatTableDataSource } from '@angular/material';
-import { Observable } from 'rxjs';
 import { ProjectConfigService } from '../../../../shared/src/lib/services/project-config.service';
-// import { ActivatedRoute, Route,} from '@angular/router';
-// import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-// import { settings } from 'cluster';
+
 
 @Component({
   selector: 'app-record-test',
@@ -47,13 +40,13 @@ export class RecordTestComponent implements OnInit {
   ngOnInit() {
     this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
     this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
-
+  
     if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
       this.projects = this.activatedRoute.snapshot.data.project;
       this.project = this.projects.filter(x => x.id == this.projectId)[0];
       this.storeService.setProject(this.project);
     }
-
+  
     this.isStarted = true;
     this.createNewTabAndNavigate(this.domain, e => {
       chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
@@ -63,12 +56,12 @@ export class RecordTestComponent implements OnInit {
         }
       });
     });
-    this.projectConfigService.getConfigById(this.projectId, 1).then((result: boolean) => {// Take screenshot
-      this.isTakeScreenshot = result;
-    });
-    this.projectConfigService.getConfigById(this.projectId, 2).then((result: boolean) => {// startXHRMonitor
-      this.isStartXHRMonitor = result;
-    });
+    // this.projectConfigService.getConfigById(this.projectId, 1).then((result: boolean) => {// Take screenshot
+    //   this.isTakeScreenshot = result;
+    // });
+    // this.projectConfigService.getConfigById(this.projectId, 2).then((result: boolean) => {// startXHRMonitor
+    //   this.isStartXHRMonitor = result;
+    // });
   }
 
   private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {

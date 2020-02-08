@@ -1,4 +1,5 @@
 export class XpathHelper {
+    
     getXPath(node: any): string {
         if (node.hasAttribute("id")) {
             return '//' + node.tagName + '[@id="' + node.id + '"]';

@@ -16,7 +16,8 @@ export class DialogSelectBrowserEngine implements OnInit {
     constructor(
         signalSzwagierService: SignalSzwagierService,
         public dialogRef: MatDialogRef<DialogSelectBrowserEngine>,
-        @Inject(MAT_DIALOG_DATA) public data: SzwagierModel) {
+        // @Inject(MAT_DIALOG_DATA) public data: SzwagierModel
+        ) {
         this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
         this.browserEngines = signalSzwagierService.getSzwagierBrowserEngine();
         this.hubConnection.on('UpdateSzwagierList', () => {

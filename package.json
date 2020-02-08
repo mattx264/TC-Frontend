@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "build-extension": "ng build tc-browser-recorder && npm run build-chrome",
+    "build-extension": "ng build tc-browser-recorder --evalSourceMap=true && npm run build-chrome",
     "build-chrome": "cd projects/chrome && webpack && gulp copy",
     "start": "ng serve",
     "build": "ng build",

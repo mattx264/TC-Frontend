@@ -1,0 +1,35 @@
+<H1>Test :{{testName}}</H1>
+<table mat-table [dataSource]="dataSource">
+
+  <ng-container matColumnDef="testInfoName">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.testInfoName}} </td>
+  </ng-container>
+  <ng-container matColumnDef="createdBy">
+    <th mat-header-cell *matHeaderCellDef> Run by </th>
+    <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="dateAdded">
+    <th mat-header-cell *matHeaderCellDef> Run date </th>
+    <td mat-cell *matCellDef="let element"> {{element.dateAdded}} </td>
+  </ng-container>
+  <ng-container matColumnDef="isSuccesful">
+    <th mat-header-cell *matHeaderCellDef> Succesful </th>
+    <td mat-cell *matCellDef="let element"> {{element.isSuccesful}} </td>
+  </ng-container>
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef> Run test </th>
+    <td mat-cell *matCellDef="let element">
+      <button [routerLink]="['/project',element.projectId,'run-test',element.id]" mat-flat-button color="primary">Show
+        Details
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+    (click)="selection.toggle(row)">
+  </tr>
+
+</table>

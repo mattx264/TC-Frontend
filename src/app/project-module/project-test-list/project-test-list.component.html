@@ -15,6 +15,14 @@
       </button>
     </td>
   </ng-container>
+  <ng-container matColumnDef="history">
+    <th mat-header-cell *matHeaderCellDef> History </th>
+    <td mat-cell *matCellDef="let element">
+      <button [routerLink]="['/project',element.projectId,'test-history',element.id]" mat-flat-button color="primary">History
+      </button>
+    </td>
+  </ng-container>
+ 
   <ng-container matColumnDef="editcommands">
     <th mat-header-cell *matHeaderCellDef> Edit commands </th>
     <td mat-cell *matCellDef="let element">
