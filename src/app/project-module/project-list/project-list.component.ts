@@ -14,6 +14,7 @@ import { ConfirmType } from 'src/app/modals/modal-data';
 })
 export class ProjectListComponent implements OnInit {
   deleteProjectEndPoint = 'project/deleteProject';
+  getProjectDetailsEndPoint = 'project/getProjectDetails';
   abrMonths: Array<string> = ['Jan', 'Feb', 'Mar', 'Apr', 'May',
     'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
@@ -31,7 +32,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.httpClient.get('project').toPromise().then((projects: ProjectViewModel[]) => {
+    this.httpClient.get(this.getProjectDetailsEndPoint).toPromise().then((projects: ProjectViewModel[]) => {
       this.projects = projects.map(x => {
         const pvm: ProjectViewModel = {
           id: x.id,
