@@ -59,10 +59,10 @@ export class ProjectEditComponent implements OnInit {
   }
   parseOutDomains(domains: Array<{ domain: string }>): string {
     let d = '';
-    domains.forEach(x => d += (x.domain + ','));
+    domains.forEach(x => d += (x.domain + ', '));
 
     if (d.length > 1) {
-      d = d.substring(0, d.length - 1); // Remove trailing comma
+      d = d.substring(0, d.length - 2); // Remove trailing comma
     }
 
     return d;
