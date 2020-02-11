@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { TestRunHistoryViewModel } from 'projects/shared/src/lib/viewModels/TestRunHistoryViewModel';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { ActivatedRoute } from '@angular/router';

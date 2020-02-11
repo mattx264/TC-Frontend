@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatTableDataSource } from '@angular/material';
+import { MatTableDataSource } from '@angular/material/table';
 import { Project } from '../ViewModels/Project';
 import { ProjectComponent } from 'src/app/project-module/project.component';
 import { ProjectViewModel } from '../ViewModels/projectViewModel';

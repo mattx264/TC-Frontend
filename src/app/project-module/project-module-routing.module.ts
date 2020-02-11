@@ -16,7 +16,9 @@ import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-
 import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 
 // User token and permissions classes can be utilized if further security is needed
+@Injectable()
 export class UserToken {}
+@Injectable()
 export class Permissions {
   canActivate(user: UserToken, id: string): boolean {
     return true;

@@ -7,7 +7,7 @@ import { OperatorModel, OperatorModelStatus } from 'projects/shared/src/lib/mode
 import { SeleniumCommand } from 'projects/shared/src/lib/models/selenium/SeleniumCommand';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogSelectBrowserEngine } from './dialog-select-browser-engine';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
 import { Lightbox, IAlbum } from 'ngx-lightbox';

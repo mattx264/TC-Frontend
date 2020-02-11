@@ -46,7 +46,8 @@ import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.componen
 import { CompanyInfoComponent } from './company-info/company-info.component';
 import { MatMenuModule } from '@angular/material/menu'
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule, MatSpinner, MatProgressSpinnerModule } from '@angular/material';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/project-sidebar.component';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { AlertModalComponent } from './modals/alert-modal/alert-modal.component';

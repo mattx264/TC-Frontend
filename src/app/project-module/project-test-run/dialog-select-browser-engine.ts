@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
