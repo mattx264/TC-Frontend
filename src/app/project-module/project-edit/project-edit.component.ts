@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { ThemePalette } from '@angular/material/core';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectViewModel } from 'projects/tc-browser-recorder/src/app/ViewModels/projectViewModel';
+import { ThemePalette } from '@angular/material/core';
 
 @Component({
   selector: 'app-project-edit',

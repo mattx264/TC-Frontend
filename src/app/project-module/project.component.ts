@@ -3,7 +3,7 @@ import { LayoutService } from '../layout/layout.service';
 
 @Component({
   selector: 'app-root',
-  template: `<router-outlet></router-outlet>`
+  templateUrl: `./project.component.html`
 
 })
 export class ProjectComponent {

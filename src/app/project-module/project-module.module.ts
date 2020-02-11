@@ -9,6 +9,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+//import { MatChipsModule } from '@angular/material/chips';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,7 +26,6 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from 'projects/shared/src/public-api';
 import { environment } from 'projects/tc-browser-recorder/src/environments/environment';
-import { ProjectComponent } from './project.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { ProjectTestListComponent } from './project-test-list/project-test-list.component';
 import { ProjectTestRunComponent } from './project-test-run/project-test-run.component';
@@ -37,6 +37,7 @@ import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.compo
 import { ProjectConfigComponent } from './project-config/project-config.component';
 import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
 import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
+import { ProjectComponent } from './project.component';
 
 
 @NgModule({
@@ -58,7 +59,7 @@ import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.
 ],
   imports: [
     CommonModule,
-
+    MatChipsModule,
     ProjectModuleRoutingModule,
     // HttpClientModule,
     ReactiveFormsModule,

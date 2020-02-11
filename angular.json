@@ -94,7 +94,7 @@
               "src/assets"
             ],
             "styles": [
-              
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
             ],
             "scripts": []
           }
@@ -215,9 +215,7 @@
               "projects/tc-browser-recorder/src/favicon.ico",
               "projects/tc-browser-recorder/src/assets"
             ],
-            "styles": [
-            
-            ],
+            "styles": [],
             "scripts": []
           }
         },
@@ -259,13 +257,13 @@
           "options": {
             "tsConfig": "projects/shared/tsconfig.lib.json",
             "project": "projects/shared/ng-package.json"
-          }
-        ,          "configurations": {
+          },
+          "configurations": {
             "production": {
               "tsConfig": "projects/shared/tsconfig.lib.prod.json"
             }
           }
-},
+        },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {

@@ -3,7 +3,7 @@ import { HttpClientService } from 'projects/shared/src/lib/services/http-client.
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Project } from '../ViewModels/Project';
-import { ProjectComponent } from 'src/app/project-module/project.component';
+//import { ProjectComponent } from 'src/app/project-module/project.component';
 import { ProjectViewModel } from '../ViewModels/projectViewModel';
 import { WebsiteService } from 'projects/shared/src/lib/services/website.service';
 import { ProjectTest } from '../ViewModels/projectTests';
