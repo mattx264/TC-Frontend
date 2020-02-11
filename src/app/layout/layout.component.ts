@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd, Route, ActivatedRoute, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LayoutService } from './layout.service';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { HeaderComponent } from './header/header.component';
 
@@ -17,8 +17,8 @@ export class LayoutComponent implements OnInit {
   showFooter = false;
   sidebarName: string;
   project: ProjectViewModel;
-  @ViewChild('header', { static: false }) header: HeaderComponent;
-  @ViewChild('sideNav', { static: false }) sideNav: MatSidenav;
+  @ViewChild('header') header: HeaderComponent;
+  @ViewChild('sideNav') sideNav: MatSidenav;
   constructor(private layoutService: LayoutService, private router: Router) {
     this.sidebarName = "sidebar"
   }

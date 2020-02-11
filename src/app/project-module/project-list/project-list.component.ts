@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
-import { MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { isDate } from 'util';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';

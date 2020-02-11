@@ -22,7 +22,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SaveTestComponent } from './save-test/save-test.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { OperatorService } from './services/operator.service';
-import { MatToolbarModule, MatBadgeModule, MatMenuModule } from '@angular/material';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { InformationPageComponent } from './information-page/information-page.component';
 import { ProjectsComponent } from './projects/projects.component';

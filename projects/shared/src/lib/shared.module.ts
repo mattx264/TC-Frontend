@@ -16,7 +16,7 @@ import { ServerNotAvaiableComponent } from './components/server-not-avaiable/ser
 import { SimpleErrorPageComponent } from './components/simple-error-page/simple-error-page.component';
 import { CommonModule } from '@angular/common';
 import { SnackbarService } from './services/snackbar.service';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectConfigService } from './services/project-config.service';
 
 
@@ -46,7 +46,7 @@ import { ProjectConfigService } from './services/project-config.service';
 
 })
 export class SharedModule {
-  static forRoot(environment: any): ModuleWithProviders {
+  static forRoot(environment: any): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
       providers: [

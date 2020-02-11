@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Injectable } from '@angular/core';
 import { Routes, RouterModule, UrlTree, DefaultUrlSerializer, UrlSerializer } from '@angular/router';
 import { SzwagierDashboardComponent } from './szwagier-dashboard/szwagier-dashboard.component';
 import { SzwagierRCComponent } from './szwagier-rc/szwagier-rc.component';
@@ -30,6 +30,7 @@ const routes: Routes = [
   { path: '**', redirectTo: 'szwagierDashboard', pathMatch: 'full' }
 ];
 
+@Injectable()
 export class LowerCaseUrlSerializer extends DefaultUrlSerializer {
   parse(url: string): UrlTree {
     return super.parse(url.toLocaleLowerCase());

@@ -1,5 +1,5 @@
 import { ControlValueAccessor, Validator, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { Input, NgZone, OnChanges, Renderer2, ViewChild, ElementRef, ContentChild } from '@angular/core';
+import { Input, NgZone, OnChanges, Renderer2, ViewChild, ElementRef, ContentChild, Directive } from '@angular/core';
 import { FieldConfig } from './models/field-config';
 import { ErrorStateMatcher } from '@angular/material/core';
 
@@ -10,6 +10,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     }
 }
 
+@Directive()
 export class FieldBase implements ControlValueAccessor, OnChanges, Validator {
     private _disabled = false;
     private _isRequired = true;
@@ -56,7 +57,7 @@ export class FieldBase implements ControlValueAccessor, OnChanges, Validator {
         return this._disabled;
     }
 
-    @ViewChild('field', { static: false }) field;
+    @ViewChild('field') field;
 
     constructor(public renderer2: Renderer2, private zone: NgZone, private el: ElementRef) {
         if (this.fieldConfig === undefined || this.fieldConfig === null) {
