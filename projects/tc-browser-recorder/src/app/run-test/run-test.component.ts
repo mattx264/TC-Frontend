@@ -1,16 +1,13 @@
 import { OperatorModelStatus } from './../../../../shared/src/lib/models/operatorModel';
-import { Router } from '@angular/router';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { SignalSzwagierService } from '../../../../shared/src/lib/services/signalr/signal-szwagier.service';
-import { SzwagierModel } from '../../../../shared/src/lib/models/szwagierModel';
 import { SzwagierType } from '../../../../shared/src/lib/models/SzwagierType';
 import { StoreService } from '../services/store.service';
-import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { MatTableDataSource } from '@angular/material/table';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
-import { OperatorService } from '../services/operator.service';
 import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
+import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 
 @Component({
   selector: 'app-run-test',
@@ -32,7 +29,7 @@ export class RunTestComponent implements OnInit {
   constructor(
     private storeService: StoreService,
     signalSzwagierService: SignalSzwagierService,
-    private operatorService: OperatorService,
+    private seleniumConverterService: SeleniumConverterService,
     private cdr: ChangeDetectorRef,
     private projectConfigService: ProjectConfigService) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
@@ -55,7 +52,7 @@ export class RunTestComponent implements OnInit {
   sendClick() {
     this.projectConfigService.getConfigsByProjectId(this.storeService.getProject().id).then(configs => {
       const operatorsData = this.storeService.getOperatorsData();
-      var data = this.operatorService.packageOperators(operatorsData);
+      var data = this.seleniumConverterService.packageOperators(operatorsData);
       const message = {
         Configurations: configs,
         ReceiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
