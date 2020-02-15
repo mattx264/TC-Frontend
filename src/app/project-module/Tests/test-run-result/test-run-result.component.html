@@ -1,1 +1,56 @@
-<p>test-run-result works!</p>
+<mat-card>
+  <div>
+    Selected browser engine :text
+  </div>
+  <div>
+      Configuration:text
+  </div>
+
+
+</mat-card>
+<section *ngIf="testRunResults"> 
+  <table id="actionTable" class="table-wrapper">
+    <thead class="table-thead">
+      <tr>
+        <th>Action</th>
+        <th>Path</th>
+        <th>Value</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody class="table-tbody">
+      <tr *ngFor="let item of testRunResults;let index=index">
+        <td class="minW65">
+          {{item.operator.action}}
+        </td>
+        <td class="minW65">
+          {{item.operator.path}}
+        </td>
+        <td class="minW65">
+          {{item.operator.value}}
+        </td>
+        <td class="">
+          <div *ngIf="item.imagePath==null">
+            {{item.status}}
+            <div [ngSwitch]="item.status">
+              <span *ngSwitchCase="'inprogress'">
+                <mat-spinner class="zoom05"></mat-spinner>
+              </span>
+              <span *ngSwitchCase="'done'">
+                <mat-icon color="success">done</mat-icon>
+              </span>
+              <span *ngSwitchCase="'failed'">
+                <mat-icon>error</mat-icon>
+              </span>
+              <span *ngSwtichDefault="">Unknown</span>
+            </div>
+          </div>
+          <div *ngIf="item.screenshotUrl!=null" (click)="lightboxImageClick(index);">
+            <img class="img-thumbnail" src="{{item.screenshotUrl}}" alt="">
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</section>

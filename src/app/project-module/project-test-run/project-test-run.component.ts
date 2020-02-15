@@ -12,6 +12,7 @@ import { DialogSelectBrowserEngine } from './dialog-select-browser-engine';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
 import { Lightbox, IAlbum } from 'ngx-lightbox';
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
+import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 
 @Component({
   selector: 'app-project-test-run',
@@ -32,7 +33,8 @@ export class ProjectTestRunComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     signalSzwagierService: SignalSzwagierService,
     public dialog: MatDialog,
-    public lightbox: Lightbox) {
+    public lightbox: Lightbox,
+    private seleniumConverterService: SeleniumConverterService) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
       this.projectId = +x.id;
@@ -40,8 +42,7 @@ export class ProjectTestRunComponent implements OnInit {
     this.testId = +this.activatedRoute.snapshot.paramMap.get('testid');
     this.httpService.get('testInfo/' + this.testId).subscribe((data: TestInfoViewModel) => {
       this.testInfo = data;
-      this.operators = this.openOperators(this.testInfo.commands);
-      this.commandsRender = this.operators.filter(x => x.action !== 'takeScreenshot');
+      this.commandsRender = this.seleniumConverterService.openOperators(this.testInfo.commands);
     });
   }
 
@@ -98,68 +99,5 @@ export class ProjectTestRunComponent implements OnInit {
       this.operators[currentIndex - 1].imagePath = data.imagePath;
     });
   }
-  //TODO move this to shared 
-  openOperators(seleniumCommand: SeleniumCommand[]) {
-    var data: OperatorModel[] = [];
-    for (let i = 0; i < seleniumCommand.length; i++) {
-      const row = seleniumCommand[i];
-
-      switch (+row.webDriverOperationType) {
-
-        case 0:
-          switch (+row.operationId) {
-
-            case 17:
-              data.push({ value: null, guid: row.guid, action: 'takeScreenshot', path: null });
-              break;
-            default:
-              throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)
-          }
-          break
-        case 1:
-          switch (+row.operationId) {
-            default:
-              throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)
-          }
-          break
-        case 2:
-          switch (+row.operationId) {
-            case 5:
-              data.push({ value: row.values[1], guid: row.guid, action: 'selectByValue', path: row.values[0] });
-              break;
-            default:
-              throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)
-          }
-          break;
-        case 4:
-          switch (+row.operationId) {
-            case 3:
-              data.push({ value: row.values[0], guid: row.guid, action: 'goToUrl', path: null });
-              break;
-            case 18:
-              //CloseBrowser - Right now dont display this 
-              break;
-            default:
-              throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)
-          }
-          break;
-        case 5:
-          switch (+row.operationId) {
-            case 0:
-              data.push({ value: null, guid: row.guid, action: 'click', path: row.values[0] });
-              break;
-            case 1:
-              data.push({ value: row.values[1], guid: row.guid, action: 'sendKeys', path: row.values[0] });
-              break;
-            default:
-              throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)
-          }
-          break;
-        default:
-          throw new Error("WebDriverOperationType not implemented" + row.webDriverOperationType)
-      }
-
-    }
-    return data;
-  }
+ 
 }

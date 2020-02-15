@@ -21,7 +21,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { SaveTestComponent } from './save-test/save-test.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { OperatorService } from './services/operator.service';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -71,8 +70,8 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatSnackBarModule
   ],
   providers: [
-    AuthGuard,
-    OperatorService
+    AuthGuard
+   
   ],
   entryComponents: [
 

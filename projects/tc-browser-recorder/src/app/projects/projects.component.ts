@@ -7,9 +7,9 @@ import { Project } from '../ViewModels/Project';
 import { ProjectViewModel } from '../ViewModels/projectViewModel';
 import { WebsiteService } from 'projects/shared/src/lib/services/website.service';
 import { ProjectTest } from '../ViewModels/projectTests';
-import { OperatorService } from '../services/operator.service';
 import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { StoreService } from '../services/store.service';
+import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 
 @Component({
   selector: 'app-projects',
@@ -27,7 +27,7 @@ export class ProjectsComponent implements OnInit {
               private router: Router,
               private aRouter: ActivatedRoute,
               private webService: WebsiteService,
-              private operatorService: OperatorService,
+              private seleniumConverterService: SeleniumConverterService,
               private storeService: StoreService
             ) { }
 

@@ -4,7 +4,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { StoreService } from '../services/store.service';
 import { Route, Router } from '@angular/router';
-import { OperatorService } from '../services/operator.service';
+import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 
 @Component({
   selector: 'app-save-test',
@@ -19,7 +19,7 @@ export class SaveTestComponent implements OnInit {
     private storeService: StoreService,
     private router: Router,
     
-    private operatorService: OperatorService
+    private seleniumConverterService: SeleniumConverterService
   ) { }
 
   ngOnInit() {
@@ -39,7 +39,7 @@ export class SaveTestComponent implements OnInit {
     const data = this.formGroup.getRawValue();
     data.projectId = this.storeService.getProject().id;
 
-    data.seleniumCommands = this.operatorService.packageOperators(this.storeService.getOperatorsData());
+    data.seleniumCommands = this.seleniumConverterService.packageOperators(this.storeService.getOperatorsData());
     this.httpClient.post('projectTest', data).subscribe(response => {
       this.router.navigate(['/landing-page']);
         alert("Save successful");
