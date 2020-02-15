@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 import { HttpClientService } from '../../../../projects/shared/src/lib/services/http-client.service';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { ThemePalette } from '@angular/material/core';
+import { ThemePalette, ErrorStateMatcher } from '@angular/material/core';
+
 
 export class CustomValidators {
 
@@ -36,6 +37,7 @@ export class ProjectCreateComponent implements OnInit {
   emailAddresses: string[] = [];
   selectable = true;
   addOnBlur = true;
+ 
 
   constructor(private fb: FormBuilder,
     private router: Router,
@@ -43,6 +45,7 @@ export class ProjectCreateComponent implements OnInit {
 
   ngOnInit() {
     this.formGroup = this.buildForm();
+  
     this.formGroup.controls.usersEmail.setValue(this.emailAddresses);
   }
 
@@ -51,7 +54,7 @@ export class ProjectCreateComponent implements OnInit {
       'name': ['', Validators.required],
       'description': ['', Validators.required],
       'domains': ['', Validators.required],
-      'usersEmail': [this.emailAddresses, [CustomValidators.validateEmails]]
+      'usersEmail': [this.emailAddresses,[CustomValidators.validateEmails]]
     });
   }
 
@@ -59,7 +62,6 @@ export class ProjectCreateComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
-
     this.http.post(this.saveProjectEndPoint, this.formGroup.getRawValue())
       .subscribe(
         r => this.router.navigate(['project']),
