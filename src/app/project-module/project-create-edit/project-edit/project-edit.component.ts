@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { MatChipInputEvent } from '@angular/material/chips';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectViewModel } from 'projects/tc-browser-recorder/src/app/ViewModels/projectViewModel';
 import { ThemePalette } from '@angular/material/core';
+import { FormValidatorsService } from 'src/app/services/form-validators.service';
 
 @Component({
   selector: 'app-project-edit',
@@ -22,38 +23,39 @@ export class ProjectEditComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public emailChipColor: ThemePalette = 'primary';
   emailAddresses: string[] = [];
+  newEmailAddresses: string[] = [];
   selectable = true;
   addOnBlur = true;
 
   constructor(private fb: FormBuilder,
-              private router: Router,
-              private activatedRoute: ActivatedRoute,
-              private http: HttpClientService) {
-                this.activatedRoute.parent.params.subscribe(x => this.ProjectId = x.id);
-              }
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private http: HttpClientService,
+    private formValidatorsService: FormValidatorsService) {
+    this.activatedRoute.parent.params.subscribe(x => this.ProjectId = x.id);
+  }
 
   ngOnInit() {
     this.formGroup = this.buildForm();
-    this.http.getGeneric<ProjectViewModel>(`${this.getProjectEndPoint}/${this.ProjectId}`).subscribe(x =>
-      {
-        x.userInProject.forEach(element => {
-          this.emailAddresses.push(element.userEmail);
-        });
-
-        this.ProjectName = x.name;
-        this.formGroup.get('name').setValue(x.name);
-        this.formGroup.get('description').setValue(x.description);
-        this.formGroup.get('usersEmail').setValue(this.emailAddresses);
-        this.formGroup.get('domains').setValue(this.parseOutDomains(x.projectDomain));
-        this.formGroup.get('id').setValue(x.id);
+    this.http.getGeneric<ProjectViewModel>(`${this.getProjectEndPoint}/${this.ProjectId}`).subscribe(x => {
+      x.userInProject.forEach(element => {
+        this.emailAddresses.push(element.userEmail);
       });
+
+      this.ProjectName = x.name;
+      this.formGroup.get('name').setValue(x.name);
+      this.formGroup.get('description').setValue(x.description);
+      // this.formGroup.get('usersEmail').setValue(this.emailAddresses);
+      this.formGroup.get('domains').setValue(this.parseOutDomains(x.projectDomain));
+      this.formGroup.get('id').setValue(x.id);
+    });
   }
   buildForm(): FormGroup {
     return this.fb.group({
       name: ['', Validators.required],
       description: ['', Validators.required],
       domains: ['', Validators.required],
-      usersEmail: [''],
+      usersEmail: [this.newEmailAddresses, [this.formValidatorsService.validateEmails]],
       id: [0],
     });
   }
@@ -71,18 +73,18 @@ export class ProjectEditComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
-
+    this.formGroup.get('usersEmail').setValue((this.formGroup.get('usersEmail').value as string []).concat(this.emailAddresses));
     this.http.put(this.saveProjectEndPoint, this.formGroup.getRawValue())
       .subscribe(
         r => this.router.navigate(['project']),
         e => alert(e.error)
-    );
+      );
   }
 
   removeEmail(address: string): void {
-    const indx = this.emailAddresses.indexOf(address);
+    const indx = this.newEmailAddresses.indexOf(address);
     if (indx > -1) {
-      this.emailAddresses.splice(indx, 1);
+      this.newEmailAddresses.splice(indx, 1);
     }
 
     this.formGroup.controls.usersEmail.updateValueAndValidity();
@@ -93,7 +95,7 @@ export class ProjectEditComponent implements OnInit {
     const input = event.input;
     const value = event.value;
 
-  //  NEED TO FIX VALIDATORS
+    //  NEED TO FIX VALIDATORS
     if ((value.trim() !== '')) {
       this.formGroup.controls.usersEmail.setErrors(null);
       const tempEmails = this.formGroup.controls.usersEmail.value;
@@ -104,9 +106,9 @@ export class ProjectEditComponent implements OnInit {
         this.formGroup.controls.usersEmail.markAsDirty();
         input.value = '';
       } else {
-        const indx = this.emailAddresses.findIndex(x => x === value.trim());
+        const indx = this.newEmailAddresses.findIndex(x => x === value.trim());
         if (indx !== -1) {
-          this.emailAddresses.splice(indx, 1);
+          this.newEmailAddresses.splice(indx, 1);
         }
       }
     } else {

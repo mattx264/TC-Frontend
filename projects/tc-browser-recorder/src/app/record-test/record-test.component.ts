@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, NgZone, AfterContentInit, } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone, AfterContentInit, OnDestroy, } from '@angular/core';
 import { OperatorModel, XhrOperatorModel } from '../../../../shared/src/lib/models/operatorModel';
 import { StoreService } from '../services/store.service';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
@@ -7,6 +7,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/project/projectDomainViewModel';
 import { ProjectConfigService } from '../../../../shared/src/lib/services/project-config.service';
+import { BrowserTabService } from '../services/browser-tab.service';
+import { async } from '@angular/core/testing';
 
 
 @Component({
@@ -14,7 +16,8 @@ import { ProjectConfigService } from '../../../../shared/src/lib/services/projec
   templateUrl: './record-test.component.html',
   styleUrls: ['./record-test.component.scss']
 })
-export class RecordTestComponent implements OnInit {
+export class RecordTestComponent implements OnInit,OnDestroy {
+  
   operatorsData: OperatorModel[] = [];
   isStarted: boolean = false;
   domain: string;
@@ -34,67 +37,51 @@ export class RecordTestComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private projectConfigService: ProjectConfigService
+    private projectConfigService: ProjectConfigService,
+    private browserTabService: BrowserTabService
   ) { }
 
-  ngOnInit() {
-    this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
-    this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
-  
+  async ngOnInit() {
+    //this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
+    // this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
+
     if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
       this.projects = this.activatedRoute.snapshot.data.project;
       this.project = this.projects.filter(x => x.id == this.projectId)[0];
       this.storeService.setProject(this.project);
     }
-  
+
     this.isStarted = true;
-    this.createNewTabAndNavigate(this.domain, e => {
-      chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-        if (tabId == e.id && changeInfo.status == "complete") {
-          this.addChromeListener();
-          chrome.tabs.onUpdated.removeListener(function (a, b, c) { console.log('Unregistered event'); });
-        }
-      });
-    });
-    // this.projectConfigService.getConfigById(this.projectId, 1).then((result: boolean) => {// Take screenshot
-    //   this.isTakeScreenshot = result;
-    // });
-    // this.projectConfigService.getConfigById(this.projectId, 2).then((result: boolean) => {// startXHRMonitor
-    //   this.isStartXHRMonitor = result;
-    // });
+    this.chromeTab = await this.browserTabService.getTab();
+    this.tabId = this.browserTabService.getTabId();
+    chrome.runtime.onMessage.addListener(this.addChromeListener.bind(this));
+    this.setupPageScript();    
   }
+  ngOnDestroy(): void {
+    chrome.runtime.onMessage.removeListener(this.addChromeListener.bind(this));
 
-  private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
-    chrome.tabs.create({ 'url': url }, tab => {
-      this.chromeTab
-      localStorage.setItem('tabId', tab.id.toString());
-      this.chromeTab = tab;
-      _callback(tab);
-    });
   }
+  public addChromeListener(request: { type: string, data: OperatorModel }, sender, sendResponse) {
+    //   chrome.runtime.onMessage.addListener(
+    //      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
+    if (request.type === 'getInfo' && request.data.action === 'isStarted') {
+      sendResponse(this.isStarted);
+      this.setupPageScript();
+      return;
+    }
+    if (this.isStarted === false) {
+      this.beforeStart(request.data);
+      return;
+    }
+    if (request.type == 'insert') {
+      this.addNewOperation(request.data);
+    } else if (request.type == 'appendLastValue') {
+      this.appendLastOperation(request.data);
+    }
+    this.cdr.detectChanges();
+    //   });
 
 
-  public addChromeListener(): void {
-    chrome.runtime.onMessage.addListener(
-      (request: { type: string, data: OperatorModel }, sender, sendResponse) => {
-        if (request.type === 'getInfo' && request.data.action === 'isStarted') {
-          sendResponse(this.isStarted);
-          this.setupPageScript();
-          return;
-        }
-        if (this.isStarted === false) {
-          this.beforeStart(request.data);
-          return;
-        }
-        if (request.type == 'insert') {
-          this.addNewOperation(request.data);
-        } else if (request.type == 'appendLastValue') {
-          this.appendLastOperation(request.data);
-        }
-        this.cdr.detectChanges();
-      });
-
-    this.setupPageScript();
   }
 
   private setupPageScript(): void {
@@ -107,16 +94,7 @@ export class RecordTestComponent implements OnInit {
       this.sendMessageToBrowser('startXHRMonitor');
     }
   }
-  // DO WE NEED THSI METHOD IF NOT????? 
-  private getTabIdFromUrl(url): string {
-    const id = url.substr(url.indexOf("?") + 4);
-    if (isNaN(+id)) {
-      this.ngZone.run(() =>
-        this.router.navigate(['/information-page', 'refreshPage'])
-      );
-    }
-    return id == null ? null : id;
-  }
+
 
   private addNewOperation(request: OperatorModel): void {
     const newOperation: OperatorModel = {
@@ -125,7 +103,6 @@ export class RecordTestComponent implements OnInit {
       value: request.value,
       guid: this.guidGeneratorService.get()
     }
-
     switch (request.action) {
       case 'xhrStart':
       case 'xhrDone':
@@ -136,7 +113,6 @@ export class RecordTestComponent implements OnInit {
 
         break;
     }
-
     this.operatorsData.push(
       newOperation
     );
@@ -150,7 +126,6 @@ export class RecordTestComponent implements OnInit {
     }
   }
 
-
   private appendLastOperation(request: OperatorModel): void {
     if (this.operatorsData.length === 0) {
       throw new Error('You cannot call updateLastOperation() when operatorsData is empty.');
@@ -163,10 +138,6 @@ export class RecordTestComponent implements OnInit {
     }
     this.operatorsData[this.operatorsData.length - 1].value += request.value as string;
   }
-
-
-
-
 
   private beforeStart(request: OperatorModel): void {
     if (request.action === "goToUrl") {
@@ -208,7 +179,6 @@ export class RecordTestComponent implements OnInit {
     //   localStorage.setItem('tabId', id);
     // }
     try {
-
       chrome.tabs.sendMessage(this.chromeTab.id, { method: methodName }, (response) => {
         if (response === undefined) {
           console.log('undefined response');
