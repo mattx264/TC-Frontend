@@ -1,26 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
-import { HttpClientService } from '../../../../projects/shared/src/lib/services/http-client.service';
 import { Router } from '@angular/router';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { ThemePalette, ErrorStateMatcher } from '@angular/material/core';
+import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
+import { FormValidatorsService } from 'src/app/services/form-validators.service';
 
-
-export class CustomValidators {
-
-  static validateEmails(c: FormControl) {
-    // tslint:disable-next-line:max-line-length
-    const EMAIL_REGEXP = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
-    let inValid = null;
-    c.value.forEach((item) => {
-      if (!EMAIL_REGEXP.test(item)) {
-        inValid = { email: true };
-      }
-    });
-    return inValid;
-  }
-}
 
 
 @Component({
@@ -37,24 +23,25 @@ export class ProjectCreateComponent implements OnInit {
   emailAddresses: string[] = [];
   selectable = true;
   addOnBlur = true;
- 
+
 
   constructor(private fb: FormBuilder,
     private router: Router,
-    private http: HttpClientService) { }
+    private http: HttpClientService,
+    private formValidatorsService: FormValidatorsService) { }
 
   ngOnInit() {
     this.formGroup = this.buildForm();
-  
+
     this.formGroup.controls.usersEmail.setValue(this.emailAddresses);
   }
 
   buildForm(): FormGroup {
     return this.fb.group({
-      'name': ['', Validators.required],
-      'description': ['', Validators.required],
-      'domains': ['', Validators.required],
-      'usersEmail': [this.emailAddresses,[CustomValidators.validateEmails]]
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      domains: ['', Validators.required],
+      usersEmail: [this.emailAddresses, [this.formValidatorsService.validateEmails]]
     });
   }
 

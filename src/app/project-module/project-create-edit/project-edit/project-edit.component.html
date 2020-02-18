@@ -1,0 +1,44 @@
+<!--WIP/TEST/TODO-->
+
+<h1>Edit Project: {{ ProjectName }}</h1>
+<form [formGroup]="formGroup" (ngSubmit)="save()">
+  <div class="form-fill">
+    <app-text-field formControlName="name" name="name" label="Name"></app-text-field>
+    <app-text-field formControlName="description" name="description" label="Description"></app-text-field>
+    <app-text-field formControlName="domains" name="domains" label="Domains"
+      extraInfo="Please insert in comma-separated format (e.g., https://www.tc.net)"></app-text-field>
+    <!-- <app-text-field formControlName="usersEmail" name="usersEmail" label="Users Email" extraInfo="Please insert in comma-separated format"></app-text-field> -->
+
+    <mat-divider></mat-divider>
+    <mat-list>
+      <h3 mat-subheader>Users</h3>
+      <mat-list-item *ngFor="let email of emailAddresses">
+        <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+        <h4 mat-line>{{email}}</h4>
+        <!-- <p mat-line> {{folder.updated | date}} </p> -->
+      </mat-list-item>
+
+    </mat-list>
+
+    <mat-form-field class="email-chip-list" appearance="outline">
+      <mat-label>Add new users by email</mat-label>
+      <mat-chip-list formControlName="usersEmail" #chipList aria-label="email selection">
+        <mat-chip *ngFor="let email of newEmailAddresses" selected removable (removed)="removeEmail(email)"
+          [color]="emailChipColor">
+          {{ email }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="addEmail($event)">
+      </mat-chip-list>
+      <mat-error *ngIf="formGroup.controls.usersEmail.hasError('email') === true">
+        Please enter a valid email address
+      </mat-error>
+    </mat-form-field>
+  </div>
+
+  <div class="option-buttons">
+    <button mat-raised-button color="primary" type="submit">Update</button>
+    <button mat-raised-button color="accent" [routerLink]="['/project']">Cancel</button>
+  </div>
+</form>

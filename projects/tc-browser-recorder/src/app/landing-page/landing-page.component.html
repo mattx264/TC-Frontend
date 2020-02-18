@@ -1,23 +1,23 @@
 <section class="init-section">
     <div>
-        <button mat-raised-button type="button" color="primary" *ngIf="totalProjects > 0"
-                type="button" (click)="startRecordingClick()"
-                matBadge="{{totalProjects}}" matBadgePosition="before" matBadgeColor="accent"
+        <button mat-raised-button type="button" color="primary" *ngIf="currentPageProject != null"
+                type="button" (click)="startRecordingClick()"              
                 matTooltip="Start testing this domain"
                 matTooltipClass="tooltip-css">
                 Start Recording
         </button>
     </div>
     <div>
-        <button mat-raised-button type="button" color="primary" 
+        <button mat-raised-button type="button" color="primary" *ngIf="totalProjects > 0"
                 type="button" (click)="viewProjects()" 
+                matBadge="{{totalProjects}}" matBadgePosition="before" matBadgeColor="accent"
                 matTooltip="View the current tests and projects with this domain"
                 matTooltipClass="tooltip-css">
                 View Projects
         </button>
     </div>
     <div>
-        <button mat-raised-button type="button" color="primary" 
+        <button mat-raised-button type="button" color="primary" *ngIf="totalProjects > 0"
                 type="button" (click)="viewProjects()" 
                 matTooltip="View the current tests and projects with this domain"
                 matTooltipClass="tooltip-css">

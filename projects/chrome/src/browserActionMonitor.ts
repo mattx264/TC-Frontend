@@ -5,14 +5,18 @@ export class BrowserActionMonitor {
     xpathHelper: XpathHelper;
     rightClickElementClicked: any;
     sendMessage: Function;
-    constructor(xpathHelper:XpathHelper,sendMessage:Function){
-        this.xpathHelper=xpathHelper;
-        this.sendMessage=sendMessage;
-        document.addEventListener("mousedown", this.addRightMouseListener);
+    constructor(xpathHelper: XpathHelper, sendMessage: Function) {
+        this.xpathHelper = xpathHelper;
+        this.sendMessage = sendMessage;
+        if (document.ondblclick != null) {
+            return;
+        }
+        document.onkeyup = this.addKeyUpEventListener;
+        document.onkeydown = this.addKeyDownEventListener;
+        document.ondblclick = this.addDoubleClickEventListener;
+        document.onmousedown = this.addMouseListener;
+      
 
-        document.addEventListener("keyup", this.addKeyUpEventListener);
-        document.addEventListener("keydown", this.addKeyDownEventListener);
-        document.addEventListener("dblclick", this.addDoubleClickEventListener);
     }
     addKeyDownEventListener = (e: KeyboardEvent) => {
         const activeElement = document.activeElement as HTMLInputElement;
@@ -32,7 +36,7 @@ export class BrowserActionMonitor {
     addKeyUpEventListener = (e: KeyboardEvent) => {
         const activeElement = document.activeElement as HTMLInputElement;
         var xpath = this.xpathHelper.getInputElementXPath(activeElement);
-        if (e.code.toLowerCase() == "tab" || e.code.toLowerCase() == "shiftleft" || e.code.toLowerCase() == "shiftright" || e.code.toLowerCase()=='backspace'
+        if (e.code.toLowerCase() == "tab" || e.code.toLowerCase() == "shiftleft" || e.code.toLowerCase() == "shiftright" || e.code.toLowerCase() == 'backspace'
             || e.code.toLowerCase() == "controlright" || e.code.toLowerCase() == "controlleft" || e.code.toLowerCase() == "altright" || e.code.toLowerCase() == "altleft") {
             this.sendMessage({
                 action: 'sendKeys', path: xpath, value: 'Keys.' + e.code.toUpperCase()
@@ -78,7 +82,7 @@ export class BrowserActionMonitor {
         console.log("double click!!!");
         console.log(e)
     }
-    addRightMouseListener = (e: MouseEvent) => {
+    addMouseListener = (e: MouseEvent) => {
         if (e.which !== 3) {
             this.addClickEventListener(e);
         }

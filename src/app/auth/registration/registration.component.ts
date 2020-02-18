@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LayoutService } from '../../layout/layout.service';
 import { AuthService } from '../../../../projects/shared/src/lib/services/auth/auth.service';
 import { HttpClientService } from '../../../../projects/shared/src/lib/services/http-client.service';
+import { FormValidatorsService } from 'src/app/services/form-validators.service';
 
 
 @Component({
@@ -19,9 +20,9 @@ export class RegistrationComponent implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private httpClientService: HttpClientService,
-    private route: ActivatedRoute,
     private router: Router,
-    layoutService: LayoutService
+    layoutService: LayoutService,
+    private formValidators: FormValidatorsService
   ) {
     layoutService.hideSidebarHeader();
   }
@@ -34,7 +35,7 @@ export class RegistrationComponent implements OnInit {
   buildForm() {
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      email: ['', [Validators.required, this.formValidators.validateEmail]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
