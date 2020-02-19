@@ -13,6 +13,9 @@ import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgress
 import { Lightbox, IAlbum } from 'ngx-lightbox';
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
+import { ConfigProjectTestViewModel } from 'projects/shared/src/lib/viewModels/ConfigProjectTestViewModel';
+import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
+import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
 
 @Component({
   selector: 'app-project-test-run',
@@ -28,13 +31,18 @@ export class ProjectTestRunComponent implements OnInit {
   selectedBrowserEngine: SzwagierModel;
   commandsRender: OperatorModelStatus[];
   screenshots: IAlbum[] = [];
+  
+  showSettings: boolean;
+  configProject: ConfigProjectModel[];
   constructor(
     private httpService: HttpClientService,
     private activatedRoute: ActivatedRoute,
     signalSzwagierService: SignalSzwagierService,
     public dialog: MatDialog,
     public lightbox: Lightbox,
-    private seleniumConverterService: SeleniumConverterService) {
+    private seleniumConverterService: SeleniumConverterService,
+    private projectConfigService: ProjectConfigService
+  ) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
       this.projectId = +x.id;
@@ -44,6 +52,11 @@ export class ProjectTestRunComponent implements OnInit {
       this.testInfo = data;
       this.commandsRender = this.seleniumConverterService.openOperators(this.testInfo.commands);
     });
+
+    this.projectConfigService.getConfigsByTestId(this.testId).then(data => {
+      this.configProject = data;
+    });
+
   }
 
   ngOnInit() {
@@ -79,6 +92,9 @@ export class ProjectTestRunComponent implements OnInit {
     this.hubConnection.invoke('SendCommand', message);
     this.startTestProgressMonitor();
   }
+  showSettingsClick() {
+    this.showSettings = !this.showSettings;
+  }
   startTestProgressMonitor() {
 
     this.operators[0].status = 'inprogress';
@@ -99,5 +115,5 @@ export class ProjectTestRunComponent implements OnInit {
       this.operators[currentIndex - 1].imagePath = data.imagePath;
     });
   }
- 
+
 }
