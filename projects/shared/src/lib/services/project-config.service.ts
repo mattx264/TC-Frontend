@@ -3,29 +3,51 @@ import { HttpClientService } from 'projects/shared/src/lib/services/http-client.
 import { ConfigProjectTestViewModel } from 'projects/shared/src/lib/viewModels/ConfigProjectTestViewModel';
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { ConfigProjectModel } from '../models/project/configProjectModel';
+import { ConfigurationModel } from '../CommonDTO/ConfigurationModel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectConfigService {
 
+
   projectId: number;
   configProject: ConfigProjectModel[] = [];
+  testId: number;
   constructor(private httpClient: HttpClientService) {
 
   }
   getConfigsByTestId(testId: number): Promise<ConfigProjectModel[]> {
     return new Promise<ConfigProjectModel[]>((resolve) => {
+      if (this.testId === testId) {
+        return resolve(this.configProject);
+      }
+      this.testId = testId;
+      this.projectId = null;
       Promise.all([
         this.httpClient.get('testInfoConfig/' + testId).toPromise(),
         this.httpClient.get('ConfigProjectTest').toPromise()
       ]).then(response => {
         let testConfig = response[0];
         let configs = response[1];
-        this.configProject = this.convert(configs,testConfig);
+        this.configProject = this.convert(configs, testConfig);
         resolve(this.configProject);
       });
     });
+  }
+  getConfigurationModel(configProject: ConfigProjectModel[]): ConfigurationModel[] {
+    let configurationModel: ConfigurationModel[] = []
+    configProject.forEach(item => {
+      configurationModel.push({
+        id: item.id,
+        configProjectTestId: item.configProjectTestId,
+        description: item.description,
+        name: item.name,
+        projectId: item.projectId,
+        value: item.value.toString()
+      });
+    });
+    return configurationModel;
   }
   getConfigsByProjectId(projectId: number): Promise<ConfigProjectModel[]> {
     return new Promise<ConfigProjectModel[]>((resolve) => {
@@ -33,13 +55,14 @@ export class ProjectConfigService {
         return resolve(this.configProject);
       }
       this.projectId = projectId;
+      this.testId = null;
       Promise.all([
         this.httpClient.get('ProjectTestConfig/' + projectId).toPromise(),
         this.httpClient.get('ConfigProjectTest').toPromise()
       ]).then(response => {
         let projectConfig = response[0];
         let configs = response[1];
-        this.configProject = this.convert(configs,projectConfig);
+        this.configProject = this.convert(configs, projectConfig);
         resolve(this.configProject);
       });
     });
@@ -60,7 +83,7 @@ export class ProjectConfigService {
       });
     });
   }
-  private convert(configs,projectConfig){
+  private convert(configs, projectConfig) {
     let configProject = [];
     configs.forEach(e => {
       const configProjectTest = projectConfig.find(x => x.configProjectTestId == e.id);
@@ -68,7 +91,7 @@ export class ProjectConfigService {
       if (e.type === ConfigProjectTestEnum.Boolean) {
         value = value == 'false' ? false : value;
       }
-      this.configProject.push({
+      configProject.push({
         name: e.name,
         id: configProjectTest.id,
         projectId: configProjectTest.projectId,

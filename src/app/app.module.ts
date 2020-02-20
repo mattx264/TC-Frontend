@@ -110,7 +110,8 @@ import { AlertModalComponent } from './modals/alert-modal/alert-modal.component'
   ],
   providers: [
     LayoutService,
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
+    // hasBackdrop: false is creating issues eg user can go to diffrent page and dialog will stay.
+   // {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
   ],
   entryComponents: [
     CreateNewGroupDialogComponent,
