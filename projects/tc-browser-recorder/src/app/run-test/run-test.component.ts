@@ -8,6 +8,7 @@ import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgress
 import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
+import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
 
 @Component({
   selector: 'app-run-test',
@@ -53,10 +54,10 @@ export class RunTestComponent implements OnInit {
     this.projectConfigService.getConfigsByProjectId(this.storeService.getProject().id).then(configs => {
       const operatorsData = this.storeService.getOperatorsData();
       var data = this.seleniumConverterService.packageOperators(operatorsData);
-      const message = {
-        Configurations: configs,
-        ReceiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
-        Commands: data
+      const message: CommandMessage = {
+        configurations: configs,
+        receiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
+        commands: data
       }
       this.hubConnection.invoke('SendCommand', message);
       this.startTestProgressMonitor();
