@@ -24,34 +24,35 @@ export class Main {
                 }
             });
         }
-        if (chrome.runtime.onMessage.hasListener((message: any, sender: any, sendResponse: any) => { }) == false) {
-            chrome.runtime.onMessage.addListener((message: any, sender: any, sendResponse: any) => {
-                switch (message.method) {
-                    case 'getUrl':
-                        this.sendMessage({
-                            action: 'goToUrl',
-                            value: location.href,
-                            path: null
-                        });
+        if (chrome.runtime.onMessage.hasListener(this.onMessage.bind(this)) == false) {
+            chrome.runtime.onMessage.addListener(this.onMessage.bind(this));
 
-                        break;
-                    case 'startBrowserActionMonitor':
-                        localStorage.setItem('isStart', 'true');
-                        this.startBrowserActionMonitor();
-                        break;
-                    case 'startXHRMonitor':
-                        this.startXHRMonitor();
-                        break;
-                    default:
-                        throw new Error("Message method not support - add new case " + message.method);
-
-                }
-                sendResponse({ successful: true })
-            });
         }
         this.sendMessageToPopup({ type: 'hello' });
     }
+    onMessage(message: any, sender: any, sendResponse: any) {
+        switch (message.method) {
+            case 'getUrl':
+                this.sendMessage({
+                    action: 'goToUrl',
+                    value: location.href,
+                    path: null
+                });
+                sendResponse(location.href)
+                break;
+            case 'startBrowserActionMonitor':
+                localStorage.setItem('isStart', 'true');
+                this.startBrowserActionMonitor();
+                break;
+            case 'startXHRMonitor':
+                this.startXHRMonitor();
+                break;
+            default:
+                throw new Error("Message method not support - add new case " + message.method);
 
+        }
+        sendResponse({ successful: true });
+    }
     sendMessage(data: OperatorModel) {
         if (!chrome.runtime) {
             return;
@@ -75,7 +76,9 @@ export class Main {
         if (chrome.runtime) {
             chrome.runtime.sendMessage(message, function (response: any) {
                 console.log(response);
-                callBack(response);
+                if (!!callBack) {
+                    callBack(response);
+                }
             });
         }
     }

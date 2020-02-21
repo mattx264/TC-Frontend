@@ -13,6 +13,11 @@ import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgress
 import { Lightbox, IAlbum } from 'ngx-lightbox';
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
+import { ConfigProjectTestViewModel } from 'projects/shared/src/lib/viewModels/ConfigProjectTestViewModel';
+import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
+import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
+import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
+import { ConfigurationModel } from 'projects/shared/src/lib/CommonDTO/ConfigurationModel';
 
 @Component({
   selector: 'app-project-test-run',
@@ -23,18 +28,23 @@ export class ProjectTestRunComponent implements OnInit {
   projectId: number;
   testId: number;
   testInfo: TestInfoViewModel;
-  operators: OperatorModelStatus[];
+  //operators: OperatorModelStatus[];
   hubConnection: signalR.HubConnection;
   selectedBrowserEngine: SzwagierModel;
   commandsRender: OperatorModelStatus[];
   screenshots: IAlbum[] = [];
+
+  showSettings: boolean;
+  configProject: ConfigProjectModel[];
   constructor(
     private httpService: HttpClientService,
     private activatedRoute: ActivatedRoute,
     signalSzwagierService: SignalSzwagierService,
     public dialog: MatDialog,
     public lightbox: Lightbox,
-    private seleniumConverterService: SeleniumConverterService) {
+    private seleniumConverterService: SeleniumConverterService,
+    private projectConfigService: ProjectConfigService
+  ) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
       this.projectId = +x.id;
@@ -44,6 +54,11 @@ export class ProjectTestRunComponent implements OnInit {
       this.testInfo = data;
       this.commandsRender = this.seleniumConverterService.openOperators(this.testInfo.commands);
     });
+
+    this.projectConfigService.getConfigsByTestId(this.testId).then(data => {
+      this.configProject = data;
+    });
+
   }
 
   ngOnInit() {
@@ -57,7 +72,7 @@ export class ProjectTestRunComponent implements OnInit {
     this.lightbox.open(this.screenshots, index);
   }
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogSelectBrowserEngine, {
+    const dialogRef = this.dialog.open(DialogSelectBrowserEngine, {     
       width: '1000px'
     });
 
@@ -67,27 +82,37 @@ export class ProjectTestRunComponent implements OnInit {
     });
   }
   sendClick() {
+    if(this.selectedBrowserEngine==null || this.selectedBrowserEngine.connectionId==null){
+      this.showBrowserEngineDialogClick();
+      return;
+    }
     this.commandsRender.forEach(x => {
       x.status = null;
       x.imagePath = null
     });
-    const message = {
-      ReceiverConnectionId: this.selectedBrowserEngine.connectionId,
-      Commands: this.testInfo.commands,
-      testInfoId: this.testInfo.id
+  
+    
+    const message: CommandMessage = {
+      receiverConnectionId: this.selectedBrowserEngine.connectionId,
+      commands: this.testInfo.commands,
+      testInfoId: this.testInfo.id,
+      configurations: this.projectConfigService.getConfigurationModel(this.configProject)
     }
     this.hubConnection.invoke('SendCommand', message);
     this.startTestProgressMonitor();
   }
+  showSettingsClick() {
+    this.showSettings = !this.showSettings;
+  }
   startTestProgressMonitor() {
 
-    this.operators[0].status = 'inprogress';
+    this.commandsRender[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {
-      const test = this.operators.find(x => x.guid === testProgressMessage.commandTestGuid);
+      const test = this.commandsRender.find(x => x.guid === testProgressMessage.commandTestGuid);
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
-        const currentIndex = this.operators.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
-        this.operators[currentIndex + 1].status = 'inprogress';
+        const currentIndex = this.commandsRender.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
+        this.commandsRender[currentIndex + 1].status = 'inprogress';
 
       } else {
         test.status = 'failed';
@@ -95,9 +120,9 @@ export class ProjectTestRunComponent implements OnInit {
     });
     this.hubConnection.on('ReciveScreenshot', (data) => {
       this.screenshots.push({ src: data.imagePath, thumb: data.imagePath });
-      const currentIndex = this.operators.findIndex(x => x.guid === data.commandTestGuid);
-      this.operators[currentIndex - 1].imagePath = data.imagePath;
+      const currentIndex = this.commandsRender.findIndex(x => x.guid === data.commandTestGuid);
+      this.commandsRender[currentIndex - 1].imagePath = data.imagePath;
     });
   }
- 
+
 }

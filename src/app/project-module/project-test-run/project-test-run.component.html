@@ -10,8 +10,38 @@
       <button mat-raised-button (click)="showBrowserEngineDialogClick()">Select browser engine</button>
     </div>
     <button class="ml-3" (click)="sendClick()" mat-raised-button color="primary">Start Test</button>
-  </div>
+    <button class="ml-3" (click)="showSettingsClick()" mat-raised-button color="primary">Settings</button>
 
+  </div>
+  <div *ngIf="showSettings">
+    <h1>Project Config</h1>
+    <mat-card *ngFor="let item of configProject">
+      <mat-card-header>
+        <mat-card-title>
+          {{item.name}}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          {{item.description}}
+        </div>
+        <div [ngSwitch]="item.valueType">
+          <div *ngSwitchCase="0">
+            Value: <mat-checkbox [(ngModel)]="item.value"></mat-checkbox>
+          </div>
+          <div *ngSwitchCase="1">
+            Value: <input [(ngModel)]="item.value">
+          </div>
+          <div *ngSwitchCase="2">
+            <input [(ngModel)]="item.value">
+            <input [(ngModel)]="item.value">
+            <input [(ngModel)]="item.value">
+            todo
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 
   <table id="actionTable" class="table-wrapper" *ngIf="commandsRender">
     <thead class="table-thead">
@@ -50,7 +80,7 @@
             </div>
           </div>
           <div *ngIf="item.imagePath!=null" (click)="lightboxImageClick(index);">
-            <img  class="img-thumbnail" src="{{item.imagePath}}" alt="">
+            <img class="img-thumbnail" src="{{item.imagePath}}" alt="">
           </div>
         </td>
       </tr>

@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 
 import { ProjectModuleRoutingModule } from './project-module-routing.module';
 import { ProjectListComponent } from './project-list/project-list.component';
-import { ProjectEditComponent } from './project-edit/project-edit.component';
-import { ProjectCreateComponent } from './project-create/project-create.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -38,6 +36,8 @@ import { ProjectConfigComponent } from './project-config/project-config.componen
 import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
 import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 import { ProjectComponent } from './project.component';
+import { ProjectEditComponent } from './project-create-edit/project-edit/project-edit.component';
+import { ProjectCreateComponent } from './project-create-edit/project-create/project-create.component';
 
 
 @NgModule({

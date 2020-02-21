@@ -5,6 +5,7 @@ import { HttpClientService } from 'projects/shared/src/lib/services/http-client.
 import { StoreService } from '../services/store.service';
 import { Route, Router } from '@angular/router';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
+import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
 
 @Component({
   selector: 'app-save-test',
@@ -18,12 +19,17 @@ export class SaveTestComponent implements OnInit {
     private httpClient: HttpClientService,
     private storeService: StoreService,
     private router: Router,
-    
+    private snackbarService:SnackbarService,
     private seleniumConverterService: SeleniumConverterService
   ) { }
 
   ngOnInit() {
     this.formGroup = this.buildForm();
+    const project = this.storeService.getProject();
+    if (project == null || project.id == null) {
+      this.snackbarService.showError("Project is not selected, please select project first.");
+      this.router.navigate(['/landing-page']);
+    }
   }
   buildForm(): FormGroup {
     return this.fb.group({
@@ -35,14 +41,17 @@ export class SaveTestComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
-    
+
     const data = this.formGroup.getRawValue();
     data.projectId = this.storeService.getProject().id;
+    if (data.projectId == null) {
+      console.error("PROJECT IS NOT SET!!");
 
+    }
     data.seleniumCommands = this.seleniumConverterService.packageOperators(this.storeService.getOperatorsData());
     this.httpClient.post('projectTest', data).subscribe(response => {
       this.router.navigate(['/landing-page']);
-        alert("Save successful");
+      alert("Save successful");
     });
   }
 

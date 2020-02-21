@@ -6,7 +6,6 @@
     <app-text-field formControlName="domains" name="domains" label="Domains"
       extraInfo="Please insert in comma-separated format (e.g., https://www.tc.net)"></app-text-field>
     <!-- <app-text-field formControlName="usersEmail" name="usersEmail" label="Users Email" extraInfo="Please insert in comma-separated format"></app-text-field> -->
-    {{formGroup.controls.usersEmail.hasError('email')}}
     <mat-form-field class="email-chip-list" appearance="outline">
       <mat-label>Users Email</mat-label>
       <mat-chip-list formControlName="usersEmail" #chipList aria-label="email selection">
@@ -20,14 +19,9 @@
       </mat-chip-list>
       <mat-error *ngIf="formGroup.controls.usersEmail.hasError('email') === true">
         Please enter a valid email address
-      </mat-error>
-      <!-- <mat-error >
-        User Email is <strong>required</strong>
-      </mat-error> -->
-    </mat-form-field>
-    
+      </mat-error>    
+    </mat-form-field>    
   </div>
-
   <div class="option-buttons">
     <button mat-raised-button color="primary" type="submit">Save</button>
     <button mat-raised-button color="accent" [routerLink]="['/project']">Cancel</button>

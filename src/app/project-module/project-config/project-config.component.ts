@@ -5,6 +5,8 @@ import { ProjectTestConfigViewModel } from 'projects/shared/src/lib/viewModels/P
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
+import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
+import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
 
 @Component({
   selector: 'app-project-config',
@@ -15,42 +17,23 @@ export class ProjectConfigComponent implements OnInit {
   projectConfig: ProjectTestConfigViewModel[];
   configs: ConfigProjectTestViewModel[];
   projectId: number;
-  configProject: { id: number, configProjectTestId: number, projectId: number, name, description, value, valueType: ConfigProjectTestEnum }[] = [];
+  configProject: ConfigProjectModel[] = [];
 
   constructor(
     private httpClient: HttpClientService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private projectConfigService: ProjectConfigService
   ) {
     this.activatedRoute.parent.params.subscribe(x => this.projectId = x.id);
   }
 
   ngOnInit() {
-    Promise.all([
-      this.httpClient.get('ProjectTestConfig/' + this.projectId).toPromise(),
-      this.httpClient.get('ConfigProjectTest').toPromise()
-    ]).then(response => {
-      this.projectConfig = response[0];
-      this.configs = response[1];
-      this.configProject = [];
-      this.configs.forEach(e => {
-        const configProjectTest = this.projectConfig.find(x => x.configProjectTestId == e.id);
-        let value: any = configProjectTest == null ? e.defaultValue : configProjectTest.value;
-        if (e.type === ConfigProjectTestEnum.Boolean) {
-            value = value == 'false' ? false : value;
-        }
-        this.configProject.push({
-          name: e.name,
-          id: configProjectTest.id,
-          projectId: configProjectTest.projectId,
-          configProjectTestId: e.id,
-          description: e.description,
-          value: value,
-          valueType: e.type
-        });
-      });
+    this.projectConfigService.getConfigsByProjectId(this.projectId).then(data => {
+      this.configProject = data;
     });
+
   }
   saveClick() {
     let data: ProjectTestConfigViewModel[] = [];
