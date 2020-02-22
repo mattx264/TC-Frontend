@@ -4,12 +4,12 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { Project } from '../ViewModels/Project';
 //import { ProjectComponent } from 'src/app/project-module/project.component';
-import { ProjectViewModel } from '../ViewModels/projectViewModel';
 import { WebsiteService } from 'projects/shared/src/lib/services/website.service';
 import { ProjectTest } from '../ViewModels/projectTests';
 import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { StoreService } from '../services/store.service';
 import { BrowserTabService } from '../services/browser-tab.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-projects',
@@ -20,8 +20,8 @@ export class ProjectsComponent implements OnInit {
   getProjectEndPoint = 'project';
   displayedColumns: string[] = ['name', 'projectDomain'];
   projectDataSource: MatTableDataSource<ProjectViewModel> = new MatTableDataSource<ProjectViewModel>();
-  projects: Array<ProjectViewModel>;
-  testInfo: Array<ProjectTest>;
+  projects: ProjectViewModel[];
+  testInfo: ProjectTest[];
 
   constructor(private browserTabService: BrowserTabService,
     private router: Router,
@@ -69,6 +69,8 @@ export class ProjectsComponent implements OnInit {
       console.log(url);
     }
     this.createNewTabAndNavigate(url, e => {
+      const project=this.projects.find(x=>x.id==id)
+      this.storeService.setProject(project);
       chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         if (tabId == e.id && changeInfo.status == "complete") {
           this.ngZone.run(() => {

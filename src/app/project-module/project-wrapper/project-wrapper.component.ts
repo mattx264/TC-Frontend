@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { LayoutService } from 'src/app/layout/layout.service';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../services/project.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-project-wrapper',

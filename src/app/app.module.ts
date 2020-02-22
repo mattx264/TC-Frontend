@@ -33,10 +33,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { TestLayoutComponent } from './test-layout/test-layout.component';
-import { SendTestComponent } from './test-layout/send-test/send-test.component';
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
-import { SelectSzwagierDialogComponent } from './test-layout/send-test/select-szwagier-dialog/select-szwagier-dialog.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
@@ -68,10 +65,7 @@ import { AlertModalComponent } from './modals/alert-modal/alert-modal.component'
     GroupLayoutComponent,
     CreateNewGroupDialogComponent,
     AddUserToGroupComponent,
-    GroupEditComponent,
-    TestLayoutComponent,
-    SendTestComponent,
-    SelectSzwagierDialogComponent,
+    GroupEditComponent,   
     TestFlowLayoutComponent,
     TestFlowCreateComponent,
     PrivacyPolicyComponent,
@@ -116,7 +110,6 @@ import { AlertModalComponent } from './modals/alert-modal/alert-modal.component'
   entryComponents: [
     CreateNewGroupDialogComponent,
     AddUserToGroupComponent,
-    SelectSzwagierDialogComponent,
     ConfirmModalComponent
   ],
   bootstrap: [AppComponent]

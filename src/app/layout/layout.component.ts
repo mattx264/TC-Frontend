@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router, NavigationEnd, Route, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LayoutService } from './layout.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { HeaderComponent } from './header/header.component';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-layout',
@@ -27,8 +27,8 @@ export class LayoutComponent implements OnInit {
 
     this.layoutService.onUpdate.subscribe((data) => {
       this.sidebarName = data.sidebarName;
-      if(this.sidebarName =='project'){
-        this.project=data.metadata;
+      if (this.sidebarName == 'project') {
+        this.project = data.metadata;
       }
       if (data.sidebar === true) {
         this.showSidebar = true;

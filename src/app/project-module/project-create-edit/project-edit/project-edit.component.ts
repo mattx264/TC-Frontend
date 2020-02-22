@@ -4,9 +4,9 @@ import { HttpClientService } from 'projects/shared/src/lib/services/http-client.
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProjectViewModel } from 'projects/tc-browser-recorder/src/app/ViewModels/projectViewModel';
 import { ThemePalette } from '@angular/material/core';
 import { FormValidatorsService } from 'src/app/services/form-validators.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-project-edit',
