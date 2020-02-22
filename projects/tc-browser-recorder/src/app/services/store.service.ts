@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { OperatorModel } from '../../../../shared/src/lib/models/operatorModel';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
 import { HubConnection } from '@microsoft/signalr';
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Injectable({
   providedIn: 'root'

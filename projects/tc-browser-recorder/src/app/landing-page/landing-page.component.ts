@@ -2,10 +2,9 @@ import { Component, OnInit, ViewEncapsulation, NgZone, ChangeDetectorRef } from 
 import { SzwagierModel } from '../../../../shared/src/lib/models/szwagierModel';
 import { WebsiteService } from 'projects/shared/src/lib/services/website.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
-import { OperatorModel } from 'projects/shared/src/lib/models/operatorModel';
 import { BrowserTabService } from '../services/browser-tab.service';
 import { StoreService } from '../services/store.service';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-landing-page',
@@ -15,7 +14,7 @@ import { StoreService } from '../services/store.service';
 })
 export class LandingPageComponent implements OnInit {
   totalProjects: number = 0;
-  projects: Array<ProjectViewModel>;
+  projects: ProjectViewModel[];
   currentPageProject: ProjectViewModel;
   constructor(
     private router: Router,

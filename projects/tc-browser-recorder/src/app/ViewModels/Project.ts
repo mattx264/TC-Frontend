@@ -1,4 +1,3 @@
-import { IEntity } from './entity';
 import { ProjectDomain } from './projectDomain';
 
 export interface Project {

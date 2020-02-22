@@ -4,11 +4,11 @@ import { StoreService } from '../services/store.service';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { GuidGeneratorService } from './../../../../shared/src/lib/services/guid-generator.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { ProjectDomainViewModel } from '../../../../shared/src/lib/models/project/projectDomainViewModel';
 import { ProjectConfigService } from '../../../../shared/src/lib/services/project-config.service';
 import { BrowserTabService } from '../services/browser-tab.service';
 import { async } from '@angular/core/testing';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class RecordTestComponent implements OnInit,OnDestroy {
   isStarted: boolean = false;
   domain: string;
   project: ProjectViewModel;
-  projects: Array<ProjectViewModel>;
+  projects: ProjectViewModel[];
   projectDomain: ProjectDomainViewModel;
   chromeTab: chrome.tabs.Tab;
   tabId: number;
