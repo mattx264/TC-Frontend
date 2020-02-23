@@ -16,8 +16,8 @@ import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectView
   templateUrl: './record-test.component.html',
   styleUrls: ['./record-test.component.scss']
 })
-export class RecordTestComponent implements OnInit,OnDestroy {
-  
+export class RecordTestComponent implements OnInit, OnDestroy {
+
   operatorsData: OperatorModel[] = [];
   isStarted: boolean = false;
   domain: string;
@@ -26,7 +26,6 @@ export class RecordTestComponent implements OnInit,OnDestroy {
   projectDomain: ProjectDomainViewModel;
   chromeTab: chrome.tabs.Tab;
   tabId: number;
-  projectId: number;
   isTakeScreenshot: boolean;
   isStartXHRMonitor: boolean;
 
@@ -42,12 +41,18 @@ export class RecordTestComponent implements OnInit,OnDestroy {
   ) { }
 
   async ngOnInit() {
-    //this.projectId = +this.activatedRoute.snapshot.paramMap.get('id');
-    // this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
+    const projectId = +this.activatedRoute.snapshot.paramMap.get('id');
+    if (projectId == null) {
+      throw new Error("projectId is required");
+    }
+    //  this.activatedRoute.queryParams.subscribe(x => this.domain = atob(x.url));
 
     if (this.activatedRoute.snapshot.data && this.activatedRoute.snapshot.data.project) {
       this.projects = this.activatedRoute.snapshot.data.project;
-      this.project = this.projects.filter(x => x.id == this.projectId)[0];
+      this.project = this.projects.find(x => x.id == projectId);
+      if (this.project == null) {
+        throw new Error(`project not found, projectId:${projectId}`);
+      }
       this.storeService.setProject(this.project);
     }
 
@@ -55,7 +60,7 @@ export class RecordTestComponent implements OnInit,OnDestroy {
     this.chromeTab = await this.browserTabService.getTab();
     this.tabId = this.browserTabService.getTabId();
     chrome.runtime.onMessage.addListener(this.addChromeListener.bind(this));
-    this.setupPageScript();    
+    this.setupPageScript();
   }
   ngOnDestroy(): void {
     chrome.runtime.onMessage.removeListener(this.addChromeListener.bind(this));

@@ -54,7 +54,7 @@ export class LandingPageComponent implements OnInit {
 
     this.store.setProject(this.currentPageProject);
     this.ngZone.run(() => {
-      this.router.navigate(['record-test', this.projects[0].id]);
+      this.router.navigate(['record-test', this.currentPageProject.id]);
     });
   }
 

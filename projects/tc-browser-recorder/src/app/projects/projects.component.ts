@@ -70,13 +70,14 @@ export class ProjectsComponent implements OnInit {
       console.log(url);
     }
     this.createNewTabAndNavigate(url, e => {
-      const project=this.projects.find(x=>x.id==id)
+      const project = this.projects.find(x => x.id == id)
       this.storeService.setProject(project);
+     const a= this.storeService.getProject();
       chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
         if (tabId == e.id && changeInfo.status == "complete") {
           this.ngZone.run(() => {
             this.router.navigate(['record-test', id]);
-          });           
+          });
         }
       });
     });
