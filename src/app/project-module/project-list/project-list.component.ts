@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
-import { isDate } from 'util';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { ConfirmType } from 'src/app/modals/modal-data';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
+import { ProjectDetailsViewModel } from 'projects/shared/src/lib/viewModels/ProjectDetailsViewModel';
 
 @Component({
   selector: 'app-project-list',
@@ -33,49 +33,12 @@ export class ProjectListComponent implements OnInit {
   }
 
   loadProjects(): void {
-    this.httpClient.get(this.getProjectDetailsEndPoint).toPromise().then((projects: ProjectViewModel[]) => {
-      this.projects = projects.map(x => {
-        const pvm: ProjectViewModel = {
-          id: x.id,
-          name: x.name,
-          projectDomain: x.projectDomain,
-          dateModified: this.formatDateTime(new Date(x.dateModified)),
-          modifiedBy: x.modifiedBy,
-          lastTestRunDate: this.formatDateTime(new Date(x.lastTestRunDate))
-        };
-
-        return pvm;
-      });
+    this.httpClient.get(this.getProjectDetailsEndPoint).toPromise().then((projects: ProjectDetailsViewModel[]) => {
+      this.projects = projects;
       this.dataSource.data = this.projects;
     });
   }
-
-
-
-  formatDateTime(d: Date): string {
-    const day = d.getDate();
-    const month = d.getMonth();
-    const year = d.getFullYear();
-    let hour = d.getHours();
-    let min = d.getMinutes().toString();
-
-    if (+min < 10) {
-      min = `0${min}`;
-    }
-
-    let ampm = 'AM';
-    if (hour > 12) {
-        hour -= 12;
-        ampm = 'PM';
-    } else if (hour === 0) {
-      hour = 12;
-    }
-
-    return `${this.abrMonths[month]} ${day}, ${year} ${hour}:${min} ${ampm}`;
-  }
-
-
-
+  
   deleteProject(projectId: number): void {
     const projectName = this.dataSource.data.filter(x => x.id === projectId)[0].name;
 

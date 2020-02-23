@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Injectable({
   providedIn: 'root'

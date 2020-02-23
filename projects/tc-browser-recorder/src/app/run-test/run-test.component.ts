@@ -5,10 +5,10 @@ import { SzwagierType } from '../../../../shared/src/lib/models/SzwagierType';
 import { StoreService } from '../services/store.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
-import { ProjectViewModel } from 'projects/shared/src/lib/models/project/projectViewModel';
 import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-run-test',

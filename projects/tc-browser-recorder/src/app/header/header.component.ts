@@ -1,9 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { StoreService } from '../services/store.service';
-import { ProjectViewModel } from '../../../../shared/src/lib/models/project/projectViewModel';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../shared/src/lib/services/auth/auth.service';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
+import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
 
 @Component({
   selector: 'app-header',
