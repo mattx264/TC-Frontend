@@ -75,6 +75,7 @@
               </span>
               <span *ngSwitchCase="'failed'">
                 <mat-icon>error</mat-icon>
+                {{item.message}}
               </span>
               <span *ngSwtichDefault="">Unknown</span>
             </div>
