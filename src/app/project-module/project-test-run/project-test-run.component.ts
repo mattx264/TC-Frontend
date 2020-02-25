@@ -108,6 +108,7 @@ export class ProjectTestRunComponent implements OnInit {
 
     this.commandsRender[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {
+      console.log(testProgressMessage)
       const test = this.commandsRender.find(x => x.guid === testProgressMessage.commandTestGuid);
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
@@ -116,6 +117,7 @@ export class ProjectTestRunComponent implements OnInit {
 
       } else {
         test.status = 'failed';
+        test.message =testProgressMessage.message;
       }
     });
     this.hubConnection.on('ReciveScreenshot', (data) => {

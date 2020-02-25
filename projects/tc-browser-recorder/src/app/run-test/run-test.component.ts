@@ -67,7 +67,9 @@ export class RunTestComponent implements OnInit {
   startTestProgressMonitor() {
     this.commands[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {
+      console.log(testProgressMessage)
       const test = this.commands.find(x => x.guid === testProgressMessage.commandTestGuid);
+  
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
         const currentIndex = this.commands.findIndex(x => x.guid === testProgressMessage.commandTestGuid);

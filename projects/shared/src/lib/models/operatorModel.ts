@@ -33,6 +33,7 @@ export class OperatorModelStatus implements OperatorModel {
   imagePath?: string;
   value: string | string[];
   guid?: string;
+  message?:string;
   status?: 'pending' | 'inprogress' | 'done' | 'failed';
   constructor() {
     this.status = 'pending';
