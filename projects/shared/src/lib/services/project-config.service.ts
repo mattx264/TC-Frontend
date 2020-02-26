@@ -93,7 +93,7 @@ export class ProjectConfigService {
       }
       configProject.push({
         name: e.name,
-        id: configProjectTest.id,
+        id: e.id,
         projectId: configProjectTest.projectId,
         configProjectTestId: e.id,
         description: e.description,
