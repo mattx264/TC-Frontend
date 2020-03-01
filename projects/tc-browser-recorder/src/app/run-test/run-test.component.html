@@ -1,4 +1,12 @@
-<button (click)="sendClick()" mat-raised-button color="primary">Start Test</button>
+
+
+<div class="buttons-wrapper">
+  <button (click)="sendClick()" mat-raised-button color="primary">Start Test</button>
+  <button mat-raised-button type="button" color="primary" (click)="saveTestClick()">Save test</button>
+  <button mat-raised-button type="button" color="accent" (click)="backClick()">Back</button>
+</div>
+
+
 <table id="actionTable" class="table-wrapper">
   <thead class="table-thead">
     <tr>

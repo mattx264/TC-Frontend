@@ -10,7 +10,7 @@ export class AuthService {
   private user: User;
   constructor(private router: Router) {
     this.user = JSON.parse(localStorage.getItem('currentUser')) as User;
-    if (this.user == null || this.user.firstName == null) {
+    if (this.user == null || this.user.name == null) {
       this.user = undefined;
     }
   }

@@ -28,7 +28,7 @@ export class HeaderRecorderComponent implements OnInit {
     });
 
     var user = this.authService.getCurrentUser();
-    this.loggedInUser = `${user.firstName} ${user.lastName}`;
+    this.loggedInUser = user.name;
     console.log(this.loggedInUser);
     this.storeService.selectedBrowserEngine$.subscribe((x: SzwagierModel) => {
       this.szwagierModel = x;

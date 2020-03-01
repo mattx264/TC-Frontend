@@ -37,6 +37,9 @@ export class SaveTestComponent implements OnInit {
       description: ['', Validators.required]
     });
   }
+  cancelClick(){
+    this.router.navigate(['record-test', this.storeService.getProject().id]);
+  }
   saveTest() {
     if (this.formGroup.invalid) {
       return;
