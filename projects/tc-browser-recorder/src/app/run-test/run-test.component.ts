@@ -1,5 +1,5 @@
 import { OperatorModelStatus } from './../../../../shared/src/lib/models/operatorModel';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
 import { SignalSzwagierService } from '../../../../shared/src/lib/services/signalr/signal-szwagier.service';
 import { SzwagierType } from '../../../../shared/src/lib/models/SzwagierType';
 import { StoreService } from '../services/store.service';
@@ -9,6 +9,8 @@ import { ProjectConfigService } from 'projects/shared/src/lib/services/project-c
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
 import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
+import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-run-test',
@@ -19,6 +21,7 @@ export class RunTestComponent implements OnInit {
   hubConnection: signalR.HubConnection;
   commands: OperatorModelStatus[];
   commandsRender: OperatorModelStatus[];
+  configProject: ConfigProjectModel[];
 
   dataSource: MatTableDataSource<OperatorModelStatus>;
   columns: string[] = ['action', 'path', 'value', 'status'];
@@ -32,13 +35,18 @@ export class RunTestComponent implements OnInit {
     signalSzwagierService: SignalSzwagierService,
     private seleniumConverterService: SeleniumConverterService,
     private cdr: ChangeDetectorRef,
-    private projectConfigService: ProjectConfigService) {
+    private projectConfigService: ProjectConfigService,
+    private ngZone:NgZone,
+    private router: Router) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierBrowserExtension);
   }
   ngOnInit() {
     this.commands = this.storeService.getOperatorsData();
     this.commandsRender = this.commands.filter(x => x.action !== 'takeScreenshot');
     this.dataSource = new MatTableDataSource<OperatorModelStatus>(this.commandsRender);
+    this.projectConfigService.getConfigsByProjectId(this.storeService.getProject().id).then(data => {
+      this.configProject = data;
+    });
   }
 
   private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
@@ -51,19 +59,26 @@ export class RunTestComponent implements OnInit {
   }
 
   sendClick() {
-    this.projectConfigService.getConfigsByProjectId(this.storeService.getProject().id).then(configs => {
+   // this.projectConfigService.getConfigsByProjectId(this.storeService.getProject().id).then(configs => {
       const operatorsData = this.storeService.getOperatorsData();
       var data = this.seleniumConverterService.packageOperators(operatorsData);
       const message: CommandMessage = {
-        configurations: configs,
+        configurations: this.projectConfigService.getConfigurationModel(this.configProject),
         receiverConnectionId: this.storeService.getSelectedBrowserEngine().connectionId,
         commands: data
       }
       this.hubConnection.invoke('SendCommand', message);
       this.startTestProgressMonitor();
-    });
+   // });
   }
-
+  saveTestClick() {
+    this.ngZone.run(() =>
+      this.router.navigate(['/save-test'])
+    );
+  }
+  backClick() {
+    this.router.navigate(['/select-browser-engine']);
+  }
   startTestProgressMonitor() {
     this.commands[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {

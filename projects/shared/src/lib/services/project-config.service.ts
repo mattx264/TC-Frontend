@@ -84,7 +84,7 @@ export class ProjectConfigService {
     });
   }
   private convert(configs, projectConfig) {
-    let configProject = [];
+    let configProject:ConfigProjectModel[] = [];
     configs.forEach(e => {
       const configProjectTest = projectConfig.find(x => x.configProjectTestId == e.id);
       let value: any = configProjectTest == null ? e.defaultValue : configProjectTest.value;

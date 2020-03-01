@@ -29,10 +29,10 @@ export class SelectBrowserEngineComponent implements OnInit {
     });
   }
   saveTestClick() {
-
+    this.router.navigate(['/save-test']);
   }
   backClick() {
-    this.router.navigate(['**']);
+    this.router.navigate(['record-test', this.storeService.getProject().id]);
   }
   selectClick(index: number) {
 

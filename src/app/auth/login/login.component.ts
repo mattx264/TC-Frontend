@@ -48,8 +48,7 @@ export class LoginComponent implements OnInit {
 
     this.httpClientService.post('User/CreateToken', this.formGroup.getRawValue()).subscribe((response: any) => {
       this.authService.setsCurrentUser({
-        firstName: response.firstName,
-        lastName: response.lastName,
+        name: response.name,
         token: response.token,
       });
       this.router.navigate([this.returnUrl]);
