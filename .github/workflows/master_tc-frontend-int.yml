@@ -31,4 +31,4 @@ jobs:
         app-name: 'tc-frontend-int'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_1183b1dac9764ffc9ddca3f0ac0c5e09 }}
-        package: .
+        package: ./dist/Angular/
