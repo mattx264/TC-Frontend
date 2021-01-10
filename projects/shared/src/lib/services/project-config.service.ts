@@ -4,6 +4,7 @@ import { ConfigProjectTestViewModel } from 'projects/shared/src/lib/viewModels/C
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { ConfigProjectModel } from '../models/project/configProjectModel';
 import { ConfigurationModel } from '../CommonDTO/ConfigurationModel';
+import { TestInfoConfigViewModel } from '../viewModels/TestInfoConfigViewModel';
 
 @Injectable({
   providedIn: 'root'
@@ -12,26 +13,26 @@ export class ProjectConfigService {
 
 
   projectId: number;
-  configProject: ConfigProjectModel[] = [];
+  //configProject: ConfigProjectModel[] = [];
   testId: number;
   constructor(private httpClient: HttpClientService) {
 
   }
   getConfigsByTestId(testId: number): Promise<ConfigProjectModel[]> {
     return new Promise<ConfigProjectModel[]>((resolve) => {
-      if (this.testId === testId) {
-        return resolve(this.configProject);
-      }
+      // if (this.testId === testId) {
+      //   return resolve(this.configProject);
+      // }
       this.testId = testId;
       this.projectId = null;
       Promise.all([
         this.httpClient.get('testInfoConfig/' + testId).toPromise(),
         this.httpClient.get('ConfigProjectTest').toPromise()
       ]).then(response => {
-        let testConfig = response[0];
+        let testConfig:TestInfoConfigViewModel[] = response[0];
         let configs = response[1];
-        this.configProject = this.convert(configs, testConfig);
-        resolve(this.configProject);
+        const configProject = this.convert(configs, testConfig);
+        resolve(configProject);
       });
     });
   }
@@ -51,9 +52,9 @@ export class ProjectConfigService {
   }
   getConfigsByProjectId(projectId: number): Promise<ConfigProjectModel[]> {
     return new Promise<ConfigProjectModel[]>((resolve) => {
-      if (this.projectId === projectId) {
-        return resolve(this.configProject);
-      }
+      // if (this.projectId === projectId) {
+      //   return resolve(this.configProject);
+      // }
       this.projectId = projectId;
       this.testId = null;
       Promise.all([
@@ -62,8 +63,8 @@ export class ProjectConfigService {
       ]).then(response => {
         let projectConfig = response[0];
         let configs = response[1];
-        this.configProject = this.convert(configs, projectConfig);
-        resolve(this.configProject);
+        const configProject = this.convert(configs, projectConfig);
+        resolve(configProject);
       });
     });
   }
@@ -86,15 +87,15 @@ export class ProjectConfigService {
   private convert(configs, projectConfig) {
     let configProject:ConfigProjectModel[] = [];
     configs.forEach(e => {
-      const configProjectTest = projectConfig.find(x => x.configProjectTestId == e.id);
-      let value: any = configProjectTest == null ? e.defaultValue : configProjectTest.value;
+      const projectConfigTest = projectConfig.find(x => x.configProjectTestId == e.id);
+      let value: any = projectConfigTest == null ? e.defaultValue : projectConfigTest.value;
       if (e.type === ConfigProjectTestEnum.Boolean) {
         value = value == 'false' ? false : value;
       }
       configProject.push({
         name: e.name,
-        id: e.id,
-        projectId: configProjectTest.projectId,
+        id: projectConfigTest.id,
+        projectId: projectConfigTest.projectId,
         configProjectTestId: e.id,
         description: e.description,
         value: value,

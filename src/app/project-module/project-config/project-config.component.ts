@@ -52,7 +52,7 @@ export class ProjectConfigComponent implements OnInit {
     });
     this.httpClient.post('ProjectTestConfig', data).subscribe(reponse => {
       this.snackbarService.showSnackbar("Save Successful");
-      this.router.navigate(['project'])
+      this.router.navigate(['/project', this.projectId, 'tests'])
     });
   }
 }

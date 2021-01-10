@@ -18,6 +18,9 @@ import { ProjectConfigService } from 'projects/shared/src/lib/services/project-c
 import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
 import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
 import { ConfigurationModel } from 'projects/shared/src/lib/CommonDTO/ConfigurationModel';
+import { ProjectTestConfigViewModel } from 'projects/shared/src/lib/viewModels/ProjectTestConfigViewModel';
+import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
+import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
 
 @Component({
   selector: 'app-project-test-run',
@@ -43,7 +46,8 @@ export class ProjectTestRunComponent implements OnInit {
     public dialog: MatDialog,
     public lightbox: Lightbox,
     private seleniumConverterService: SeleniumConverterService,
-    private projectConfigService: ProjectConfigService
+    private projectConfigService: ProjectConfigService,
+    private snackbarService: SnackbarService
   ) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
@@ -72,7 +76,7 @@ export class ProjectTestRunComponent implements OnInit {
     this.lightbox.open(this.screenshots, index);
   }
   openDialog(): void {
-    const dialogRef = this.dialog.open(DialogSelectBrowserEngine, {     
+    const dialogRef = this.dialog.open(DialogSelectBrowserEngine, {
       width: '1000px'
     });
 
@@ -81,8 +85,27 @@ export class ProjectTestRunComponent implements OnInit {
       this.selectedBrowserEngine = result;
     });
   }
+  saveTectConfigClick() {
+    let data: ProjectTestConfigViewModel[] = [];
+    this.configProject.forEach(config => {
+      let value = config.value;
+      if (config.valueType === ConfigProjectTestEnum.Boolean) {
+        value = value == false ? 'false' : 'true';
+      }
+      data.push({
+        configProjectTestId: config.configProjectTestId,
+        id: config.id,
+        projectId: config.projectId,
+        value: value
+
+      });
+    });
+    this.httpService.post('TestInfoConfig', data).subscribe(reponse => {
+      this.snackbarService.showSnackbar("Save Successful");
+    });
+  }
   sendClick() {
-    if(this.selectedBrowserEngine==null || this.selectedBrowserEngine.connectionId==null){
+    if (this.selectedBrowserEngine == null || this.selectedBrowserEngine.connectionId == null) {
       this.showBrowserEngineDialogClick();
       return;
     }
@@ -90,8 +113,8 @@ export class ProjectTestRunComponent implements OnInit {
       x.status = null;
       x.imagePath = null
     });
-  
-    
+
+
     const message: CommandMessage = {
       receiverConnectionId: this.selectedBrowserEngine.connectionId,
       commands: this.testInfo.commands,
@@ -117,7 +140,7 @@ export class ProjectTestRunComponent implements OnInit {
 
       } else {
         test.status = 'failed';
-        test.message =testProgressMessage.message;
+        test.message = testProgressMessage.message;
       }
     });
     this.hubConnection.on('ReciveScreenshot', (data) => {

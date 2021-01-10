@@ -41,6 +41,12 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <mat-card>
+      <div class="option-buttons">
+        <button mat-raised-button color="primary" type="button" (click)="saveTectConfigClick()">Update</button>
+        <button mat-raised-button color="accent" class="ml-1" [routerLink]="['/project']">Cancel</button>
+      </div>
+    </mat-card>
   </div>
 
   <table id="actionTable" class="table-wrapper" *ngIf="commandsRender">
