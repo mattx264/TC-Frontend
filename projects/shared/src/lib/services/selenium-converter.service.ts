@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
 import { SeleniumCommand } from '../models/selenium/SeleniumCommand';
 import { OperatorModel } from '../models/operatorModel';
+import { GuidGeneratorService } from './guid-generator.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeleniumConverterService {
 
-  constructor() { }
+  constructor(private guidGeneratorService: GuidGeneratorService) { }
+
   packageOperators(operatorsData: OperatorModel[]) {
     var data = [];
     for (let i = 0; i < operatorsData.length; i++) {
@@ -54,7 +56,7 @@ export class SeleniumConverterService {
 
     // close browser
     data.push({
-      operationId: 18, webDriverOperationType: 4
+      operationId: 18, webDriverOperationType: 4, guid: this.guidGeneratorService.get()
     });
 
     return data;
@@ -63,14 +65,14 @@ export class SeleniumConverterService {
     var data: OperatorModel[] = [];
     for (let i = 0; i < seleniumCommand.length; i++) {
       const row = seleniumCommand[i];
-      const result=this.openOperator(row)
-      if(result !=null){
+      const result = this.openOperator(row)
+      if (result != null) {
         data.push(result);
-      } else{
+      } else {
         console.error("SOMETHING IS WRONG WITH COMMAND");
         console.error(row);
       }
-    
+
 
     }
     return data;
@@ -108,6 +110,7 @@ export class SeleniumConverterService {
             return { value: row.values[0], guid: row.guid, action: 'goToUrl', path: null };
           case 18:
             //CloseBrowser - Right now dont display this 
+            return { value: null, guid: row.guid, action: 'closeBrowser', path: null };
             break;
           default:
             throw new Error("operationId not implemented: webDriverOperationType=" + row.webDriverOperationType + "  operationId=" + row.operationId)

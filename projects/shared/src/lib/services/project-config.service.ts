@@ -31,6 +31,7 @@ export class ProjectConfigService {
       ]).then(response => {
         let testConfig:TestInfoConfigViewModel[] = response[0];
         let configs = response[1];
+        
         const configProject = this.convert(configs, testConfig);
         resolve(configProject);
       });

@@ -34,6 +34,17 @@ export class HttpClientService {
     }), first());
   }
 
+  getByPromise(url: string): Promise<any> {
+    this.loadingService.setValue(true);
+
+    return this.http.get(this.apiUrl(url)).pipe(map(data => {
+      this.loadingService.setValue(false);
+      return data;
+    }), catchError(this.handleError), finalize(() => {
+      this.loadingService.setValue(false);
+    }), first()).toPromise();
+  }
+
   getGeneric<T>(url: string): Observable<T> {
     this.loadingService.setValue(true);
 

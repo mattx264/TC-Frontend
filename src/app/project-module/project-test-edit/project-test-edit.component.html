@@ -7,9 +7,15 @@
 
     </div>
 
-    <div class="d-flex ">
-      <button class="mr-3" mat-raised-button color="primary" type="submit">Save</button>
-      <button mat-raised-button color="accent" [routerLink]="['/project', this.projectId, 'tests']">Cancel</button>
+    <div class="d-flex justify-content-between">
+      <div>
+        <button class="mr-3" mat-raised-button color="primary" type="submit">Save</button>
+        <button mat-raised-button color="accent" [routerLink]="['/project', this.projectId, 'tests']">Cancel</button>
+      </div>
+      <div>
+        <button mat-raised-button color="warn" class="pull-right" (click)="deleteClick()">Delete</button>
+
+      </div>
     </div>
   </form>
 </mat-card>

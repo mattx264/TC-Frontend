@@ -52,4 +52,12 @@ export class ProjectTestEditComponent implements OnInit {
         e => alert(e.error)
       );
   }
+
+  deleteClick() {
+    this.httpService.delete('testInfo', { testInfoId: this.testInfo.id })
+      .subscribe(
+        r => this.router.navigate(['/project', this.projectId, 'tests']),
+        e => alert(e.error)
+      );
+  }
 }

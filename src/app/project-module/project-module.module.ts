@@ -81,7 +81,7 @@ import { ProjectCreateComponent } from './project-create-edit/project-create/pro
     MatCheckboxModule,
     MatChipsModule,
     MatProgressSpinnerModule,
-    LightboxModule  ,
+    LightboxModule,
     SharedModule.forRoot(environment)
   ],
   entryComponents:[

@@ -48,6 +48,7 @@ import { MatSpinner, MatProgressSpinnerModule } from '@angular/material/progress
 import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/project-sidebar.component';
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { AlertModalComponent } from './modals/alert-modal/alert-modal.component';
+import { AdminModuleComponent } from './admin-module/admin-module.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,9 @@ import { AlertModalComponent } from './modals/alert-modal/alert-modal.component'
     CompanyInfoComponent,
     ProjectSidebarComponent,
     ConfirmModalComponent,
-    AlertModalComponent
+    AlertModalComponent,
+    AdminModuleComponent
+    
   ],
   imports: [
     BrowserModule,

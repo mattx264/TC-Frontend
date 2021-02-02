@@ -12,6 +12,9 @@ import { SimpleErrorPageComponent } from '../../projects/shared/src/lib/componen
 import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
+
+  { path: 'admin', loadChildren: () => import(`./admin-module/admin.module`).then(m => m.AdminModule), canActivate: [AuthGuard] },
+
   { path: 'szwagier-dashboard', component: SzwagierDashboardComponent, canActivate: [AuthGuard] },
   { path: 'szwagier-rc/:id', component: SzwagierRCComponent, canActivate: [AuthGuard] },
   { path: 'group', component: GroupLayoutComponent, canActivate: [AuthGuard] },

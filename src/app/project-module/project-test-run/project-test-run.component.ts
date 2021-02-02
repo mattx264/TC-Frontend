@@ -21,6 +21,7 @@ import { ConfigurationModel } from 'projects/shared/src/lib/CommonDTO/Configurat
 import { ProjectTestConfigViewModel } from 'projects/shared/src/lib/viewModels/ProjectTestConfigViewModel';
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
+import { TestScreenshot } from 'src/app/modals/project-test/test-screenshot';
 
 @Component({
   selector: 'app-project-test-run',
@@ -35,7 +36,7 @@ export class ProjectTestRunComponent implements OnInit {
   hubConnection: signalR.HubConnection;
   selectedBrowserEngine: SzwagierModel;
   commandsRender: OperatorModelStatus[];
-  screenshots: IAlbum[] = [];
+  screenshots: TestScreenshot[] = [];
 
   showSettings: boolean;
   configProject: ConfigProjectModel[];
@@ -144,9 +145,13 @@ export class ProjectTestRunComponent implements OnInit {
       }
     });
     this.hubConnection.on('ReciveScreenshot', (data) => {
-      this.screenshots.push({ src: data.imagePath, thumb: data.imagePath });
+      if (this.screenshots.find(x => x.guid == data.commandTestGuid)) {
+        return;
+      }
+      console.log(data);
+      this.screenshots.push({ src: data.imagePath, thumb: data.imagePath, guid: data.commandTestGuid });
       const currentIndex = this.commandsRender.findIndex(x => x.guid === data.commandTestGuid);
-      this.commandsRender[currentIndex - 1].imagePath = data.imagePath;
+      this.commandsRender[currentIndex].imagePath = data.imagePath;
     });
   }
 
