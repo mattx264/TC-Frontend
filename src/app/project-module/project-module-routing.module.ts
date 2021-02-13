@@ -52,6 +52,7 @@ const routes: Routes = [
           { path: 'edit', component: ProjectEditComponent },
           { path: 'tests', component: ProjectTestListComponent },
           { path: 'test-history/:testid', component: TestRunHistoryListComponent },
+          { path: 'history-details/:testid', component: TestRunHistoryListComponent },
           { path: 'test-run-result/:test-history-id', component: TestRunResultComponent },
           { path: 'test-edit/:testid', component: ProjectTestEditComponent },
           { path: 'run-test/:testid', component: ProjectTestRunComponent },

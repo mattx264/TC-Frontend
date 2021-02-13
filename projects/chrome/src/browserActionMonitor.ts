@@ -15,14 +15,14 @@ export class BrowserActionMonitor {
         document.onkeydown = this.addKeyDownEventListener;
         document.ondblclick = this.addDoubleClickEventListener;
         document.onmousedown = this.addMouseListener;
-      
+
 
     }
     addKeyDownEventListener = (e: KeyboardEvent) => {
         const activeElement = document.activeElement as HTMLInputElement;
         var xpath = this.xpathHelper.getInputElementXPath(activeElement);
 
-        if (e.keyCode == 13) {//ENTER 
+        if (e.key == 'Enter') {//ENTER 
             e.preventDefault();
             this.sendMessage({
                 action: 'sendKeys', path: xpath, value: 'Keys.ENTER'
@@ -42,7 +42,7 @@ export class BrowserActionMonitor {
                 action: 'sendKeys', path: xpath, value: 'Keys.' + e.code.toUpperCase()
             });
             return;
-        } else if (e.keyCode == 13) {
+        } else if (e.key == 'Enter') {
             //ENTER is handler in addKeyDownEventListener
             return;
         } else if (e.code === "Backspace") {

@@ -15,7 +15,7 @@ export class LoadingService {
     });
   }
   setValue(isLoading: boolean): void {
-    this.gLoading.emit(isLoading);
+   this.gLoading.emit(isLoading);
   }
   getValue(): any {
     return this.gLoading;

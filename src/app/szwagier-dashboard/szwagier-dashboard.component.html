@@ -25,13 +25,14 @@
 
   <ng-container matColumnDef="RC">
     <th mat-header-cell *matHeaderCellDef> RC </th>
-    <td mat-cell *matCellDef="let element"> <button [routerLink]="['/szwagier-rc',1]" mat-flat-button
-        color="primary">RC</button> </td>
+    <td mat-cell *matCellDef="let element"> 
+      <button *ngIf="element.szwagierTypeLabel == 'Szwagier Console'" [routerLink]="['/szwagier-rc',1]" mat-flat-button color="primary">RC</button> </td>
   </ng-container>
   <ng-container matColumnDef="Send test">
     <th mat-header-cell *matHeaderCellDef> Send test </th>
-    <td mat-cell *matCellDef="let element"> <button mat-flat-button (click)="sendTestClick()" color="accent"> Send
-        test</button> </td>
+    <td mat-cell *matCellDef="let element">
+       <button *ngIf="element.szwagierTypeLabel == 'Szwagier Console'" mat-flat-button (click)="sendTestClick()" color="accent"> Send test</button> 
+      </td>
   </ng-container>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>

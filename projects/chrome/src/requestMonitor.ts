@@ -1,7 +1,6 @@
 
 export class RequestionMonitor {
     constructor() {
-
     }
     startMonitor(sendMessage) {
 

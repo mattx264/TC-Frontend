@@ -104,6 +104,4 @@ export class RunTestComponent implements OnInit {
       this.cdr.detectChanges();
     });
   }
-
-
 }

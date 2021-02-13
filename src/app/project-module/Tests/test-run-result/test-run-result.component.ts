@@ -5,6 +5,7 @@ import { TestRunResultViewModel } from 'projects/shared/src/lib/viewModels/TestR
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
 import { SeleniumCommand } from 'projects/shared/src/lib/models/selenium/SeleniumCommand';
 import { Lightbox } from 'ngx-lightbox';
+import { TestScreenshot } from 'src/app/modals/project-test/test-screenshot';
 
 @Component({
   selector: 'app-test-run-result',
@@ -14,6 +15,7 @@ import { Lightbox } from 'ngx-lightbox';
 export class TestRunResultComponent implements OnInit {
   testHistoryId: number;
   testRunResults: TestRunResultModel[] = [];
+  screenshots: TestScreenshot[] = [];
 
   constructor(
     private httpService: HttpClientService,
@@ -36,13 +38,15 @@ export class TestRunResultComponent implements OnInit {
           isSuccesful: element.isSuccesful,
           dateAdded: element.dateAdded
         });
+        if (element.screenshotUrl) {
+          this.screenshots.push({ src: element.screenshotUrl, thumb: element.screenshotUrl, guid: element.commandTestGuid });
+        }
       });
 
     });
   }
   lightboxImageClick(index: number) {
-
-    //this.lightbox.open(this.testRunResults.map(x=>x.screenshotUrl), index);
+    this.lightbox.open(this.screenshots, index);
   }
 
 }

@@ -56,6 +56,7 @@ import { ProjectCreateComponent } from './project-create-edit/project-create/pro
     ProjectConfigComponent,
     TestRunHistoryListComponent,
     TestRunResultComponent
+    
 ],
   imports: [
     CommonModule,

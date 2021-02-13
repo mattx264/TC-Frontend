@@ -8,7 +8,8 @@ export class Main {
     // tempEventElement: HTMLElement;
     tempElementValue: string;
     rightClickElementClicked: HTMLElement;
-    actionLog: OperatorModel[] = [];
+    //actionLog: OperatorModel[] = [];
+    actionLog: { type: string, data: OperatorModel }[] = [];
 
     isInit: { startBrowserActionMonitor, startXHRMonitor } = { startBrowserActionMonitor: false, startXHRMonitor: false };
 
@@ -59,17 +60,25 @@ export class Main {
         }
         if (this.actionLog.length > 0) {
             const prev = this.actionLog[this.actionLog.length - 1];
-            if (prev.path === data.path && prev.action === 'sendKeys' && (data.value !== null && data.value.indexOf('Keys.') === -1)) {
-                this.sendUpdateMessage(data);
-                return;
+            const isPrevKeys = prev.data.value !== null && prev.data.value.indexOf('Keys.') === 0;
+            const isCurrentKeys = data.value !== null && data.value.indexOf('Keys.') === 0;
+            if (prev.data.path === data.path && prev.data.action === 'sendKeys' && !isPrevKeys) {
+                if (!isCurrentKeys) {
+                    this.sendUpdateMessage(data);
+                    return;
+                }
             }
         }
-        this.actionLog.push(data);
-        this.sendMessageToPopup({ type: 'insert', data: data });
+        let action = { type: 'insert', data: data };
+
+        this.actionLog.push(action);
+        this.sendMessageToPopup(action);
 
     }
     sendUpdateMessage(data: OperatorModel) {
-        this.sendMessageToPopup({ type: 'appendLastValue', data: data });
+        let action = { type: 'appendLastValue', data: data };
+        this.sendMessageToPopup(action);
+        this.actionLog.push(action);
 
     }
     sendMessageToPopup(message, callBack?) {
@@ -83,7 +92,6 @@ export class Main {
         }
     }
 
-
     private startXHRMonitor() {
         if (this.isInit.startXHRMonitor === true) {
             return;
@@ -92,7 +100,7 @@ export class Main {
         localStorage.setItem('isInit', JSON.stringify(this.isInit));
         new RequestionMonitor().startMonitor(this.sendMessage.bind(this));
     }
-    private startBrowserActionMonitor() {
+    startBrowserActionMonitor() {
         if (this.isInit.startBrowserActionMonitor === true) {
             return;
         }

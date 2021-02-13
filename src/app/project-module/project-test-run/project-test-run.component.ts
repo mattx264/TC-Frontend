@@ -1,23 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { ActivatedRoute } from '@angular/router';
-import { ProjectTestViewModel } from 'projects/shared/src/lib/viewModels/project-test-view-model';
 import { TestInfoViewModel } from 'projects/shared/src/lib/viewModels/testInfo-ViewModel';
-import { OperatorModel, OperatorModelStatus } from 'projects/shared/src/lib/models/operatorModel';
-import { SeleniumCommand } from 'projects/shared/src/lib/models/selenium/SeleniumCommand';
+import {  OperatorModelStatus } from 'projects/shared/src/lib/models/operatorModel';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogSelectBrowserEngine } from './dialog-select-browser-engine';
 import { TestProgressMessage } from 'projects/shared/src/lib/models/TestProgressMessage';
-import { Lightbox, IAlbum } from 'ngx-lightbox';
+import { Lightbox } from 'ngx-lightbox';
 import { SzwagierType } from 'projects/shared/src/lib/models/SzwagierType';
 import { SeleniumConverterService } from 'projects/shared/src/lib/services/selenium-converter.service';
-import { ConfigProjectTestViewModel } from 'projects/shared/src/lib/viewModels/ConfigProjectTestViewModel';
 import { ProjectConfigService } from 'projects/shared/src/lib/services/project-config.service';
 import { ConfigProjectModel } from 'projects/shared/src/lib/models/project/configProjectModel';
 import { CommandMessage } from 'projects/shared/src/lib/CommonDTO/CommandMessage';
-import { ConfigurationModel } from 'projects/shared/src/lib/CommonDTO/ConfigurationModel';
 import { ProjectTestConfigViewModel } from 'projects/shared/src/lib/viewModels/ProjectTestConfigViewModel';
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
@@ -73,7 +69,6 @@ export class ProjectTestRunComponent implements OnInit {
     this.openDialog();
   }
   lightboxImageClick(index: number) {
-
     this.lightbox.open(this.screenshots, index);
   }
   openDialog(): void {

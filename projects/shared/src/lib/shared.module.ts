@@ -18,13 +18,14 @@ import { CommonModule } from '@angular/common';
 import { SnackbarService } from './services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectConfigService } from './services/project-config.service';
+import { LoadingComponent } from './services/loading/loading.component';
 
 
 @NgModule({
   declarations:
-    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent],
+    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent, LoadingComponent],
   exports:
-    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent],
+    [SharedComponent, TextFieldComponent, ServerNotAvaiableComponent, SimpleErrorPageComponent, LoadingComponent],
   imports: [
     CommonModule,
     HttpClientModule,
