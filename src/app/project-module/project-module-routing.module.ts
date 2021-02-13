@@ -4,16 +4,16 @@ import { ProjectComponent } from './project.component';
 import { ProjectListComponent } from './project-list/project-list.component';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
 import { Observable } from 'rxjs';
-import { ProjectTestListComponent } from './project-test-list/project-test-list.component';
-import { ProjectTestEditComponent } from './project-test-edit/project-test-edit.component';
-import { ProjectTestCommandsComponent } from './project-test-commands/project-test-commands.component';
-import { ProjectTestRunComponent } from './project-test-run/project-test-run.component';
+import { ProjectTestEditComponent } from './tests/project-test-edit/project-test-edit.component';
 import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 import { ProjectConfigComponent } from './project-config/project-config.component';
 import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
 import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 import { ProjectCreateComponent } from './project-create-edit/project-create/project-create.component';
 import { ProjectEditComponent } from './project-create-edit/project-edit/project-edit.component';
+import { ProjectTestCommandsComponent } from './tests/project-test-commands/project-test-commands.component';
+import { ProjectTestRunComponent } from './tests/project-test-run/project-test-run.component';
+import { ProjectTestListComponent } from './tests/project-test-list/project-test-list.component';
 
 // User token and permissions classes can be utilized if further security is needed
 @Injectable()

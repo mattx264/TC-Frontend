@@ -20,7 +20,7 @@ export class HttpClientService {
     if (environment.production === true) {
       this.address = '/api/';
     } else {
-      this.address = 'https://localhost:44384/api/';
+      this.address = 'http://localhost/TC.WebService/api/';
     }
   }
   get(url: string): Observable<any> {

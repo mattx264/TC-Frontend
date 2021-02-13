@@ -25,19 +25,19 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from 'projects/shared/src/public-api';
 import { environment } from 'projects/tc-browser-recorder/src/environments/environment';
 import { ProjectDashboardComponent } from './project-dashboard/project-dashboard.component';
-import { ProjectTestListComponent } from './project-test-list/project-test-list.component';
-import { ProjectTestRunComponent } from './project-test-run/project-test-run.component';
-import { ProjectTestCommandsComponent } from './project-test-commands/project-test-commands.component';
-import { ProjectTestEditComponent } from './project-test-edit/project-test-edit.component';
-import { DialogSelectBrowserEngine } from './project-test-run/dialog-select-browser-engine';
 import { LightboxModule } from 'ngx-lightbox';
-import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
 import { ProjectConfigComponent } from './project-config/project-config.component';
 import { TestRunHistoryListComponent } from './Tests/test-run-history-list/test-run-history-list.component';
 import { TestRunResultComponent } from './Tests/test-run-result/test-run-result.component';
 import { ProjectComponent } from './project.component';
 import { ProjectEditComponent } from './project-create-edit/project-edit/project-edit.component';
 import { ProjectCreateComponent } from './project-create-edit/project-create/project-create.component';
+import { ProjectTestCommandsComponent } from './tests/project-test-commands/project-test-commands.component';
+import { ProjectTestRunComponent } from './tests/project-test-run/project-test-run.component';
+import { DialogSelectBrowserEngine } from './tests/project-test-run/dialog-select-browser-engine';
+import { ProjectWrapperComponent } from './project-wrapper/project-wrapper.component';
+import { ProjectTestEditComponent } from './tests/project-test-edit/project-test-edit.component';
+import { ProjectTestListComponent } from './tests/project-test-list/project-test-list.component';
 
 
 @NgModule({
