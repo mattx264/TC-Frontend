@@ -4,7 +4,7 @@ import { filter } from 'rxjs/operators';
 import { LayoutService } from './layout.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { HeaderComponent } from './header/header.component';
-import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
+import { ProjectViewModel } from '../../../projects/shared/src/client-api';
 
 @Component({
   selector: 'app-layout',

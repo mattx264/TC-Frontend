@@ -1,0 +1,9 @@
+{
+  "/api/*": {
+     "target": "http://localhost/TC.WebService/api",
+     "secure": false,
+     "changeOrigin": true,
+     "logLevel": "debug",
+     "pathRewrite": {"^/api" : "http://localhost/TC.WebService/api"}
+  }
+}

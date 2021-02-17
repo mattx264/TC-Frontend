@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
+import { ProjectViewModel } from '../../../../../projects/shared/src/client-api';
 
 @Component({
   selector: 'app-project-sidebar',

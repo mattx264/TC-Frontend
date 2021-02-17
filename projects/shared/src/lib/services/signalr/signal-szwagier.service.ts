@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { AuthService } from '../auth/auth.service';
 import { SzwagierModel } from '../../models/szwagierModel';
 import { SzwagierType } from '../../models/SzwagierType';
 
+export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class SignalSzwagierService {
   private hubConnection: signalR.HubConnection;
 
   szwagiers: SzwagierModel[];
-  constructor(private authService: AuthService) {
+  baseUrl: string;
+  constructor(private authService: AuthService, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
+    this.baseUrl = "http://localhost/TC.WebService";
 
   }
   start(szwagierType: SzwagierType): signalR.HubConnection {
@@ -25,10 +28,10 @@ export class SignalSzwagierService {
     } else if (szwagierType == SzwagierType.SzwagierBrowserExtension) {
       type = "e";
     }
-
+    console.log(this.baseUrl);
     // tslint:disable-next-line:max-line-length
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:44384/hubs/szwagier?t=' + type, {
+      .withUrl(`${this.baseUrl}/hubs/szwagier?t=` + type, {
         accessTokenFactory: () => this.authService.getToken()
       })
       .configureLogging(signalR.LogLevel.Information)

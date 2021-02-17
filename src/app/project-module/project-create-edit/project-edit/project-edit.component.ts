@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ThemePalette } from '@angular/material/core';
 import { FormValidatorsService } from 'src/app/services/form-validators.service';
-import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
+import { ProjectClient, ProjectDomainViewModel, ProjectViewModel } from '../../../../../projects/shared/src/client-api';
 
 @Component({
   selector: 'app-project-edit',
@@ -18,7 +17,7 @@ export class ProjectEditComponent implements OnInit {
   saveProjectEndPoint = 'project';
   formGroup: FormGroup;
   ProjectName = '';
-  ProjectId = 0;
+  projectId = 0;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public emailChipColor: ThemePalette = 'primary';
@@ -30,25 +29,26 @@ export class ProjectEditComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private http: HttpClientService,
+    private projectClient: ProjectClient,
     private formValidatorsService: FormValidatorsService) {
-    this.activatedRoute.parent.params.subscribe(x => this.ProjectId = x.id);
+    this.activatedRoute.parent.params.subscribe(x => this.projectId = x.id);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.formGroup = this.buildForm();
-    this.http.getGeneric<ProjectViewModel>(`${this.getProjectEndPoint}/${this.ProjectId}`).subscribe(x => {
-      x.userInProject.forEach(element => {
-        this.emailAddresses.push(element.userEmail);
-      });
+    let project = await this.projectClient.getProject(this.projectId).toPromise();
 
-      this.ProjectName = x.name;
-      this.formGroup.get('name').setValue(x.name);
-      this.formGroup.get('description').setValue(x.description);
-      // this.formGroup.get('usersEmail').setValue(this.emailAddresses);
-      this.formGroup.get('domains').setValue(this.parseOutDomains(x.projectDomain));
-      this.formGroup.get('id').setValue(x.id);
+    project.userInProject.forEach(element => {
+      this.emailAddresses.push(element.userEmail);
     });
+
+    this.ProjectName = project.name;
+    this.formGroup.get('name').setValue(project.name);
+    this.formGroup.get('description').setValue(project.description);
+    // this.formGroup.get('usersEmail').setValue(this.emailAddresses);
+    this.formGroup.get('domains').setValue(this.parseOutDomains(project.projectDomain));
+    this.formGroup.get('id').setValue(project.id);
+
   }
   buildForm(): FormGroup {
     return this.fb.group({
@@ -59,7 +59,7 @@ export class ProjectEditComponent implements OnInit {
       id: [0],
     });
   }
-  parseOutDomains(domains: Array<{ domain: string }>): string {
+  parseOutDomains(domains: ProjectDomainViewModel[]): string {
     let d = '';
     domains.forEach(x => d += (x.domain + ', '));
 
@@ -69,16 +69,13 @@ export class ProjectEditComponent implements OnInit {
 
     return d;
   }
-  save() {
+  async save() {
     if (this.formGroup.invalid) {
       return;
     }
-    this.formGroup.get('usersEmail').setValue((this.formGroup.get('usersEmail').value as string []).concat(this.emailAddresses));
-    this.http.put(this.saveProjectEndPoint, this.formGroup.getRawValue())
-      .subscribe(
-        r => this.router.navigate(['project']),
-        e => alert(e.error)
-      );
+    this.formGroup.get('usersEmail').setValue((this.formGroup.get('usersEmail').value as string[]).concat(this.emailAddresses));
+    await this.projectClient.put(this.formGroup.getRawValue()).toPromise();
+    this.router.navigate(['project']);  
   }
 
   removeEmail(address: string): void {

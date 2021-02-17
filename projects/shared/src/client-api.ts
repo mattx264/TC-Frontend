@@ -1189,7 +1189,7 @@ export class TestInfoConfigClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(testId: number): Observable<FileResponse> {
+    get(testId: number): Observable<ProjectTestConfigViewModel[]> {
         let url_ = this.baseUrl + "/api/TestInfoConfig/{testId}";
         if (testId === undefined || testId === null)
             throw new Error("The parameter 'testId' must be defined.");
@@ -1200,7 +1200,7 @@ export class TestInfoConfigClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1211,31 +1211,37 @@ export class TestInfoConfigClient {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGet(response: HttpResponseBase): Observable<ProjectTestConfigViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ProjectTestConfigViewModel.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<ProjectTestConfigViewModel[]>(<any>null);
     }
 
     post(viewModel: ProjectTestConfigViewModel[]): Observable<FileResponse> {
@@ -1300,7 +1306,7 @@ export class ProjectTestConfigClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(projectId: number): Observable<FileResponse> {
+    get(projectId: number): Observable<ProjectTestConfigViewModel[]> {
         let url_ = this.baseUrl + "/api/ProjectTestConfig/{projectId}";
         if (projectId === undefined || projectId === null)
             throw new Error("The parameter 'projectId' must be defined.");
@@ -1311,7 +1317,7 @@ export class ProjectTestConfigClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1322,31 +1328,37 @@ export class ProjectTestConfigClient {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGet(response: HttpResponseBase): Observable<ProjectTestConfigViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ProjectTestConfigViewModel.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<ProjectTestConfigViewModel[]>(<any>null);
     }
 
     post(viewModel: ProjectTestConfigViewModel[]): Observable<FileResponse> {
@@ -1411,8 +1423,11 @@ export class ProjectClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    getAll(): Observable<ProjectViewModel[]> {
-        let url_ = this.baseUrl + "/api/Project";
+    get(domain: string | null): Observable<ProjectViewModel> {
+        let url_ = this.baseUrl + "/api/Project/domain/{domain}";
+        if (domain === undefined || domain === null)
+            throw new Error("The parameter 'domain' must be defined.");
+        url_ = url_.replace("{domain}", encodeURIComponent("" + domain));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1424,20 +1439,20 @@ export class ProjectClient {
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGetAll(response_);
+            return this.processGet(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processGetAll(<any>response_);
+                    return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ProjectViewModel[]>><any>_observableThrow(e);
+                    return <Observable<ProjectViewModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ProjectViewModel[]>><any>_observableThrow(response_);
+                return <Observable<ProjectViewModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetAll(response: HttpResponseBase): Observable<ProjectViewModel[]> {
+    protected processGet(response: HttpResponseBase): Observable<ProjectViewModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1448,11 +1463,7 @@ export class ProjectClient {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             let result200: any = null;
             let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            if (Array.isArray(resultData200)) {
-                result200 = [] as any;
-                for (let item of resultData200)
-                    result200!.push(ProjectViewModel.fromJS(item));
-            }
+            result200 = ProjectViewModel.fromJS(resultData200);
             return _observableOf(result200);
             }));
         } else if (status !== 200 && status !== 204) {
@@ -1460,7 +1471,58 @@ export class ProjectClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ProjectViewModel[]>(<any>null);
+        return _observableOf<ProjectViewModel>(<any>null);
+    }
+
+    getProject(id: number): Observable<ProjectViewModel> {
+        let url_ = this.baseUrl + "/api/Project/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+                "Accept": "application/json"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processGetProject(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processGetProject(<any>response_);
+                } catch (e) {
+                    return <Observable<ProjectViewModel>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<ProjectViewModel>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processGetProject(response: HttpResponseBase): Observable<ProjectViewModel> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProjectViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<ProjectViewModel>(<any>null);
     }
 
     post(viewModel: ProjectCreateViewModel): Observable<FileResponse> {
@@ -1563,108 +1625,6 @@ export class ProjectClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    get(domain: string | null): Observable<ProjectViewModel> {
-        let url_ = this.baseUrl + "/api/Project/domain/{domain}";
-        if (domain === undefined || domain === null)
-            throw new Error("The parameter 'domain' must be defined.");
-        url_ = url_.replace("{domain}", encodeURIComponent("" + domain));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet(<any>response_);
-                } catch (e) {
-                    return <Observable<ProjectViewModel>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ProjectViewModel>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGet(response: HttpResponseBase): Observable<ProjectViewModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = ProjectViewModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ProjectViewModel>(<any>null);
-    }
-
-    get2(id: number): Observable<ProjectViewModel> {
-        let url_ = this.baseUrl + "/api/Project/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ : any = {
-            observe: "response",
-            responseType: "blob",
-            headers: new HttpHeaders({
-                "Accept": "application/json"
-            })
-        };
-
-        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processGet2(response_);
-        })).pipe(_observableCatch((response_: any) => {
-            if (response_ instanceof HttpResponseBase) {
-                try {
-                    return this.processGet2(<any>response_);
-                } catch (e) {
-                    return <Observable<ProjectViewModel>><any>_observableThrow(e);
-                }
-            } else
-                return <Observable<ProjectViewModel>><any>_observableThrow(response_);
-        }));
-    }
-
-    protected processGet2(response: HttpResponseBase): Observable<ProjectViewModel> {
-        const status = response.status;
-        const responseBlob =
-            response instanceof HttpResponse ? response.body :
-            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
-
-        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            let result200: any = null;
-            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
-            result200 = ProjectViewModel.fromJS(resultData200);
-            return _observableOf(result200);
-            }));
-        } else if (status !== 200 && status !== 204) {
-            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            }));
-        }
-        return _observableOf<ProjectViewModel>(<any>null);
-    }
-
     deleteProject(projectId: number[]): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/Project/deleteProject";
         url_ = url_.replace(/[?&]$/, "");
@@ -1765,7 +1725,7 @@ export class ProjectClient {
         return _observableOf<FileResponse>(<any>null);
     }
 
-    getProjects(): Observable<FileResponse> {
+    getProjects(): Observable<ProjectViewModel[]> {
         let url_ = this.baseUrl + "/api/Project/getProjects";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -1773,7 +1733,7 @@ export class ProjectClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1784,34 +1744,40 @@ export class ProjectClient {
                 try {
                     return this.processGetProjects(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<ProjectViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<ProjectViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetProjects(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGetProjects(response: HttpResponseBase): Observable<ProjectViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            if (Array.isArray(resultData200)) {
+                result200 = [] as any;
+                for (let item of resultData200)
+                    result200!.push(ProjectViewModel.fromJS(item));
+            }
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<ProjectViewModel[]>(<any>null);
     }
 
-    getProjectDetails(id: number | undefined): Observable<FileResponse> {
+    getProjectDetails(id: number | undefined): Observable<ProjectDetailsViewModel> {
         let url_ = this.baseUrl + "/api/Project/getProjectDetails?";
         if (id === null)
             throw new Error("The parameter 'id' cannot be null.");
@@ -1823,7 +1789,7 @@ export class ProjectClient {
             observe: "response",
             responseType: "blob",
             headers: new HttpHeaders({
-                "Accept": "application/octet-stream"
+                "Accept": "application/json"
             })
         };
 
@@ -1834,31 +1800,33 @@ export class ProjectClient {
                 try {
                     return this.processGetProjectDetails(<any>response_);
                 } catch (e) {
-                    return <Observable<FileResponse>><any>_observableThrow(e);
+                    return <Observable<ProjectDetailsViewModel>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<FileResponse>><any>_observableThrow(response_);
+                return <Observable<ProjectDetailsViewModel>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGetProjectDetails(response: HttpResponseBase): Observable<FileResponse> {
+    protected processGetProjectDetails(response: HttpResponseBase): Observable<ProjectDetailsViewModel> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
             (<any>response).error instanceof Blob ? (<any>response).error : undefined;
 
         let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
-        if (status === 200 || status === 206) {
-            const contentDisposition = response.headers ? response.headers.get("content-disposition") : undefined;
-            const fileNameMatch = contentDisposition ? /filename="?([^"]*?)"?(;|$)/g.exec(contentDisposition) : undefined;
-            const fileName = fileNameMatch && fileNameMatch.length > 1 ? fileNameMatch[1] : undefined;
-            return _observableOf({ fileName: fileName, data: <any>responseBlob, status: status, headers: _headers });
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = ProjectDetailsViewModel.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
         } else if (status !== 200 && status !== 204) {
             return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<FileResponse>(<any>null);
+        return _observableOf<ProjectDetailsViewModel>(<any>null);
     }
 }
 
@@ -2521,6 +2489,86 @@ export interface IProjectCreateViewModel {
     description?: string | undefined;
     domains?: string | undefined;
     usersEmail?: string[] | undefined;
+}
+
+export class ProjectDetailsViewModel implements IProjectDetailsViewModel {
+    id?: number;
+    name?: string | undefined;
+    description?: string | undefined;
+    projectDomain?: ProjectDomainViewModel[] | undefined;
+    userInProject?: UserInProjectViewModel[] | undefined;
+    dateModified?: Date;
+    modifiedBy?: string | undefined;
+    lastTestRunDate?: Date;
+
+    constructor(data?: IProjectDetailsViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.name = _data["name"];
+            this.description = _data["description"];
+            if (Array.isArray(_data["projectDomain"])) {
+                this.projectDomain = [] as any;
+                for (let item of _data["projectDomain"])
+                    this.projectDomain!.push(ProjectDomainViewModel.fromJS(item));
+            }
+            if (Array.isArray(_data["userInProject"])) {
+                this.userInProject = [] as any;
+                for (let item of _data["userInProject"])
+                    this.userInProject!.push(UserInProjectViewModel.fromJS(item));
+            }
+            this.dateModified = _data["dateModified"] ? new Date(_data["dateModified"].toString()) : <any>undefined;
+            this.modifiedBy = _data["modifiedBy"];
+            this.lastTestRunDate = _data["lastTestRunDate"] ? new Date(_data["lastTestRunDate"].toString()) : <any>undefined;
+        }
+    }
+
+    static fromJS(data: any): ProjectDetailsViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new ProjectDetailsViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["name"] = this.name;
+        data["description"] = this.description;
+        if (Array.isArray(this.projectDomain)) {
+            data["projectDomain"] = [];
+            for (let item of this.projectDomain)
+                data["projectDomain"].push(item.toJSON());
+        }
+        if (Array.isArray(this.userInProject)) {
+            data["userInProject"] = [];
+            for (let item of this.userInProject)
+                data["userInProject"].push(item.toJSON());
+        }
+        data["dateModified"] = this.dateModified ? this.dateModified.toISOString() : <any>undefined;
+        data["modifiedBy"] = this.modifiedBy;
+        data["lastTestRunDate"] = this.lastTestRunDate ? this.lastTestRunDate.toISOString() : <any>undefined;
+        return data; 
+    }
+}
+
+export interface IProjectDetailsViewModel {
+    id?: number;
+    name?: string | undefined;
+    description?: string | undefined;
+    projectDomain?: ProjectDomainViewModel[] | undefined;
+    userInProject?: UserInProjectViewModel[] | undefined;
+    dateModified?: Date;
+    modifiedBy?: string | undefined;
+    lastTestRunDate?: Date;
 }
 
 export interface FileParameter {

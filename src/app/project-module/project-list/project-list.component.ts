@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { ConfirmModalComponent } from 'src/app/modals/confirm-modal/confirm-modal.component';
 import { ConfirmType } from 'src/app/modals/modal-data';
-import { ProjectViewModel } from 'projects/shared/src/lib/viewModels/ProjectViewModel';
-import { ProjectDetailsViewModel } from 'projects/shared/src/lib/viewModels/ProjectDetailsViewModel';
+import { ProjectClient, ProjectViewModel  } from '../../../../projects/shared/src/client-api';
 
 @Component({
   selector: 'app-project-list',
@@ -24,7 +22,7 @@ export class ProjectListComponent implements OnInit {
   projects: ProjectViewModel[];
   displayedColumns: string[] = ['name', 'dateModified', 'modifiedBy', 'lastTestRunDate'];
   dataSource = new MatTableDataSource<ProjectViewModel>();
-  constructor(private httpClient: HttpClientService,
+  constructor(private projectClient: ProjectClient,
               public dialog: MatDialog,
               ) { }
 
@@ -32,11 +30,10 @@ export class ProjectListComponent implements OnInit {
     this.loadProjects();
   }
 
-  loadProjects(): void {
-    this.httpClient.get(this.getProjectDetailsEndPoint).toPromise().then((projects: ProjectDetailsViewModel[]) => {
-      this.projects = projects;
-      this.dataSource.data = this.projects;
-    });
+  async loadProjects(): Promise<void> {
+    this.projects = await this.projectClient.getProjects().toPromise();
+    this.dataSource.data = this.projects ;
+    
   }
   
   deleteProject(projectId: number): void {
@@ -55,13 +52,11 @@ export class ProjectListComponent implements OnInit {
     });
 
 
-    dialogRef.beforeClosed().subscribe(r => {
+    dialogRef.beforeClosed().subscribe(async r => {
       if (dialogRef.componentInstance.deleteSuccess === true) {
-        this.httpClient.post(this.deleteProjectEndPoint, [projectId]).toPromise().then(
-          success => console.log('deleted'),
-          error => console.log(error)
-        );
 
+        await this.projectClient.deleteProject([projectId]).toPromise();      
+        
         const indx = this.dataSource.data.findIndex(x => x.id === projectId);
         console.log(indx);
         this.dataSource.data.splice(indx, 1);

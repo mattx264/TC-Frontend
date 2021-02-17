@@ -19,6 +19,7 @@ import { SnackbarService } from './services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProjectConfigService } from './services/project-config.service';
 import { LoadingComponent } from './services/loading/loading.component';
+import { TestInfoConfigClient } from '../client-api';
 
 
 @NgModule({
@@ -42,7 +43,9 @@ import { LoadingComponent } from './services/loading/loading.component';
     LoadingService,
     SignalSzwagierService,
     SnackbarService,
-    ProjectConfigService
+    ProjectConfigService,
+
+    TestInfoConfigClient
   ]
 
 })
