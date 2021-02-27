@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClientService } from 'projects/shared/src/lib/services/http-client.service';
 import { ActivatedRoute } from '@angular/router';
 import { TestInfoViewModel } from 'projects/shared/src/lib/viewModels/testInfo-ViewModel';
-import {  OperatorModelStatus } from 'projects/shared/src/lib/models/operatorModel';
+import { OperatorModelStatus } from 'projects/shared/src/lib/models/operatorModel';
 import { SignalSzwagierService } from 'projects/shared/src/lib/services/signalr/signal-szwagier.service';
 import { SzwagierModel } from 'projects/shared/src/lib/models/szwagierModel';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,16 +18,18 @@ import { ProjectTestConfigViewModel } from 'projects/shared/src/lib/viewModels/P
 import { ConfigProjectTestEnum } from 'projects/shared/src/lib/enums/config-project-test-enum';
 import { SnackbarService } from 'projects/shared/src/lib/services/snackbar.service';
 import { TestScreenshot } from 'src/app/modals/project-test/test-screenshot';
+import { TestInfoConfigClient, TestInfoConfigViewModel } from '../../../../../projects/shared/src/client-api';
 
 @Component({
   selector: 'app-project-test-run',
   templateUrl: './project-test-run.component.html',
   styleUrls: ['./project-test-run.component.scss']
 })
-export class ProjectTestRunComponent implements OnInit {
+export class ProjectTestRunComponent implements OnInit, OnDestroy {
   projectId: number;
   testId: number;
   testInfo: TestInfoViewModel;
+  isTestRuning: boolean = false;
   //operators: OperatorModelStatus[];
   hubConnection: signalR.HubConnection;
   selectedBrowserEngine: SzwagierModel;
@@ -39,12 +41,13 @@ export class ProjectTestRunComponent implements OnInit {
   constructor(
     private httpService: HttpClientService,
     private activatedRoute: ActivatedRoute,
-    signalSzwagierService: SignalSzwagierService,
+    private signalSzwagierService: SignalSzwagierService,
     public dialog: MatDialog,
     public lightbox: Lightbox,
     private seleniumConverterService: SeleniumConverterService,
     private projectConfigService: ProjectConfigService,
-    private snackbarService: SnackbarService
+    private snackbarService: SnackbarService,
+    private testInfoConfig: TestInfoConfigClient
   ) {
     this.hubConnection = signalSzwagierService.start(SzwagierType.SzwagierDashboard);
     this.activatedRoute.parent.params.subscribe(x => {
@@ -59,12 +62,20 @@ export class ProjectTestRunComponent implements OnInit {
     this.projectConfigService.getConfigsByTestId(this.testId).then(data => {
       this.configProject = data;
     });
-
   }
 
   ngOnInit() {
-    this.openDialog();
+    this.selectedBrowserEngine = this.signalSzwagierService.selectedBrowserEngine;
+    if (this.selectedBrowserEngine == null) {
+      this.openDialog();
+    }
   }
+
+  ngOnDestroy(): void {
+    this.hubConnection.off('ReciveScreenshot');
+    this.hubConnection.off('TestProgress');
+  }
+
   showBrowserEngineDialogClick() {
     this.openDialog();
   }
@@ -77,27 +88,34 @@ export class ProjectTestRunComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-
       this.selectedBrowserEngine = result;
+      this.signalSzwagierService.selectedBrowserEngine = this.selectedBrowserEngine;
     });
   }
-  saveTectConfigClick() {
-    let data: ProjectTestConfigViewModel[] = [];
+  async saveTectConfigClick() {
+    let data: TestInfoConfigViewModel[] = [];
     this.configProject.forEach(config => {
       let value = config.value;
       if (config.valueType === ConfigProjectTestEnum.Boolean) {
         value = value == false ? 'false' : 'true';
       }
-      data.push({
+      data.push(new TestInfoConfigViewModel({
         configProjectTestId: config.configProjectTestId,
         id: config.id,
-        projectId: config.projectId,
+        testInfoId: this.testId,
         value: value
-
-      });
+      }));
     });
-    this.httpService.post('TestInfoConfig', data).subscribe(reponse => {
-      this.snackbarService.showSnackbar("Save Successful");
+    await this.testInfoConfig.post(data).toPromise();
+    this.projectConfigService.getConfigsByTestId(this.testId).then(data => {
+      this.configProject = data;
+    });
+    this.snackbarService.showSaveSuccessful();
+  }
+  closeTectConfigClick() {
+    this.showSettings = false;
+    this.projectConfigService.getConfigsByTestId(this.testId).then(data => {
+      this.configProject = data;
     });
   }
   sendClick() {
@@ -109,8 +127,6 @@ export class ProjectTestRunComponent implements OnInit {
       x.status = null;
       x.imagePath = null
     });
-
-
     const message: CommandMessage = {
       receiverConnectionId: this.selectedBrowserEngine.connectionId,
       commands: this.testInfo.commands,
@@ -119,16 +135,20 @@ export class ProjectTestRunComponent implements OnInit {
     }
     this.hubConnection.invoke('SendCommand', message);
     this.startTestProgressMonitor();
+    this.isTestRuning = true;
   }
   showSettingsClick() {
     this.showSettings = !this.showSettings;
   }
   startTestProgressMonitor() {
-
+    this.screenshots = [];
     this.commandsRender[0].status = 'inprogress';
     this.hubConnection.on('TestProgress', (testProgressMessage: TestProgressMessage) => {
       console.log(testProgressMessage)
       const test = this.commandsRender.find(x => x.guid === testProgressMessage.commandTestGuid);
+      if (test == null) {
+        throw Error("Test not found");
+      }
       if (testProgressMessage.isSuccesful) {
         test.status = 'done';
         const currentIndex = this.commandsRender.findIndex(x => x.guid === testProgressMessage.commandTestGuid);
@@ -137,6 +157,10 @@ export class ProjectTestRunComponent implements OnInit {
       } else {
         test.status = 'failed';
         test.message = testProgressMessage.message;
+      }
+      const isLastCommand = test.guid === testProgressMessage.commandTestGuid
+      if (isLastCommand) {
+        this.isTestRuning = false;
       }
     });
     this.hubConnection.on('ReciveScreenshot', (data) => {

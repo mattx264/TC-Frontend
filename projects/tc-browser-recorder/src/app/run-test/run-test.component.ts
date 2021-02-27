@@ -1,5 +1,5 @@
 import { OperatorModelStatus } from './../../../../shared/src/lib/models/operatorModel';
-import { Component, OnInit, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, NgZone, OnDestroy } from '@angular/core';
 import { SignalSzwagierService } from '../../../../shared/src/lib/services/signalr/signal-szwagier.service';
 import { SzwagierType } from '../../../../shared/src/lib/models/SzwagierType';
 import { StoreService } from '../services/store.service';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
   templateUrl: './run-test.component.html',
   styleUrls: ['./run-test.component.scss']
 })
-export class RunTestComponent implements OnInit {
+export class RunTestComponent implements OnInit, OnDestroy {
   hubConnection: signalR.HubConnection;
   commands: OperatorModelStatus[];
   commandsRender: OperatorModelStatus[];
@@ -48,7 +48,10 @@ export class RunTestComponent implements OnInit {
       this.configProject = data;
     });
   }
-
+  ngOnDestroy(): void {
+    this.hubConnection.off('ReciveScreenshot');
+    this.hubConnection.off('TestProgress');
+  }
   private createNewTabAndNavigate(url: string, _callback: (t: chrome.tabs.Tab) => void) {
     chrome.tabs.create({ 'url': url }, tab => {
       this.chromeTab

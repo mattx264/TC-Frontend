@@ -1189,11 +1189,11 @@ export class TestInfoConfigClient {
         this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
     }
 
-    get(testId: number): Observable<ProjectTestConfigViewModel[]> {
-        let url_ = this.baseUrl + "/api/TestInfoConfig/{testId}";
-        if (testId === undefined || testId === null)
-            throw new Error("The parameter 'testId' must be defined.");
-        url_ = url_.replace("{testId}", encodeURIComponent("" + testId));
+    get(testInfoId: number): Observable<TestInfoConfigViewModel[]> {
+        let url_ = this.baseUrl + "/api/TestInfoConfig/{testInfoId}";
+        if (testInfoId === undefined || testInfoId === null)
+            throw new Error("The parameter 'testInfoId' must be defined.");
+        url_ = url_.replace("{testInfoId}", encodeURIComponent("" + testInfoId));
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
@@ -1211,14 +1211,14 @@ export class TestInfoConfigClient {
                 try {
                     return this.processGet(<any>response_);
                 } catch (e) {
-                    return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(e);
+                    return <Observable<TestInfoConfigViewModel[]>><any>_observableThrow(e);
                 }
             } else
-                return <Observable<ProjectTestConfigViewModel[]>><any>_observableThrow(response_);
+                return <Observable<TestInfoConfigViewModel[]>><any>_observableThrow(response_);
         }));
     }
 
-    protected processGet(response: HttpResponseBase): Observable<ProjectTestConfigViewModel[]> {
+    protected processGet(response: HttpResponseBase): Observable<TestInfoConfigViewModel[]> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -1232,7 +1232,7 @@ export class TestInfoConfigClient {
             if (Array.isArray(resultData200)) {
                 result200 = [] as any;
                 for (let item of resultData200)
-                    result200!.push(ProjectTestConfigViewModel.fromJS(item));
+                    result200!.push(TestInfoConfigViewModel.fromJS(item));
             }
             return _observableOf(result200);
             }));
@@ -1241,10 +1241,10 @@ export class TestInfoConfigClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             }));
         }
-        return _observableOf<ProjectTestConfigViewModel[]>(<any>null);
+        return _observableOf<TestInfoConfigViewModel[]>(<any>null);
     }
 
-    post(viewModel: ProjectTestConfigViewModel[]): Observable<FileResponse> {
+    post(viewModel: TestInfoConfigViewModel[]): Observable<FileResponse> {
         let url_ = this.baseUrl + "/api/TestInfoConfig";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -2237,6 +2237,54 @@ export interface IRegistrationViewModel {
     email?: string | undefined;
     name?: string | undefined;
     password?: string | undefined;
+}
+
+export class TestInfoConfigViewModel implements ITestInfoConfigViewModel {
+    id?: number;
+    testInfoId?: number;
+    configProjectTestId?: number;
+    value?: string | undefined;
+
+    constructor(data?: ITestInfoConfigViewModel) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.id = _data["id"];
+            this.testInfoId = _data["testInfoId"];
+            this.configProjectTestId = _data["configProjectTestId"];
+            this.value = _data["value"];
+        }
+    }
+
+    static fromJS(data: any): TestInfoConfigViewModel {
+        data = typeof data === 'object' ? data : {};
+        let result = new TestInfoConfigViewModel();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["id"] = this.id;
+        data["testInfoId"] = this.testInfoId;
+        data["configProjectTestId"] = this.configProjectTestId;
+        data["value"] = this.value;
+        return data; 
+    }
+}
+
+export interface ITestInfoConfigViewModel {
+    id?: number;
+    testInfoId?: number;
+    configProjectTestId?: number;
+    value?: string | undefined;
 }
 
 export class ProjectTestConfigViewModel implements IProjectTestConfigViewModel {

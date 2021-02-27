@@ -1,5 +1,8 @@
 <section *ngIf="testInfo">
   <div class="d-flex mt-3 mb-3">
+    <strong>
+      {{testInfo.name}}
+    </strong>
     <div *ngIf="selectedBrowserEngine" class="ml-3">
       Selected browser engine: {{selectedBrowserEngine.name}}
       <button mat-icon-button aria-label="" (click)="showBrowserEngineDialogClick()">
@@ -36,7 +39,7 @@
             <input [(ngModel)]="item.value">
             <input [(ngModel)]="item.value">
             <input [(ngModel)]="item.value">
-            todo
+            
           </div>
         </div>
       </mat-card-content>
@@ -44,7 +47,7 @@
     <mat-card>
       <div class="option-buttons">
         <button mat-raised-button color="primary" type="button" (click)="saveTectConfigClick()">Update</button>
-        <button mat-raised-button color="accent" class="ml-1" [routerLink]="['/project']">Cancel</button>
+        <button mat-raised-button color="accent" class="ml-1" (click)="closeTectConfigClick()">Cancel</button>
       </div>
     </mat-card>
   </div>

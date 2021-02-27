@@ -18,6 +18,15 @@ export class SignalSzwagierService {
     this.baseUrl = "http://localhost/TC.WebService";
 
   }
+  
+  private _selectedBrowserEngine : SzwagierModel;
+  public get selectedBrowserEngine() : SzwagierModel {
+    return this._selectedBrowserEngine;
+  }
+  public set selectedBrowserEngine(v : SzwagierModel) {
+    this._selectedBrowserEngine = v;
+  }
+  
   start(szwagierType: SzwagierType): signalR.HubConnection {
     if (this.hubConnection != null) {
       return this.hubConnection;

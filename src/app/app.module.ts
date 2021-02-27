@@ -49,7 +49,7 @@ import { ProjectSidebarComponent } from './layout/sidebar/project-sidebar/projec
 import { ConfirmModalComponent } from './modals/confirm-modal/confirm-modal.component';
 import { AlertModalComponent } from './modals/alert-modal/alert-modal.component';
 import { AdminModuleComponent } from './admin-module/admin-module.component';
-import { API_BASE_URL, ProjectClient, TestInfoConfigClient } from '../../projects/shared/src/client-api';
+import { API_BASE_URL, ProjectClient, ProjectTestConfigClient, TestInfoConfigClient } from '../../projects/shared/src/client-api';
 
 @NgModule({
   declarations: [
@@ -110,7 +110,7 @@ import { API_BASE_URL, ProjectClient, TestInfoConfigClient } from '../../project
     LayoutService,
     ProjectClient,
     TestInfoConfigClient,
-    
+    ProjectTestConfigClient,
     // hasBackdrop: false is creating issues eg user can go to diffrent page and dialog will stay.
    // {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
    { provide: API_BASE_URL, useValue: 'http://localhost/TC.WebService' }

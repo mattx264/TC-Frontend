@@ -23,4 +23,10 @@ export class SnackbarService {
     });
   }
 
+  showSaveSuccessful(textContent: string="Save Successful", hideDelay: number = 88000, actionString: string = "X"): MatSnackBarRef<SimpleSnackBar> {
+    return this.snackBar.open(textContent, actionString, {
+      duration: hideDelay,
+      panelClass: ['action-snack-bar']
+    });
+  }
 }
